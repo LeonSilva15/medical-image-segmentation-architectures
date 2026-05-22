@@ -2,9 +2,24 @@ The best way to build this is as a **research-to-code repository**, not just a R
 
 Codex is a good fit for this because the CLI/IDE agent can inspect your repository, edit files, and run commands locally; OpenAI’s Codex docs also recommend giving it explicit **goal, context, constraints, and “done when” criteria** for better results. ([OpenAI Developers][1])
 
+## Revised implementation strategy
+
+Start with a lean, verifiable first milestone instead of building the full repository at once. The first milestone should create the research-to-code scaffold, the architecture metadata registry, one working `UNet2D` implementation, CPU-only shape tests, one synthetic Python demo, and basic metadata validation.
+
+Treat the repository as two related things:
+
+- a **reference catalog** for important medical image segmentation architectures
+- an **implementation repository** for models that have tested code in `src/`
+
+Every architecture in `data/architectures.yml` must declare whether it is `reference-only` or `implemented`. A reference-only entry can appear in the README, lineage diagram, and summaries, but it must not be presented as working code.
+
+For v1, use plain PyTorch, pytest, and PyYAML. Delay MONAI, TorchIO, notebooks, public dataset scripts, and CI until the baseline project shape is stable. Synthetic data is the default for demos and tests; do not add private medical images, PHI, patient identifiers, DICOM headers, or clinical data. This project is for research and education, not clinical diagnosis.
+
+Track completed work, current decisions, planned work, and blockers in `tracker.md` as the project evolves.
+
 ## 1. Recommended project structure
 
-Use this structure:
+Use this as the eventual project structure. Do not create every file in the first milestone; start with the lean v1 scaffold described above, then add the remaining modules, docs, and demos as each architecture milestone needs them.
 
 ```text
 medical-image-segmentation-architectures/
@@ -52,7 +67,7 @@ medical-image-segmentation-architectures/
     └── validate_references.py
 ```
 
-The important idea: **do not hand-maintain everything in the README**. Keep architecture facts in `data/architectures.yml`, then generate the README table and diagram from that file.
+The important idea: **do not hand-maintain everything in the README**. Keep architecture facts in `data/architectures.yml`, then generate the README table and diagram from that file. The registry should distinguish `reference-only` entries from `implemented` entries so documentation never implies code exists before it does.
 
 ## 2. Use `AGENTS.md` so Codex follows your rules
 
@@ -77,6 +92,7 @@ This repository documents and implements important medical image segmentation ar
   - a short demo under demos/
 - Use synthetic data for tests and demos unless a public, properly licensed dataset is explicitly configured.
 - Do not add private medical images, PHI, patient identifiers, DICOM headers, or clinical data to the repo.
+- Keep tracker.md current when work is completed, plans change, or blockers are discovered.
 - Keep tests CPU-friendly and fast.
 - After code changes, run:
   - python -m pytest
@@ -293,9 +309,9 @@ How to cite this repository and the original papers.
 
 ## 8. Code strategy
 
-Start with **small, correct implementations**, not full training pipelines.
+Start with **small, correct implementations**, not full training pipelines. The first implementation milestone should be a minimal `UNet2D`; other architectures can remain `reference-only` until their code, tests, and demos exist.
 
-For each architecture, add:
+For the first implemented architecture, add:
 
 ```text
 src/medseg_architectures/models/unet.py
@@ -325,15 +341,17 @@ Add tests for:
 - model registry can instantiate every implemented architecture
 ```
 
-Do **not** train full models inside normal tests. Use a demo notebook or script for that.
+Do **not** train full models inside normal tests. Use a plain Python demo script first; notebooks can be added later when the core project is stable.
 
 ## 9. Library choice
 
-Use **PyTorch + MONAI** as the main stack. MONAI is a PyTorch-based open-source framework for healthcare imaging AI, and it is designed around standardized deep-learning workflows for medical imaging. ([MONAI][17])
+Use **plain PyTorch first**. The first milestone should keep dependencies small so the model implementation, metadata registry, tests, and documentation pattern are easy to review.
 
-For 3D preprocessing, augmentation, and patch-based sampling, TorchIO is also useful because it focuses on loading, preprocessing, augmenting, and sampling 3D medical images in PyTorch workflows. ([TorchIO][18])
+MONAI is a good later addition because it is a PyTorch-based open-source framework for healthcare imaging AI, and it is designed around standardized deep-learning workflows for medical imaging. ([MONAI][17])
 
-Recommended dependency direction:
+TorchIO is also useful later for 3D preprocessing, augmentation, and patch-based sampling because it focuses on loading, preprocessing, augmenting, and sampling 3D medical images in PyTorch workflows. ([TorchIO][18])
+
+Recommended v1 dependency direction:
 
 ```toml
 # pyproject.toml
@@ -343,21 +361,18 @@ version = "0.1.0"
 requires-python = ">=3.10"
 dependencies = [
   "torch",
-  "monai",
   "numpy",
-  "pyyaml",
-  "matplotlib",
-  "rich"
+  "pyyaml"
 ]
 
 [project.optional-dependencies]
 dev = [
   "pytest",
-  "ruff",
-  "mypy",
-  "jupyter"
+  "ruff"
 ]
 ```
+
+Add MONAI, TorchIO, matplotlib, rich, mypy, and Jupyter only when a concrete milestone needs them.
 
 ## 10. Dataset/demo strategy
 
@@ -370,6 +385,8 @@ Start with **synthetic masks** so tests are safe and reproducible:
 - random blobs
 - noisy background
 ```
+
+Do not add private medical images, PHI, patient identifiers, DICOM headers, or clinical data. The project should remain safe to publish and run locally without any clinical data.
 
 Then add optional public datasets later. The Medical Segmentation Decathlon is a good candidate because it was created to provide open medical imaging datasets across multiple segmentation tasks with standardized validation. ([Medical Decathlon][19])
 
@@ -412,13 +429,13 @@ The “branches” of architectures should live in the **Mermaid diagram and arc
 
 Paste these into Codex one at a time.
 
-### Prompt 1: scaffold the repository
+### Prompt 1: scaffold the lean v1 repository
 
 ```text
 Create the initial repository structure for a Python project called medical-image-segmentation-architectures.
 
 Goal:
-Set up a research-to-code project for medical image segmentation architectures.
+Set up a lean research-to-code project for medical image segmentation architectures.
 
 Create:
 - pyproject.toml
@@ -426,25 +443,30 @@ Create:
 - AGENTS.md
 - src/medseg_architectures/
 - tests/
+- tests/test_architecture_registry.py
 - demos/
 - docs/
 - data/architectures.yml
-- scripts/generate_mermaid_diagram.py
+- tracker.md
 - scripts/validate_references.py
 
 Constraints:
-- Use PyTorch style but do not add heavy training code yet.
+- Use plain PyTorch, pytest, and PyYAML for v1.
+- Do not add MONAI, TorchIO, notebooks, dataset downloaders, or heavy training code yet.
 - Use synthetic data only.
 - README should explain the project goal and include a placeholder Mermaid diagram.
 - architecture metadata must live in data/architectures.yml.
+- Every architecture entry must have implementation_status set to reference-only or implemented.
+- tracker.md must log completed work, decisions, planned work, and blockers.
 
 Done when:
 - python -m pytest runs successfully
 - README has the planned sections
 - data/architectures.yml contains FCN, U-Net, V-Net, U-Net++, Attention U-Net, nnU-Net, TransUNet, Swin-Unet, UNETR, and MedSAM as reference entries
+- scripts/validate_references.py verifies required metadata fields
 ```
 
-### Prompt 2: implement U-Net baseline
+### Prompt 2: implement the U-Net baseline
 
 ```text
 Implement a clean, minimal 2D U-Net in src/medseg_architectures/models/unet.py.
@@ -461,6 +483,7 @@ Also add:
 - tests/test_model_shapes.py with shape tests
 - demos/demo_forward_pass.py that runs a synthetic tensor through the model
 - update data/architectures.yml to mark U-Net as implemented
+- update tracker.md with the completed work and any follow-up items
 
 Done when:
 - python -m pytest passes
@@ -528,6 +551,25 @@ Do not download datasets.
 Done when:
 - workflow file exists under .github/workflows/tests.yml
 - local pytest still passes
+```
+
+### Prompt 6: evaluate optional medical-imaging libraries
+
+```text
+Evaluate whether MONAI and TorchIO should be added now.
+
+Goal:
+Add them only if the next milestone needs medical-imaging-specific preprocessing, augmentation, patch sampling, or 3D workflows.
+
+Rules:
+- Do not add dependencies just because they are common in the field.
+- Keep tests CPU-only.
+- Do not download datasets in tests.
+- Update README.md, pyproject.toml, and tracker.md if dependencies are added.
+
+Done when:
+- the decision is recorded in tracker.md
+- dependency changes, if any, are justified by a concrete milestone
 ```
 
 ## 13. What “good” looks like
