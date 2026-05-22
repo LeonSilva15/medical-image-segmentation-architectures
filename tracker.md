@@ -20,6 +20,13 @@ This file records what has been completed, what decisions are currently guiding 
 - `Done`: Reviewed `project-starter.md` and narrowed the implementation direction.
 - `Done`: Revised `project-starter.md` to reflect the lean first milestone.
 - `Done`: Created `tracker.md` as the project log.
+- `Done`: Scaffolded the v1 Python project structure.
+- `Done`: Created `README.md`, `AGENTS.md`, `pyproject.toml`, and `data/architectures.yml`.
+- `Done`: Added reference-only metadata for the initial architecture list.
+- `Done`: Added `scripts/validate_references.py`.
+- `Done`: Implemented a minimal `UNet2D`.
+- `Done`: Added CPU-only shape tests for `UNet2D`.
+- `Done`: Added one synthetic Python forward-pass demo.
 
 ## Current Decisions
 
@@ -37,23 +44,19 @@ This file records what has been completed, what decisions are currently guiding 
 
 ## Planned Work
 
-- `Planned`: Scaffold the v1 Python project structure.
-- `Planned`: Create `README.md`, `AGENTS.md`, `pyproject.toml`, and `data/architectures.yml`.
-- `Planned`: Add reference-only metadata for the initial architecture list.
-- `Planned`: Add `scripts/validate_references.py`.
-- `Planned`: Implement a minimal `UNet2D`.
-- `Planned`: Add CPU-only shape tests for `UNet2D`.
-- `Planned`: Add one synthetic Python forward-pass demo.
 - `Planned`: Add Mermaid lineage generation after the registry is stable.
 - `Planned`: Consider GitHub Actions CI after local tests and validation are in place.
 - `Planned`: Evaluate MONAI, TorchIO, notebooks, and public dataset scripts only when a later milestone needs them.
+- `Planned`: Rerun full `uv` validation, demo, tests, and lint when PyPI access is stable.
 
 ## Blockers
 
-- None currently known.
+- `Blocked`: Full `uv` verification is blocked by PyPI request timeouts while resolving packages.
 
 ## Change Log
 
 - `2026-05-21`: Created private GitHub repository, committed `project-starter.md`, and pushed `main`.
 - `2026-05-21`: Reviewed the starter plan and decided to narrow v1 around a lean scaffold, metadata registry, `UNet2D`, tests, and a synthetic demo.
 - `2026-05-21`: Revised `project-starter.md` and created `tracker.md`.
+- `2026-05-22`: Added the lean v1 scaffold, architecture registry, `UNet2D`, tests, validation script, and synthetic demo.
+- `2026-05-22`: Python 3.11 syntax compilation and YAML metadata sanity checks passed; full `uv` verification was blocked by PyPI timeouts.

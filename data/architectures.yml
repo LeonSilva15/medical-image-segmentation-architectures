@@ -1,0 +1,185 @@
+architectures:
+  - id: fcn
+    name: Fully Convolutional Network
+    year: 2015
+    parent: null
+    paper_title: Fully Convolutional Networks for Semantic Segmentation
+    doi: 10.1109/CVPR.2015.7298965
+    arxiv: "1411.4038"
+    modification: Converts classification CNNs into dense pixel prediction networks.
+    technical_summary: >
+      FCN replaces fully connected layers with convolutional layers and upsamples
+      coarse feature maps to produce dense segmentation outputs.
+    understandable_summary: >
+      FCN predicts a class for each pixel instead of one label for the whole image.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: unet
+    name: U-Net
+    year: 2015
+    parent: fcn
+    paper_title: "U-Net: Convolutional Networks for Biomedical Image Segmentation"
+    doi: 10.1007/978-3-319-24574-4_28
+    arxiv: "1505.04597"
+    modification: Adds a symmetric encoder-decoder with skip connections.
+    technical_summary: >
+      U-Net combines a contracting path for context with an expanding path for
+      localization, using skip connections to restore fine spatial detail.
+    understandable_summary: >
+      U-Net sees broad context while preserving fine boundaries, which makes it a
+      strong baseline for biomedical segmentation.
+    implementation_status: implemented
+    code_path: src/medseg_architectures/models/unet.py
+    tests: true
+    demo: true
+
+  - id: vnet
+    name: V-Net
+    year: 2016
+    parent: unet
+    paper_title: Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation
+    doi: 10.1109/3DV.2016.79
+    arxiv: "1606.04797"
+    modification: Extends encoder-decoder segmentation to 3D volumes with Dice-style loss.
+    technical_summary: >
+      V-Net uses 3D convolutions for volumetric inputs and optimizes a Dice-based
+      objective for imbalanced medical segmentation targets.
+    understandable_summary: >
+      V-Net adapts the U-Net idea to full 3D scans instead of only 2D slices.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: unetpp
+    name: U-Net++
+    year: 2018
+    parent: unet
+    paper_title: "UNet++: A Nested U-Net Architecture for Medical Image Segmentation"
+    doi: 10.1007/978-3-030-00889-5_1
+    arxiv: "1807.10165"
+    modification: Adds nested dense skip pathways and deep supervision.
+    technical_summary: >
+      U-Net++ redesigns skip connections with nested dense paths to reduce the
+      semantic gap between encoder and decoder features.
+    understandable_summary: >
+      U-Net++ gives the decoder more refined intermediate information than a
+      single direct skip connection.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: attention_unet
+    name: Attention U-Net
+    year: 2018
+    parent: unet
+    paper_title: "Attention U-Net: Learning Where to Look for the Pancreas"
+    doi: null
+    arxiv: "1804.03999"
+    modification: Adds attention gates to filter skip-connection features.
+    technical_summary: >
+      Attention U-Net applies attention gates so decoder features can suppress
+      irrelevant activations from encoder skip connections.
+    understandable_summary: >
+      Attention U-Net tries to focus the model on relevant anatomy while ignoring
+      distracting regions.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: nnunet
+    name: nnU-Net
+    year: 2021
+    parent: unet
+    paper_title: "nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation"
+    doi: 10.1038/s41592-020-01008-z
+    arxiv: "1809.10486"
+    modification: Self-configures preprocessing, architecture settings, training, and inference.
+    technical_summary: >
+      nnU-Net standardizes and adapts the full segmentation pipeline based on
+      dataset properties instead of relying on one manually tuned architecture.
+    understandable_summary: >
+      nnU-Net is important because it automates many choices researchers used to
+      tune by hand for each dataset.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: transunet
+    name: TransUNet
+    year: 2021
+    parent: unet
+    paper_title: "TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation"
+    doi: null
+    arxiv: "2102.04306"
+    modification: Combines CNN/U-Net localization with Transformer global context.
+    technical_summary: >
+      TransUNet uses Transformer encoding to model long-range dependencies while
+      retaining decoder-style upsampling for dense segmentation.
+    understandable_summary: >
+      TransUNet adds a global-attention view to U-Net-style segmentation.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: swin_unet
+    name: Swin-Unet
+    year: 2021
+    parent: transunet
+    paper_title: "Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation"
+    doi: null
+    arxiv: "2105.05537"
+    modification: Uses a U-shaped design built from Swin Transformer blocks.
+    technical_summary: >
+      Swin-Unet replaces convolutional U-Net blocks with shifted-window Transformer
+      blocks in an encoder-decoder segmentation structure.
+    understandable_summary: >
+      Swin-Unet keeps the U-shaped layout but builds it around Transformer blocks.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: unetr
+    name: UNETR
+    year: 2022
+    parent: transunet
+    paper_title: "UNETR: Transformers for 3D Medical Image Segmentation"
+    doi: 10.1109/WACV51458.2022.00181
+    arxiv: "2103.10504"
+    modification: Uses a Transformer encoder for 3D volumetric segmentation.
+    technical_summary: >
+      UNETR tokenizes 3D volumes for Transformer encoding and connects hidden
+      representations to a decoder for volumetric segmentation.
+    understandable_summary: >
+      UNETR brings Transformer-based context modeling to 3D medical scans.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: medsam
+    name: MedSAM
+    year: 2024
+    parent: null
+    paper_title: Segment Anything in Medical Images
+    doi: 10.1038/s41467-024-44824-z
+    arxiv: "2304.12306"
+    modification: Adapts promptable segmentation foundation-model ideas to medical images.
+    technical_summary: >
+      MedSAM adapts the Segment Anything model family for medical image domains
+      and promptable segmentation workflows.
+    understandable_summary: >
+      MedSAM represents newer systems that segment medical images from prompts
+      rather than from one fixed task-specific model.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
