@@ -1,0 +1,42 @@
+site_name: Medical Image Segmentation Architectures
+site_description: An interactive book for learning medical image segmentation architectures.
+repo_url: https://github.com/LeonSilva15/medical-image-segmentation-architectures
+repo_name: LeonSilva15/medical-image-segmentation-architectures
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+    - navigation.tabs
+    - navigation.top
+    - search.highlight
+    - search.suggest
+
+plugins:
+  - search
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Start Here: index.md
+  - Foundations:
+      - What Is Segmentation?: foundations/what-is-segmentation.md
+      - How To Read An Architecture: foundations/how-to-read-an-architecture.md
+  - Evolution:
+      - Architecture Lineage: evolution/lineage.md
+  - Architectures:
+      - Architecture Index: architectures/index.md
+      - U-Net: architectures/unet.md
+  - References: references.md

@@ -11,6 +11,10 @@ architectures and their major modifications.
 - Every architecture in `README.md` must have an entry in `data/architectures.yml`.
 - Every architecture entry must set `implementation_status` to `reference-only` or
   `implemented`.
+- Every architecture entry must include book metadata: `slug`, `family`,
+  `chapter_path`, and `paper_links`.
+- Do not copy figures from papers. Use original repo-authored diagrams and link
+  readers to the original papers.
 - Every implemented architecture must have code, a CPU-friendly shape test, and a
   synthetic demo.
 - Use synthetic data for tests and demos unless a public, properly licensed dataset
@@ -30,8 +34,10 @@ architectures and their major modifications.
   `uv run --python 3.11 pytest`
 - Run lint:
   `uv run --python 3.11 ruff check .`
+- Build book:
+  `uv run --python 3.11 --group docs mkdocs build --strict`
 
 ## Definition Of Done
 
-A task is done only when documentation, architecture metadata, tests, demos, and
-the tracker are consistent.
+A task is done only when book pages, architecture metadata, tests, demos, and the
+tracker are consistent.

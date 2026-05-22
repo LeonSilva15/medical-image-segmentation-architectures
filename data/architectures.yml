@@ -1,11 +1,21 @@
 architectures:
   - id: fcn
+    slug: fcn
     name: Fully Convolutional Network
     year: 2015
+    family: Dense prediction
     parent: null
+    chapter_path: null
     paper_title: Fully Convolutional Networks for Semantic Segmentation
     doi: 10.1109/CVPR.2015.7298965
     arxiv: "1411.4038"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1109/CVPR.2015.7298965
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1411.4038
     modification: Converts classification CNNs into dense pixel prediction networks.
     technical_summary: >
       FCN replaces fully connected layers with convolutional layers and upsamples
@@ -18,12 +28,22 @@ architectures:
     demo: false
 
   - id: unet
+    slug: unet
     name: U-Net
     year: 2015
+    family: U-Net family
     parent: fcn
+    chapter_path: docs/architectures/unet.md
     paper_title: "U-Net: Convolutional Networks for Biomedical Image Segmentation"
     doi: 10.1007/978-3-319-24574-4_28
     arxiv: "1505.04597"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1007/978-3-319-24574-4_28
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1505.04597
     modification: Adds a symmetric encoder-decoder with skip connections.
     technical_summary: >
       U-Net combines a contracting path for context with an expanding path for
@@ -37,12 +57,22 @@ architectures:
     demo: true
 
   - id: vnet
+    slug: vnet
     name: V-Net
     year: 2016
+    family: U-Net family, 3D
     parent: unet
+    chapter_path: null
     paper_title: Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation
     doi: 10.1109/3DV.2016.79
     arxiv: "1606.04797"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1109/3DV.2016.79
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1606.04797
     modification: Extends encoder-decoder segmentation to 3D volumes with Dice-style loss.
     technical_summary: >
       V-Net uses 3D convolutions for volumetric inputs and optimizes a Dice-based
@@ -55,12 +85,22 @@ architectures:
     demo: false
 
   - id: unetpp
+    slug: unetpp
     name: U-Net++
     year: 2018
+    family: U-Net family, skip variants
     parent: unet
+    chapter_path: null
     paper_title: "UNet++: A Nested U-Net Architecture for Medical Image Segmentation"
     doi: 10.1007/978-3-030-00889-5_1
     arxiv: "1807.10165"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1007/978-3-030-00889-5_1
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1807.10165
     modification: Adds nested dense skip pathways and deep supervision.
     technical_summary: >
       U-Net++ redesigns skip connections with nested dense paths to reduce the
@@ -74,12 +114,19 @@ architectures:
     demo: false
 
   - id: attention_unet
+    slug: attention-unet
     name: Attention U-Net
     year: 2018
+    family: U-Net family, attention gates
     parent: unet
+    chapter_path: null
     paper_title: "Attention U-Net: Learning Where to Look for the Pancreas"
     doi: null
     arxiv: "1804.03999"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1804.03999
     modification: Adds attention gates to filter skip-connection features.
     technical_summary: >
       Attention U-Net applies attention gates so decoder features can suppress
@@ -93,12 +140,22 @@ architectures:
     demo: false
 
   - id: nnunet
+    slug: nnunet
     name: nnU-Net
     year: 2021
+    family: Self-configuring pipeline
     parent: unet
+    chapter_path: null
     paper_title: "nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation"
     doi: 10.1038/s41592-020-01008-z
     arxiv: "1809.10486"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1038/s41592-020-01008-z
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1809.10486
     modification: Self-configures preprocessing, architecture settings, training, and inference.
     technical_summary: >
       nnU-Net standardizes and adapts the full segmentation pipeline based on
@@ -112,12 +169,19 @@ architectures:
     demo: false
 
   - id: transunet
+    slug: transunet
     name: TransUNet
     year: 2021
+    family: Transformer hybrid
     parent: unet
+    chapter_path: null
     paper_title: "TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation"
     doi: null
     arxiv: "2102.04306"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2102.04306
     modification: Combines CNN/U-Net localization with Transformer global context.
     technical_summary: >
       TransUNet uses Transformer encoding to model long-range dependencies while
@@ -130,12 +194,19 @@ architectures:
     demo: false
 
   - id: swin_unet
+    slug: swin-unet
     name: Swin-Unet
     year: 2021
+    family: Transformer U-shape
     parent: transunet
+    chapter_path: null
     paper_title: "Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation"
     doi: null
     arxiv: "2105.05537"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2105.05537
     modification: Uses a U-shaped design built from Swin Transformer blocks.
     technical_summary: >
       Swin-Unet replaces convolutional U-Net blocks with shifted-window Transformer
@@ -148,12 +219,22 @@ architectures:
     demo: false
 
   - id: unetr
+    slug: unetr
     name: UNETR
     year: 2022
+    family: 3D Transformer
     parent: transunet
+    chapter_path: null
     paper_title: "UNETR: Transformers for 3D Medical Image Segmentation"
     doi: 10.1109/WACV51458.2022.00181
     arxiv: "2103.10504"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1109/WACV51458.2022.00181
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2103.10504
     modification: Uses a Transformer encoder for 3D volumetric segmentation.
     technical_summary: >
       UNETR tokenizes 3D volumes for Transformer encoding and connects hidden
@@ -166,12 +247,22 @@ architectures:
     demo: false
 
   - id: medsam
+    slug: medsam
     name: MedSAM
     year: 2024
+    family: Promptable foundation model
     parent: null
+    chapter_path: null
     paper_title: Segment Anything in Medical Images
     doi: 10.1038/s41467-024-44824-z
     arxiv: "2304.12306"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1038/s41467-024-44824-z
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2304.12306
     modification: Adapts promptable segmentation foundation-model ideas to medical images.
     technical_summary: >
       MedSAM adapts the Segment Anything model family for medical image domains

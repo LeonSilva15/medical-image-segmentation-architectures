@@ -19,6 +19,10 @@ dev = [
   "pytest",
   "ruff",
 ]
+docs = [
+  "mkdocs",
+  "mkdocs-material",
+]
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/medseg_architectures"]

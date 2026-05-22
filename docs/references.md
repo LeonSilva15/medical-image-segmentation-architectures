@@ -1,0 +1,17 @@
+# References
+
+This page lists the primary papers tracked in `data/architectures.yml`. Use the
+original papers for formal citation details.
+
+| Architecture | Paper | DOI | arXiv |
+| --- | --- | --- | --- |
+| FCN | Fully Convolutional Networks for Semantic Segmentation | [10.1109/CVPR.2015.7298965](https://doi.org/10.1109/CVPR.2015.7298965) | [1411.4038](https://arxiv.org/abs/1411.4038) |
+| U-Net | U-Net: Convolutional Networks for Biomedical Image Segmentation | [10.1007/978-3-319-24574-4_28](https://doi.org/10.1007/978-3-319-24574-4_28) | [1505.04597](https://arxiv.org/abs/1505.04597) |
+| V-Net | Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation | [10.1109/3DV.2016.79](https://doi.org/10.1109/3DV.2016.79) | [1606.04797](https://arxiv.org/abs/1606.04797) |
+| U-Net++ | UNet++: A Nested U-Net Architecture for Medical Image Segmentation | [10.1007/978-3-030-00889-5_1](https://doi.org/10.1007/978-3-030-00889-5_1) | [1807.10165](https://arxiv.org/abs/1807.10165) |
+| Attention U-Net | Attention U-Net: Learning Where to Look for the Pancreas | Not listed | [1804.03999](https://arxiv.org/abs/1804.03999) |
+| nnU-Net | nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation | [10.1038/s41592-020-01008-z](https://doi.org/10.1038/s41592-020-01008-z) | [1809.10486](https://arxiv.org/abs/1809.10486) |
+| TransUNet | TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation | Not listed | [2102.04306](https://arxiv.org/abs/2102.04306) |
+| Swin-Unet | Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation | Not listed | [2105.05537](https://arxiv.org/abs/2105.05537) |
+| UNETR | UNETR: Transformers for 3D Medical Image Segmentation | [10.1109/WACV51458.2022.00181](https://doi.org/10.1109/WACV51458.2022.00181) | [2103.10504](https://arxiv.org/abs/2103.10504) |
+| MedSAM | Segment Anything in Medical Images | [10.1038/s41467-024-44824-z](https://doi.org/10.1038/s41467-024-44824-z) | [2304.12306](https://arxiv.org/abs/2304.12306) |

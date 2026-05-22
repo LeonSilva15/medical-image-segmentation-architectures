@@ -10,12 +10,16 @@ ARCHITECTURES_PATH = ROOT / "data" / "architectures.yml"
 
 REQUIRED_FIELDS = {
     "id",
+    "slug",
     "name",
     "year",
+    "family",
     "parent",
+    "chapter_path",
     "paper_title",
     "doi",
     "arxiv",
+    "paper_links",
     "modification",
     "technical_summary",
     "understandable_summary",
@@ -26,6 +30,7 @@ REQUIRED_FIELDS = {
 }
 
 IMPLEMENTATION_STATUSES = {"reference-only", "implemented"}
+PAPER_LINK_KINDS = {"doi", "arxiv", "paper"}
 
 
 def load_architectures() -> list[dict[str, Any]]:
@@ -61,8 +66,24 @@ def validate_architecture(architecture: dict[str, Any], known_ids: set[str]) -> 
     if parent is not None and parent not in known_ids:
         errors.append(f"{architecture_id}: parent '{parent}' is not defined")
 
+    slug = architecture.get("slug")
+    if not isinstance(slug, str) or not slug:
+        errors.append(f"{architecture_id}: slug must be a non-empty string")
+
+    family = architecture.get("family")
+    if not isinstance(family, str) or not family:
+        errors.append(f"{architecture_id}: family must be a non-empty string")
+
+    chapter_path = architecture.get("chapter_path")
+    if chapter_path is not None and not isinstance(chapter_path, str):
+        errors.append(f"{architecture_id}: chapter_path must be a string or null")
+    if isinstance(chapter_path, str) and not (ROOT / chapter_path).exists():
+        errors.append(f"{architecture_id}: chapter_path does not exist: {chapter_path}")
+
     if not architecture.get("doi") and not architecture.get("arxiv"):
         errors.append(f"{architecture_id}: at least one of doi or arxiv must be set")
+
+    errors.extend(validate_paper_links(architecture))
 
     if status == "reference-only":
         if architecture.get("code_path") is not None:
@@ -73,6 +94,8 @@ def validate_architecture(architecture: dict[str, Any], known_ids: set[str]) -> 
             errors.append(f"{architecture_id}: reference-only entries must set demo to false")
 
     if status == "implemented":
+        if not isinstance(chapter_path, str) or not chapter_path:
+            errors.append(f"{architecture_id}: implemented entries must set chapter_path")
         code_path = architecture.get("code_path")
         if not isinstance(code_path, str) or not code_path:
             errors.append(f"{architecture_id}: implemented entries must set code_path")
@@ -86,6 +109,56 @@ def validate_architecture(architecture: dict[str, Any], known_ids: set[str]) -> 
     return errors
 
 
+def validate_paper_links(architecture: dict[str, Any]) -> list[str]:
+    errors: list[str] = []
+    architecture_id = architecture.get("id", "<missing id>")
+    paper_links = architecture.get("paper_links")
+
+    if not isinstance(paper_links, list) or not paper_links:
+        return [f"{architecture_id}: paper_links must be a non-empty list"]
+
+    link_kinds: set[str] = set()
+    for index, link in enumerate(paper_links):
+        if not isinstance(link, dict):
+            errors.append(f"{architecture_id}: paper_links[{index}] must be a mapping")
+            continue
+
+        kind = link.get("kind")
+        label = link.get("label")
+        url = link.get("url")
+
+        if kind not in PAPER_LINK_KINDS:
+            errors.append(
+                f"{architecture_id}: paper_links[{index}].kind must be one of "
+                f"{sorted(PAPER_LINK_KINDS)}"
+            )
+        else:
+            link_kinds.add(kind)
+
+        if not isinstance(label, str) or not label:
+            errors.append(f"{architecture_id}: paper_links[{index}].label is required")
+        if not isinstance(url, str) or not url.startswith("https://"):
+            errors.append(f"{architecture_id}: paper_links[{index}].url must be an https URL")
+
+    doi = architecture.get("doi")
+    if doi:
+        expected = f"https://doi.org/{doi}"
+        if "doi" not in link_kinds:
+            errors.append(f"{architecture_id}: doi is set but no DOI paper link exists")
+        elif not any(link.get("url") == expected for link in paper_links if isinstance(link, dict)):
+            errors.append(f"{architecture_id}: DOI paper link must be {expected}")
+
+    arxiv = architecture.get("arxiv")
+    if arxiv:
+        expected = f"https://arxiv.org/abs/{arxiv}"
+        if "arxiv" not in link_kinds:
+            errors.append(f"{architecture_id}: arxiv is set but no arXiv paper link exists")
+        elif not any(link.get("url") == expected for link in paper_links if isinstance(link, dict)):
+            errors.append(f"{architecture_id}: arXiv paper link must be {expected}")
+
+    return errors
+
+
 def validate() -> None:
     architectures = load_architectures()
     errors: list[str] = []
@@ -94,6 +167,11 @@ def validate() -> None:
     duplicate_ids = {architecture_id for architecture_id in ids if ids.count(architecture_id) > 1}
     if duplicate_ids:
         errors.append(f"duplicate architecture ids: {sorted(duplicate_ids)}")
+
+    slugs = [architecture.get("slug") for architecture in architectures]
+    duplicate_slugs = {slug for slug in slugs if slugs.count(slug) > 1}
+    if duplicate_slugs:
+        errors.append(f"duplicate architecture slugs: {sorted(duplicate_slugs)}")
 
     known_ids = {architecture_id for architecture_id in ids if isinstance(architecture_id, str)}
     for architecture in architectures:

@@ -27,6 +27,11 @@ This file records what has been completed, what decisions are currently guiding 
 - `Done`: Implemented a minimal `UNet2D`.
 - `Done`: Added CPU-only shape tests for `UNet2D`.
 - `Done`: Added one synthetic Python forward-pass demo.
+- `Done`: Added the MkDocs interactive book shell.
+- `Done`: Added original Mermaid lineage and U-Net architecture diagrams.
+- `Done`: Added a complete U-Net learning chapter.
+- `Done`: Extended architecture metadata with book fields and paper links.
+- `Done`: Updated reference validation for book metadata.
 
 ## Current Decisions
 
@@ -41,6 +46,8 @@ This file records what has been completed, what decisions are currently guiding 
 - `Current`: Tests and demos should use synthetic data only.
 - `Current`: Do not add private medical images, PHI, patient identifiers, DICOM headers, or clinical data.
 - `Current`: The repository is for research and education, not clinical diagnosis.
+- `Current`: The learning front door is the MkDocs book under `docs/`.
+- `Current`: Architecture images should be original repo-authored Mermaid diagrams, not copied paper figures.
 
 ## Planned Work
 
@@ -48,10 +55,12 @@ This file records what has been completed, what decisions are currently guiding 
 - `Planned`: Consider GitHub Actions CI after local tests and validation are in place.
 - `Planned`: Evaluate MONAI, TorchIO, notebooks, and public dataset scripts only when a later milestone needs them.
 - `Planned`: Rerun full `uv` validation, demo, tests, and lint when PyPI access is stable.
+- `Planned`: Add complete chapters for FCN, V-Net, U-Net++, Attention U-Net, nnU-Net, TransUNet, Swin-Unet, UNETR, and MedSAM.
+- `Planned`: Add GitHub Pages deployment after the book is reviewed locally.
 
 ## Blockers
 
-- `Blocked`: Full `uv` verification is blocked by PyPI request timeouts while resolving packages.
+- `Blocked`: Full `uv` verification is blocked by PyPI request timeouts while resolving packages, including `mkdocs` and `mkdocs-material`.
 
 ## Change Log
 
@@ -60,3 +69,5 @@ This file records what has been completed, what decisions are currently guiding 
 - `2026-05-21`: Revised `project-starter.md` and created `tracker.md`.
 - `2026-05-22`: Added the lean v1 scaffold, architecture registry, `UNet2D`, tests, validation script, and synthetic demo.
 - `2026-05-22`: Python 3.11 syntax compilation and YAML metadata sanity checks passed; full `uv` verification was blocked by PyPI timeouts.
+- `2026-05-22`: Added the MkDocs interactive book shell, lineage diagram, U-Net chapter, and book metadata validation.
+- `2026-05-22`: Local syntax, YAML, and book metadata sanity checks passed; full `uv` book build remains blocked by PyPI timeouts.

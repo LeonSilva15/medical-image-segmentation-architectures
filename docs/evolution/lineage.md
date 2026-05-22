@@ -1,0 +1,46 @@
+# Architecture Lineage
+
+This map is a conceptual learning guide, not a strict genealogy. Arrows mean
+"this architecture builds on, modifies, or is best understood after" the parent
+idea.
+
+```mermaid
+graph TD
+    FCN["FCN<br/>Dense pixel prediction"]
+    UNet["U-Net<br/>Encoder-decoder + skip connections"]
+    VNet["V-Net<br/>3D volumetric U-Net branch"]
+    UNetPP["U-Net++<br/>Nested dense skip pathways"]
+    AttUNet["Attention U-Net<br/>Attention-filtered skips"]
+    nnUNet["nnU-Net<br/>Self-configuring pipeline"]
+    TransUNet["TransUNet<br/>CNN/U-Net + Transformer context"]
+    SwinUnet["Swin-Unet<br/>U-shaped Swin Transformer"]
+    UNETR["UNETR<br/>3D Transformer encoder"]
+    MedSAM["MedSAM<br/>Promptable medical segmentation"]
+
+    FCN --> UNet
+    UNet --> VNet
+    UNet --> UNetPP
+    UNet --> AttUNet
+    UNet --> nnUNet
+    UNet --> TransUNet
+    TransUNet --> SwinUnet
+    TransUNet --> UNETR
+    MedSAM
+```
+
+## Main Branches
+
+| Branch | Main Idea | Examples |
+| --- | --- | --- |
+| Dense prediction | Convert classification CNNs into pixel-level predictors. | FCN |
+| U-Net family | Combine encoder context with decoder localization through skip connections. | U-Net, V-Net, U-Net++, Attention U-Net |
+| Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | nnU-Net |
+| Transformer hybrids | Add attention-based global context to segmentation architectures. | TransUNet, Swin-Unet, UNETR |
+| Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | MedSAM |
+
+## Reading Order
+
+Read FCN first to understand dense prediction. Then read U-Net because many
+medical segmentation variants are easier to understand as modifications of its
+encoder-decoder shape. After that, split into 3D models, skip-connection
+variants, pipeline methods, and Transformer/foundation-model branches.

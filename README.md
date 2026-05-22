@@ -1,43 +1,63 @@
 # Medical Image Segmentation Architectures
 
-## Purpose
+This repository is an interactive learning resource for medical image
+segmentation architectures. It combines a readable MkDocs book, architecture
+metadata, original repo-authored diagrams, citations to the original papers, and
+small tested implementations.
 
-This repository is a research-to-code map of major medical image segmentation
-architectures. It tracks how FCN, U-Net-style models, Transformer-based models,
-self-configuring pipelines, and foundation-model approaches relate to each other.
+## Read The Book
 
-The repository has two roles:
+The learning material lives under `docs/` and is configured by `mkdocs.yml`.
 
-- a reference catalog of important architectures and papers
-- a tested implementation space for selected models
+Start here:
 
-## Current Status
+- `docs/index.md`
+- `docs/foundations/what-is-segmentation.md`
+- `docs/evolution/lineage.md`
+- `docs/architectures/unet.md`
 
-The first implemented model is a minimal 2D U-Net baseline. Other listed
-architectures are reference-only until code, tests, and demos are added.
+Build the book locally with:
 
-## Architecture Metadata
+```sh
+uv run --python 3.11 --group docs mkdocs build --strict
+```
 
-Architecture facts live in `data/architectures.yml`. Each entry declares whether
-it is `reference-only` or `implemented`, so the README does not imply that
-reference-only architectures have working code.
+Serve it locally with:
 
-## Implemented Models
+```sh
+uv run --python 3.11 --group docs mkdocs serve
+```
+
+## What This Repository Contains
+
+- A guided architecture book using MkDocs Material.
+- A metadata registry in `data/architectures.yml`.
+- Original Mermaid diagrams for architecture lineage and U-Net.
+- Links to original papers through DOI and arXiv metadata.
+- A minimal implemented `UNet2D` baseline with tests and a synthetic demo.
+
+## Current Implementation Status
 
 | Model | Status | Code | Demo |
 | --- | --- | --- | --- |
 | U-Net 2D | implemented | `src/medseg_architectures/models/unet.py` | `demos/demo_forward_pass.py` |
 
-## Quick Start
+Other architectures are reference-only until code, tests, demos, and complete
+chapters are added.
 
-Use `uv` so the project can run with Python 3.11 even when the system Python is
-older.
+## Validate Metadata
+
+```sh
+uv run --python 3.11 python scripts/validate_references.py
+```
+
+## Run Tests
 
 ```sh
 uv run --python 3.11 pytest
 ```
 
-## Run The Demo
+## Run The Synthetic Demo
 
 ```sh
 uv run --python 3.11 python demos/demo_forward_pass.py
@@ -45,18 +65,6 @@ uv run --python 3.11 python demos/demo_forward_pass.py
 
 The demo uses a synthetic tensor only. It does not load medical images or
 clinical data.
-
-## Validate References
-
-```sh
-uv run --python 3.11 python scripts/validate_references.py
-```
-
-## Run Lint
-
-```sh
-uv run --python 3.11 ruff check .
-```
 
 ## Safety And Limitations
 
@@ -67,5 +75,4 @@ patient identifiers, DICOM headers, or clinical data.
 ## Citation
 
 When using an architecture, cite the original paper listed in
-`data/architectures.yml`. A repository-level citation file can be added after the
-initial implementation pattern is stable.
+`data/architectures.yml` or `docs/references.md`.
