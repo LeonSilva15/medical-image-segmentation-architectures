@@ -28,6 +28,23 @@ Serve it locally with:
 uv run --python 3.11 --group docs mkdocs serve
 ```
 
+## Publishing
+
+The book is configured for GitHub Pages through GitHub Actions. After Pages is
+enabled with **GitHub Actions** as the source, pushes to `main` build and deploy
+the MkDocs site.
+
+Expected project-site URL:
+
+```text
+https://leonsilva15.github.io/medical-image-segmentation-architectures/
+```
+
+If the repository remains private, GitHub Pages availability depends on the
+GitHub account or organization plan. If the workflow succeeds but Pages is not
+served, check `Settings -> Pages -> Build and deployment -> Source` and select
+`GitHub Actions`.
+
 ## What This Repository Contains
 
 - A guided architecture book using MkDocs Material.

@@ -32,6 +32,7 @@ This file records what has been completed, what decisions are currently guiding 
 - `Done`: Added a complete U-Net learning chapter.
 - `Done`: Extended architecture metadata with book fields and paper links.
 - `Done`: Updated reference validation for book metadata.
+- `Done`: Added a GitHub Actions workflow for publishing the MkDocs book to GitHub Pages.
 
 ## Current Decisions
 
@@ -48,19 +49,22 @@ This file records what has been completed, what decisions are currently guiding 
 - `Current`: The repository is for research and education, not clinical diagnosis.
 - `Current`: The learning front door is the MkDocs book under `docs/`.
 - `Current`: Architecture images should be original repo-authored Mermaid diagrams, not copied paper figures.
+- `Current`: GitHub Pages publishing should use GitHub Actions, not `mkdocs gh-deploy`.
+- `Current`: The repository remains private unless publishing requirements force a visibility change.
 
 ## Planned Work
 
 - `Planned`: Add Mermaid lineage generation after the registry is stable.
-- `Planned`: Consider GitHub Actions CI after local tests and validation are in place.
+- `Planned`: Consider GitHub Actions test CI after local tests and validation are in place.
 - `Planned`: Evaluate MONAI, TorchIO, notebooks, and public dataset scripts only when a later milestone needs them.
 - `Planned`: Rerun full `uv` validation, demo, tests, and lint when PyPI access is stable.
 - `Planned`: Add complete chapters for FCN, V-Net, U-Net++, Attention U-Net, nnU-Net, TransUNet, Swin-Unet, UNETR, and MedSAM.
-- `Planned`: Add GitHub Pages deployment after the book is reviewed locally.
+- `Planned`: Verify the first successful GitHub Pages deployment.
 
 ## Blockers
 
 - `Blocked`: Full `uv` verification is blocked by PyPI request timeouts while resolving packages, including `mkdocs` and `mkdocs-material`.
+- `Blocked`: GitHub Pages API returned `404` before enabling or first deployment; private-repo Pages may require a paid GitHub plan.
 
 ## Change Log
 
@@ -71,3 +75,4 @@ This file records what has been completed, what decisions are currently guiding 
 - `2026-05-22`: Python 3.11 syntax compilation and YAML metadata sanity checks passed; full `uv` verification was blocked by PyPI timeouts.
 - `2026-05-22`: Added the MkDocs interactive book shell, lineage diagram, U-Net chapter, and book metadata validation.
 - `2026-05-22`: Local syntax, YAML, and book metadata sanity checks passed; full `uv` book build remains blocked by PyPI timeouts.
+- `2026-05-22`: Added the GitHub Pages deployment workflow for the MkDocs book.
