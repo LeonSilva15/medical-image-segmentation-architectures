@@ -17,6 +17,9 @@ architectures and their major modifications.
   readers to the original papers.
 - Every implemented architecture must have code, a CPU-friendly shape test, and a
   synthetic demo.
+- Every implemented architecture must include code-level educational docstrings
+  plus `Implementation Walkthrough` and `Learning Notes For Practitioners`
+  sections in its book chapter.
 - Use synthetic data for tests and demos unless a public, properly licensed dataset
   is explicitly configured.
 - Do not add private medical images, PHI, patient identifiers, DICOM headers, or

@@ -49,6 +49,90 @@ graph LR
    matching encoder features.
 5. A final 1x1 convolution maps decoder features to segmentation logits.
 
+## Implementation Walkthrough
+
+The repository implementation lives in
+`src/medseg_architectures/models/unet.py`. It is a compact 2D PyTorch baseline,
+not a full training pipeline and not a claim to reproduce every detail from the
+paper.
+
+### Module Structure
+
+`DoubleConv` is the repeated local feature extractor. It applies two `3x3`
+convolutions with ReLU activations. Both convolutions use padding, so the block
+changes channel count but preserves height and width.
+
+`UNet2D` wires those blocks into an encoder, bottleneck, decoder, and output
+head. The `features` argument controls the encoder widths from shallow to deep.
+For example, `features=(16, 32, 64)` creates three encoder stages, a 128-channel
+bottleneck, and three mirrored decoder stages.
+
+### Encoder And Bottleneck
+
+The input tensor uses the PyTorch image layout `(batch, channels, height, width)`.
+Each encoder stage first applies `DoubleConv`, then stores the result as a skip
+tensor before max pooling. Saving the tensor before pooling matters because that
+is the high-resolution feature map the decoder will later reuse.
+
+The bottleneck receives the smallest feature map after all pooling steps. In
+this implementation, it doubles the deepest encoder width. With
+`features=(16, 32, 64)`, the bottleneck has 128 channels.
+
+### Decoder And Skip Fusion
+
+Each decoder stage starts with a transposed convolution that learns a `2x`
+upsampling operation. The upsampled decoder tensor is then concatenated with the
+matching encoder skip tensor along the channel dimension. The following
+`DoubleConv` mixes those copied high-resolution features with the decoder's
+coarser semantic features.
+
+Odd input sizes can create one-pixel mismatches after repeated pooling and
+upsampling. The forward pass handles that case by interpolating the decoder
+tensor to the skip tensor's spatial size before concatenation. This keeps the
+model usable for shapes like the synthetic demo input `(1, 1, 65, 73)`.
+
+### Output Head
+
+The final `1x1` convolution maps the last decoder feature map to
+`out_channels`. It does not change spatial size. The model returns raw logits,
+so training code should pass them directly to a compatible loss, and evaluation
+code should apply the appropriate activation when probabilities are needed.
+
+### Tensor Shape Example
+
+With `in_channels=1`, `out_channels=2`, and `features=(16, 32, 64)`, the demo
+input `(1, 1, 65, 73)` flows through the model as follows:
+
+| Stage | Shape |
+| --- | --- |
+| Input | `(1, 1, 65, 73)` |
+| Encoder block 1 skip | `(1, 16, 65, 73)` |
+| Encoder block 2 skip | `(1, 32, 32, 36)` |
+| Encoder block 3 skip | `(1, 64, 16, 18)` |
+| Bottleneck | `(1, 128, 8, 9)` |
+| Decoder block 3 | `(1, 64, 16, 18)` |
+| Decoder block 2 | `(1, 32, 32, 36)` |
+| Decoder block 1 | `(1, 16, 65, 73)` |
+| Output logits | `(1, 2, 65, 73)` |
+
+## Learning Notes For Practitioners
+
+- Use `out_channels=1` for a single binary logit map. Use one channel per class
+  for multiclass segmentation.
+- Keep logits and probabilities separate. Train binary outputs with a
+  logits-aware loss such as `BCEWithLogitsLoss`; train multiclass outputs with a
+  loss such as `CrossEntropyLoss`. Apply `sigmoid` or `softmax` only when
+  probabilities are needed for interpretation or metrics.
+- The tests and demo use synthetic tensors to verify model behavior without
+  introducing medical images, PHI, dataset licensing issues, or preprocessing
+  assumptions.
+- Change `features` by keeping a shallow-to-deep sequence of positive integers.
+  More stages increase the amount of pooling and context; wider stages increase
+  parameters and memory use.
+- The shape tests protect the contract that output logits preserve the input
+  height and width, including odd spatial sizes where pooling and upsampling do
+  not divide evenly.
+
 ## What Changed Relative To FCN
 
 U-Net keeps dense prediction but adds a symmetric encoder-decoder shape and

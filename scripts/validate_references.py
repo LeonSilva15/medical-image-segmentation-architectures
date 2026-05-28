@@ -31,6 +31,10 @@ REQUIRED_FIELDS = {
 
 IMPLEMENTATION_STATUSES = {"reference-only", "implemented"}
 PAPER_LINK_KINDS = {"doi", "arxiv", "paper"}
+IMPLEMENTED_CHAPTER_HEADINGS = (
+    "## Implementation Walkthrough",
+    "## Learning Notes For Practitioners",
+)
 
 
 def load_architectures() -> list[dict[str, Any]]:
@@ -96,6 +100,10 @@ def validate_architecture(architecture: dict[str, Any], known_ids: set[str]) -> 
     if status == "implemented":
         if not isinstance(chapter_path, str) or not chapter_path:
             errors.append(f"{architecture_id}: implemented entries must set chapter_path")
+        elif (ROOT / chapter_path).exists():
+            errors.extend(
+                validate_implemented_chapter_headings(architecture_id, ROOT / chapter_path)
+            )
         code_path = architecture.get("code_path")
         if not isinstance(code_path, str) or not code_path:
             errors.append(f"{architecture_id}: implemented entries must set code_path")
@@ -105,6 +113,19 @@ def validate_architecture(architecture: dict[str, Any], known_ids: set[str]) -> 
             errors.append(f"{architecture_id}: implemented entries must set tests to true")
         if architecture.get("demo") is not True:
             errors.append(f"{architecture_id}: implemented entries must set demo to true")
+
+    return errors
+
+
+def validate_implemented_chapter_headings(architecture_id: str, chapter_path: Path) -> list[str]:
+    """Require code-learning sections for implemented architecture chapters."""
+
+    chapter_text = chapter_path.read_text(encoding="utf-8")
+    errors: list[str] = []
+
+    for heading in IMPLEMENTED_CHAPTER_HEADINGS:
+        if heading not in chapter_text:
+            errors.append(f"{architecture_id}: chapter is missing required heading: {heading}")
 
     return errors
 
