@@ -102,9 +102,10 @@ the final chapter heading, such as `## What Changed Relative To FCN`.
 
 ## Code Excerpt Guidelines
 
-Implemented architecture chapters should include small, curated code excerpts in
-the `Implementation Walkthrough`. Use collapsible blocks for anything longer than
-a few lines, and explain why the excerpt matters before the toggle.
+Implemented architecture overview chapters should include small, curated code
+excerpts in the `Implementation Walkthrough`. Use collapsible blocks for
+overview excerpts that are longer than a few lines, and explain why the excerpt
+matters before the toggle.
 
 ```markdown
 The encoder stores high-resolution skip tensors before pooling so the decoder can
@@ -129,6 +130,8 @@ Use these rules:
 - [ ] Pair every snippet with prose explaining purpose, tensor flow, or tradeoff.
 - [ ] Keep full source code on a supporting page instead of inside the overview
   chapter when the chapter would become too long.
+- [ ] Show full source code directly on `code.md` supporting pages with a normal
+  fenced code block, not a collapsible block.
 - [ ] Do not replace the explanatory excerpts with an unstructured source dump.
 - [ ] Keep snippets synchronized when implementation code changes.
 
@@ -153,6 +156,9 @@ Use supporting pages for:
 - [ ] complete implementation code copied from repo-authored source;
 - [ ] practical cookbook recipes based on synthetic tensors;
 - [ ] live or executable examples that do not use clinical data.
+
+Full-code supporting pages should show the source directly so readers can search
+and scan the implementation without opening a toggle.
 
 Keep `chapter_path` pointed at the overview chapter, such as
 `docs/architectures/architecture-slug.md`.
