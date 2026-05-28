@@ -38,6 +38,7 @@ This file records what has been completed, what decisions are currently guiding 
 - `Done`: Reran reference validation, synthetic demo, tests, lint, and strict MkDocs build after dependency resolution succeeded.
 - `Done`: Added an architecture addition checklist guide with copyable metadata and chapter templates.
 - `Done`: Added collapsible code excerpts to the U-Net chapter and documented the pattern for future implemented chapters.
+- `Done`: Added nested U-Net resource pages for full code, cookbook notes, and a future live example.
 
 ## Current Decisions
 
@@ -55,6 +56,7 @@ This file records what has been completed, what decisions are currently guiding 
 - `Current`: The learning front door is the MkDocs book under `docs/`.
 - `Current`: Implemented architectures must include educational code docstrings plus `Implementation Walkthrough` and `Learning Notes For Practitioners` sections in their chapters.
 - `Current`: Implemented architecture chapters should include curated, collapsible code excerpts for important implementation pieces.
+- `Current`: Architecture chapters can use nested supporting pages for full code, cookbook recipes, and live examples when deeper material would crowd the overview.
 - `Current`: Agents and contributors should follow `docs/contributing/adding-an-architecture.md` before adding reference-only or implemented architectures.
 - `Current`: Architecture images should be original repo-authored Mermaid diagrams, not copied paper figures.
 - `Current`: GitHub Pages publishing should use GitHub Actions, not `mkdocs gh-deploy`.
@@ -85,3 +87,4 @@ This file records what has been completed, what decisions are currently guiding 
 - `2026-05-27`: Added implementation-level learning explanations for U-Net and validation for required implemented-chapter learning sections.
 - `2026-05-27`: Added an architecture addition checklist guide and linked it from the MkDocs navigation and agent rules.
 - `2026-05-27`: Added collapsible U-Net code excerpts and future guidance for architecture chapter snippets.
+- `2026-05-27`: Added nested U-Net resource pages for full code, cookbook notes, and a future live example.

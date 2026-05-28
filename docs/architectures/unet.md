@@ -202,6 +202,17 @@ into raw scores without changing the final height or width.
     return self.output_conv(x)
     ```
 
+### Implementation Resources
+
+The main walkthrough keeps short code excerpts close to the explanation. For
+deeper implementation material, use the U-Net resource pages:
+
+- [Full Code](unet/code.md): complete `UNet2D` source mirrored from the
+  repository implementation.
+- [Cookbook](unet/cookbook.md): planned practical recipes using synthetic tensors.
+- [Live Example](unet/live-example.md): planned interactive or executable
+  synthetic demo area.
+
 ### Tensor Shape Example
 
 With `in_channels=1`, `out_channels=2`, and `features=(16, 32, 64)`, the demo

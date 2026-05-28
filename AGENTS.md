@@ -21,7 +21,9 @@ architectures and their major modifications.
   plus `Implementation Walkthrough` and `Learning Notes For Practitioners`
   sections in its book chapter.
 - Implemented architecture chapters should include curated, collapsible code
-  excerpts for important implementation pieces, not full source dumps.
+  excerpts for important implementation pieces. Use nested supporting pages for
+  full code, cookbook recipes, or live examples when they would crowd the main
+  architecture chapter.
 - Follow `docs/contributing/adding-an-architecture.md` before adding or
   implementing an architecture.
 - Use synthetic data for tests and demos unless a public, properly licensed dataset

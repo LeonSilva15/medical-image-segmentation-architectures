@@ -63,7 +63,9 @@ item below is complete.
 - [ ] Add `Implementation Walkthrough` and `Learning Notes For Practitioners` to
   the chapter.
 - [ ] Add curated, collapsible code excerpts for the important implementation
-  pieces. Do not paste the full source file into the chapter.
+  pieces.
+- [ ] Add optional per-architecture supporting pages for full code, cookbook
+  recipes, or live examples when they improve the learning value.
 - [ ] Update `README.md` if the implementation should appear in the current
   implementation status table.
 
@@ -88,6 +90,8 @@ Implemented chapters must also include:
 - [ ] `## Implementation Walkthrough`
 - [ ] `## Learning Notes For Practitioners`
 - [ ] Collapsible code excerpts for important implementation pieces.
+- [ ] Links to supporting pages when the architecture has full-code, cookbook,
+  or live-example pages.
 
 If the parent architecture is not known or the architecture starts a new family,
 use `## What Changed Relative To Earlier Segmentation Models` instead of forcing
@@ -123,8 +127,35 @@ Use these rules:
 - [ ] Copy only repo-authored snippets from the implementation.
 - [ ] Keep snippets short and focused on architecture behavior.
 - [ ] Pair every snippet with prose explaining purpose, tensor flow, or tradeoff.
-- [ ] Prefer collapsible blocks instead of full source dumps.
+- [ ] Keep full source code on a supporting page instead of inside the overview
+  chapter when the chapter would become too long.
+- [ ] Do not replace the explanatory excerpts with an unstructured source dump.
 - [ ] Keep snippets synchronized when implementation code changes.
+
+## Supporting Pages
+
+Implemented architectures can have a nested supporting area beside the overview
+chapter. Use this when a full code listing, cookbook, or live example would make
+the main architecture page too long.
+
+Recommended structure:
+
+```text
+docs/architectures/architecture-slug.md
+docs/architectures/architecture-slug/code.md
+docs/architectures/architecture-slug/cookbook.md
+docs/architectures/architecture-slug/live-example.md
+```
+
+Use the overview page for the architecture explanation and curated snippets.
+Use supporting pages for:
+
+- [ ] complete implementation code copied from repo-authored source;
+- [ ] practical cookbook recipes based on synthetic tensors;
+- [ ] live or executable examples that do not use clinical data.
+
+Keep `chapter_path` pointed at the overview chapter, such as
+`docs/architectures/architecture-slug.md`.
 
 ## Metadata Skeleton
 
@@ -206,6 +237,14 @@ Add collapsible code excerpts for important implementation pieces.
     ```python
     # Short, repo-authored snippet.
     ```
+
+## Implementation Resources
+
+Link to deeper supporting pages when they exist.
+
+- [Full Code](architecture-slug/code.md)
+- [Cookbook](architecture-slug/cookbook.md)
+- [Live Example](architecture-slug/live-example.md)
 
 ## Learning Notes For Practitioners
 

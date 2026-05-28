@@ -38,7 +38,11 @@ nav:
       - Architecture Lineage: evolution/lineage.md
   - Architectures:
       - Architecture Index: architectures/index.md
-      - U-Net: architectures/unet.md
+      - U-Net:
+          - Overview: architectures/unet.md
+          - Full Code: architectures/unet/code.md
+          - Cookbook: architectures/unet/cookbook.md
+          - Live Example: architectures/unet/live-example.md
   - Contributing:
       - Adding An Architecture: contributing/adding-an-architecture.md
   - References: references.md
