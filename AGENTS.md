@@ -20,6 +20,8 @@ architectures and their major modifications.
 - Every implemented architecture must include code-level educational docstrings
   plus `Implementation Walkthrough` and `Learning Notes For Practitioners`
   sections in its book chapter.
+- Follow `docs/contributing/adding-an-architecture.md` before adding or
+  implementing an architecture.
 - Use synthetic data for tests and demos unless a public, properly licensed dataset
   is explicitly configured.
 - Do not add private medical images, PHI, patient identifiers, DICOM headers, or

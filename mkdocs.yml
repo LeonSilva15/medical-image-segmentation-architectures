@@ -39,4 +39,6 @@ nav:
   - Architectures:
       - Architecture Index: architectures/index.md
       - U-Net: architectures/unet.md
+  - Contributing:
+      - Adding An Architecture: contributing/adding-an-architecture.md
   - References: references.md
