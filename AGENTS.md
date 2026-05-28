@@ -20,6 +20,8 @@ architectures and their major modifications.
 - Every implemented architecture must include code-level educational docstrings
   plus `Implementation Walkthrough` and `Learning Notes For Practitioners`
   sections in its book chapter.
+- Implemented architecture chapters should include curated, collapsible code
+  excerpts for important implementation pieces, not full source dumps.
 - Follow `docs/contributing/adding-an-architecture.md` before adding or
   implementing an architecture.
 - Use synthetic data for tests and demos unless a public, properly licensed dataset

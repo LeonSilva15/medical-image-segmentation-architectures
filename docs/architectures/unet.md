@@ -62,6 +62,27 @@ paper.
 convolutions with ReLU activations. Both convolutions use padding, so the block
 changes channel count but preserves height and width.
 
+The core block is intentionally small: padding keeps each block shape-preserving,
+while the second convolution gives the model another local mixing step before
+any pooling or upsampling changes resolution.
+
+??? example "Code: `DoubleConv` block"
+
+    ```python
+    class DoubleConv(nn.Module):
+        def __init__(self, in_channels: int, out_channels: int) -> None:
+            super().__init__()
+            self.layers = nn.Sequential(
+                nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
+                nn.ReLU(inplace=True),
+                nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1),
+                nn.ReLU(inplace=True),
+            )
+
+        def forward(self, x: torch.Tensor) -> torch.Tensor:
+            return self.layers(x)
+    ```
+
 `UNet2D` wires those blocks into an encoder, bottleneck, decoder, and output
 head. The `features` argument controls the encoder widths from shallow to deep.
 For example, `features=(16, 32, 64)` creates three encoder stages, a 128-channel
@@ -74,9 +95,47 @@ Each encoder stage first applies `DoubleConv`, then stores the result as a skip
 tensor before max pooling. Saving the tensor before pooling matters because that
 is the high-resolution feature map the decoder will later reuse.
 
+The encoder uses `ModuleList` so PyTorch registers each repeated block as part
+of the model while still letting the depth be controlled by `features`.
+
+??? example "Code: encoder construction"
+
+    ```python
+    feature_list = tuple(features)
+    self.down_blocks = nn.ModuleList()
+    self.pool = nn.MaxPool2d(kernel_size=2, stride=2)
+
+    current_channels = in_channels
+    for feature_count in feature_list:
+        self.down_blocks.append(DoubleConv(current_channels, feature_count))
+        current_channels = feature_count
+    ```
+
 The bottleneck receives the smallest feature map after all pooling steps. In
 this implementation, it doubles the deepest encoder width. With
 `features=(16, 32, 64)`, the bottleneck has 128 channels.
+
+The bottleneck and decoder are built from the same feature list in reverse, so
+the decoder has one upsampling and skip-fusion stage for every encoder stage.
+
+??? example "Code: bottleneck and decoder construction"
+
+    ```python
+    self.bottleneck = DoubleConv(feature_list[-1], feature_list[-1] * 2)
+
+    current_channels = feature_list[-1] * 2
+    for feature_count in reversed(feature_list):
+        self.up_transposes.append(
+            nn.ConvTranspose2d(
+                current_channels,
+                feature_count,
+                kernel_size=2,
+                stride=2,
+            )
+        )
+        self.up_blocks.append(DoubleConv(feature_count * 2, feature_count))
+        current_channels = feature_count
+    ```
 
 ### Decoder And Skip Fusion
 
@@ -91,12 +150,57 @@ upsampling. The forward pass handles that case by interpolating the decoder
 tensor to the skip tensor's spatial size before concatenation. This keeps the
 model usable for shapes like the synthetic demo input `(1, 1, 65, 73)`.
 
+The forward pass shows the main U-Net data movement: save skips on the way down,
+restore resolution on the way up, align odd shapes if needed, then concatenate
+encoder detail with decoder context.
+
+??? example "Code: forward pass skip fusion"
+
+    ```python
+    skips: list[torch.Tensor] = []
+
+    for down_block in self.down_blocks:
+        x = down_block(x)
+        skips.append(x)
+        x = self.pool(x)
+
+    x = self.bottleneck(x)
+
+    for skip, up_transpose, up_block in zip(
+        reversed(skips),
+        self.up_transposes,
+        self.up_blocks,
+        strict=True,
+    ):
+        x = up_transpose(x)
+        if x.shape[-2:] != skip.shape[-2:]:
+            x = F.interpolate(
+                x,
+                size=skip.shape[-2:],
+                mode="bilinear",
+                align_corners=False,
+            )
+        x = torch.cat((skip, x), dim=1)
+        x = up_block(x)
+    ```
+
 ### Output Head
 
 The final `1x1` convolution maps the last decoder feature map to
 `out_channels`. It does not change spatial size. The model returns raw logits,
 so training code should pass them directly to a compatible loss, and evaluation
 code should apply the appropriate activation when probabilities are needed.
+
+The output head is a per-pixel channel projection. It converts decoder features
+into raw scores without changing the final height or width.
+
+??? example "Code: output logits"
+
+    ```python
+    self.output_conv = nn.Conv2d(feature_list[0], out_channels, kernel_size=1)
+
+    return self.output_conv(x)
+    ```
 
 ### Tensor Shape Example
 
