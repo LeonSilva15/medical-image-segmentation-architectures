@@ -34,6 +34,7 @@ nav:
   - Foundations:
       - What Is Segmentation?: foundations/what-is-segmentation.md
       - How To Read An Architecture: foundations/how-to-read-an-architecture.md
+      - Training And Evaluation Basics: foundations/training-and-evaluation-basics.md
   - Evolution:
       - Architecture Lineage: evolution/lineage.md
   - Architectures:
