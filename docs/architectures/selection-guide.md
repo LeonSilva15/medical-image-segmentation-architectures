@@ -52,9 +52,8 @@ The book also separates where an idea came from:
   medical imaging.
 
 The canonical architecture list lives in `data/architectures.yml`. Related names
-such as 3D U-Net, base SAM, SAM-Med2D, MedSAM2, and Swin UNETR are useful
-context, but they are not separate local architecture pages in the current
-registry.
+such as base SAM, SAM-Med2D, MedSAM2, and Swin UNETR are useful context, but
+they are not separate local architecture pages in the current registry.
 
 ## Taxonomy At A Glance
 
@@ -62,10 +61,11 @@ Dense prediction roots begin with [FCN](fcn.md), a general computer-vision
 segmentation architecture that explains how CNNs can produce dense pixel-level
 outputs.
 
-Core medical CNN baselines begin with [U-Net](unet.md) and [V-Net](vnet.md).
-U-Net is the main 2D biomedical segmentation reference point in this repository.
-V-Net represents the volumetric branch. 3D U-Net is related background for this
-branch, but it is not a separate current page.
+Core medical CNN baselines begin with [U-Net](unet.md),
+[3D U-Net](3d-unet.md), and [V-Net](vnet.md). U-Net is the main 2D biomedical
+segmentation reference point in this repository. 3D U-Net is the direct
+volumetric extension of that idea, while V-Net represents a related volumetric
+encoder-decoder branch.
 
 U-Net skip and attention variants are represented by [U-Net++](unetpp.md) and
 [Attention U-Net](attention-unet.md). These pages show how later architectures
@@ -92,6 +92,7 @@ and MedSAM2 are related context, but they are not separate current pages.
 | --- | --- | --- | --- | --- |
 | [FCN](fcn.md) | General CV dense prediction root | Introduces fully convolutional pixel-level prediction, which later medical architectures build on. | Understand how a CNN becomes a segmentation model. | reference-only |
 | [U-Net](unet.md) | Medical CNN baseline | Establishes the encoder-decoder and skip-connection pattern used by many medical segmentation models. | Start here for a tested local model and the core medical segmentation baseline. | implemented |
+| [3D U-Net](3d-unet.md) | Medical 3D CNN baseline | Extends U-Net's encoder-decoder and skip-connection pattern from 2D images to volumetric patches. | Learn why CT/MRI segmentation often needs through-plane context, patch-based training, and sparse-label handling. | reference-only |
 | [V-Net](vnet.md) | Medical 3D CNN baseline | Extends encoder-decoder segmentation ideas to volumetric inputs. | Learn why 3D scans need different memory and tensor-shape thinking. | reference-only |
 | [U-Net++](unetpp.md) | Medical U-Net skip variant | Shows how nested skip pathways refine the information passed into the decoder. | Compare direct U-Net skips with denser skip designs. | reference-only |
 | [Attention U-Net](attention-unet.md) | Medical U-Net attention variant | Adds attention gates that filter skip-connection features. | Learn how attention can focus decoder fusion. | reference-only |

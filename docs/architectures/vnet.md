@@ -6,6 +6,10 @@ V-Net adapts the encoder-decoder segmentation idea to 3D volumes. Instead of
 processing one 2D slice at a time, the network uses 3D convolutions so depth,
 height, and width are modeled together.
 
+For the direct 2D U-Net-to-volume translation, see
+[3D U-Net](3d-unet.md). V-Net is a related volumetric encoder-decoder branch
+with its own design choices rather than a dependency of that page.
+
 ## What Problem It Solved
 
 Medical scans are often volumetric. V-Net addresses this by using 3D operations

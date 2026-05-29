@@ -56,6 +56,36 @@ architectures:
     tests: true
     demo: true
 
+  - id: 3d_unet
+    slug: 3d-unet
+    name: 3D U-Net
+    year: 2016
+    family: U-Net family, 3D
+    parent: unet
+    chapter_path: docs/architectures/3d-unet.md
+    paper_title: "3D U-Net: Learning Dense Volumetric Segmentation from Sparse Annotation"
+    doi: 10.1007/978-3-319-46723-8_49
+    arxiv: "1606.06650"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1007/978-3-319-46723-8_49
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1606.06650
+    modification: Extends U-Net from 2D images to dense 3D volume segmentation.
+    technical_summary: >
+      3D U-Net replaces 2D U-Net operations with 3D counterparts so the
+      encoder-decoder can process volumetric patches and learn dense voxel
+      predictions from sparse annotations.
+    understandable_summary: >
+      3D U-Net is the direct volumetric version of U-Net: it segments a volume
+      by looking across slices instead of treating each slice independently.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
   - id: vnet
     slug: vnet
     name: V-Net

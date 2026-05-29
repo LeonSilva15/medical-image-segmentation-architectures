@@ -46,6 +46,7 @@ nav:
           - Full Code: architectures/unet/code.md
           - Cookbook: architectures/unet/cookbook.md
           - Live Example: architectures/unet/live-example.md
+      - 3D U-Net: architectures/3d-unet.md
       - V-Net: architectures/vnet.md
       - U-Net++: architectures/unetpp.md
       - Attention U-Net: architectures/attention-unet.md

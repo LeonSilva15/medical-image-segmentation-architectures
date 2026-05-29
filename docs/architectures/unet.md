@@ -9,6 +9,10 @@ while reusing fine details from earlier layers.
 It became a core medical image segmentation baseline because medical boundaries
 often require both global context and precise local information.
 
+For the direct volumetric extension of this idea, see
+[3D U-Net](3d-unet.md), which replaces 2D image operations with 3D volume
+operations.
+
 ## What Problem It Solved
 
 Early dense prediction models could produce pixel-level outputs, but medical

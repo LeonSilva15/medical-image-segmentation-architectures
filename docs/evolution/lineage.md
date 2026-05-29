@@ -8,6 +8,7 @@ idea.
 graph TD
     FCN["FCN<br/>Dense pixel prediction"]
     UNet["U-Net<br/>Encoder-decoder + skip connections"]
+    UNet3D["3D U-Net<br/>Direct volumetric extension"]
     VNet["V-Net<br/>3D volumetric U-Net branch"]
     UNetPP["U-Net++<br/>Nested dense skip pathways"]
     AttUNet["Attention U-Net<br/>Attention-filtered skips"]
@@ -18,6 +19,7 @@ graph TD
     MedSAM["MedSAM<br/>Promptable medical segmentation"]
 
     FCN --> UNet
+    UNet --> UNet3D
     UNet --> VNet
     UNet --> UNetPP
     UNet --> AttUNet
@@ -33,7 +35,7 @@ graph TD
 | Branch | Main Idea | Examples |
 | --- | --- | --- |
 | Dense prediction | Convert classification CNNs into pixel-level predictors. | FCN |
-| U-Net family | Combine encoder context with decoder localization through skip connections. | U-Net, V-Net, U-Net++, Attention U-Net |
+| U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), U-Net++, Attention U-Net |
 | Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | nnU-Net |
 | Transformer hybrids | Add attention-based global context to segmentation architectures. | TransUNet, Swin-Unet, UNETR |
 | Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | MedSAM |
@@ -42,5 +44,7 @@ graph TD
 
 Read FCN first to understand dense prediction. Then read U-Net because many
 medical segmentation variants are easier to understand as modifications of its
-encoder-decoder shape. After that, split into 3D models, skip-connection
-variants, pipeline methods, and Transformer/foundation-model branches.
+encoder-decoder shape. After that, split into 3D models such as
+[3D U-Net](../architectures/3d-unet.md) and [V-Net](../architectures/vnet.md),
+skip-connection variants, pipeline methods, and Transformer/foundation-model
+branches.
