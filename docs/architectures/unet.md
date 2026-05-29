@@ -49,6 +49,89 @@ graph LR
    matching encoder features.
 5. A final 1x1 convolution maps decoder features to segmentation logits.
 
+## Minimum Architecture Form
+
+Core building blocks:
+
+- Convolution blocks that preserve spatial size.
+- Max pooling for the encoder path.
+- Upsampling for the decoder path.
+- Skip concatenation between matching resolutions.
+- A `1x1` output projection to segmentation logits.
+
+Tensor shape flow:
+
+```text
+Input image:       (B, C, H, W)
+Encoder skip:      (B, F, H, W)
+Bottleneck:        (B, 2F, H/2, W/2)
+Decoder feature:   (B, F, H, W)
+Output logits:     (B, K, H, W)
+```
+
+In this notation, `B` is the batch size, `C` is the number of input image
+channels, `F` is the feature width chosen for this minimal U-Net block, and `K`
+is the number of segmentation outputs. The encoder first changes channels from
+`C` to `F` while keeping height and width. Pooling then shrinks the spatial size
+to roughly `H/2` by `W/2` and the bottleneck widens channels to `2F`. The decoder
+upsamples back to `(H, W)`, and the final `1x1` convolution turns features into
+raw segmentation logits. See [Tensor Shape Notation](../foundations/how-to-read-an-architecture.md#tensor-shape-notation)
+for the general notation used across the book.
+
+Repo-authored pseudocode:
+
+```text
+extract a high-resolution encoder skip
+pool the skip tensor into a smaller feature map
+process the bottleneck
+upsample back to the skip tensor size
+concatenate skip and decoder features
+project decoder features to raw logits
+```
+
+??? example "Minimum runnable PyTorch sketch"
+
+    ```python
+    import torch
+    from torch import nn
+    from torch.nn import functional as F
+
+
+    class MinimumUNet(nn.Module):
+        def __init__(self, in_channels: int, out_channels: int) -> None:
+            super().__init__()
+            self.enc = nn.Sequential(
+                nn.Conv2d(in_channels, 8, kernel_size=3, padding=1),
+                nn.ReLU(inplace=True),
+            )
+            self.bottleneck = nn.Sequential(
+                nn.Conv2d(8, 16, kernel_size=3, padding=1),
+                nn.ReLU(inplace=True),
+            )
+            self.up = nn.ConvTranspose2d(16, 8, kernel_size=2, stride=2)
+            self.dec = nn.Sequential(
+                nn.Conv2d(16, 8, kernel_size=3, padding=1),
+                nn.ReLU(inplace=True),
+            )
+            self.out = nn.Conv2d(8, out_channels, kernel_size=1)
+
+        def forward(self, x: torch.Tensor) -> torch.Tensor:
+            skip = self.enc(x)
+            x = F.max_pool2d(skip, kernel_size=2)
+            x = self.bottleneck(x)
+            x = self.up(x)
+            if x.shape[-2:] != skip.shape[-2:]:
+                x = F.interpolate(x, size=skip.shape[-2:], mode="bilinear", align_corners=False)
+            x = self.dec(torch.cat((skip, x), dim=1))
+            return self.out(x)
+
+
+    model = MinimumUNet(in_channels=1, out_channels=2)
+    image = torch.randn(1, 1, 33, 41)
+    logits = model(image)
+    assert logits.shape == (1, 2, 33, 41)
+    ```
+
 ## Implementation Walkthrough
 
 The repository implementation lives in

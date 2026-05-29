@@ -36,6 +36,40 @@ graph LR
 2. Describe the main representation changes.
 3. Describe the output path.
 
+## Minimum Architecture Form
+
+Core building blocks:
+
+- List the smallest set of blocks needed to see the architecture idea.
+
+Tensor shape flow:
+
+```text
+Input:         (B, C, H, W)
+Key feature:   (B, F, H/2, W/2)
+Output logits: (B, K, H, W)
+```
+
+Briefly explain any symbols that are specific to this architecture. At minimum,
+link readers to [Tensor Shape Notation](../foundations/how-to-read-an-architecture.md#tensor-shape-notation)
+and define local symbols such as `F` for feature channels, `N` for token count,
+or `p` for patch size.
+
+Repo-authored pseudocode:
+
+```text
+describe the minimum data movement in a few lines
+avoid claiming this is a full reproduction
+return raw logits with the expected segmentation shape
+```
+
+??? example "Minimum runnable PyTorch sketch"
+
+    ```python
+    # Keep this synthetic, CPU-small, and educational.
+    # Reference-only pages can include a sketch here without adding package code.
+    ```
+
 ## Tensor-Shape Intuition
 
 For 2D segmentation:
@@ -53,7 +87,10 @@ Output: (B, K, D, H, W)
 ```
 
 Where `B` is batch size, `C` is input channels or modalities, `K` is output
-classes or masks, and `D`, `H`, and `W` are spatial dimensions.
+classes or masks, and `D`, `H`, and `W` are spatial dimensions. Define any
+architecture-specific symbols near the shape table, and link readers to
+[Tensor Shape Notation](../foundations/how-to-read-an-architecture.md#tensor-shape-notation)
+for the general explanation.
 
 ## Implementation Walkthrough
 

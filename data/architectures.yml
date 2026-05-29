@@ -5,7 +5,7 @@ architectures:
     year: 2015
     family: Dense prediction
     parent: null
-    chapter_path: null
+    chapter_path: docs/architectures/fcn.md
     paper_title: Fully Convolutional Networks for Semantic Segmentation
     doi: 10.1109/CVPR.2015.7298965
     arxiv: "1411.4038"
@@ -62,7 +62,7 @@ architectures:
     year: 2016
     family: U-Net family, 3D
     parent: unet
-    chapter_path: null
+    chapter_path: docs/architectures/vnet.md
     paper_title: Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation
     doi: 10.1109/3DV.2016.79
     arxiv: "1606.04797"
@@ -90,7 +90,7 @@ architectures:
     year: 2018
     family: U-Net family, skip variants
     parent: unet
-    chapter_path: null
+    chapter_path: docs/architectures/unetpp.md
     paper_title: "UNet++: A Nested U-Net Architecture for Medical Image Segmentation"
     doi: 10.1007/978-3-030-00889-5_1
     arxiv: "1807.10165"
@@ -119,7 +119,7 @@ architectures:
     year: 2018
     family: U-Net family, attention gates
     parent: unet
-    chapter_path: null
+    chapter_path: docs/architectures/attention-unet.md
     paper_title: "Attention U-Net: Learning Where to Look for the Pancreas"
     doi: null
     arxiv: "1804.03999"
@@ -145,7 +145,7 @@ architectures:
     year: 2021
     family: Self-configuring pipeline
     parent: unet
-    chapter_path: null
+    chapter_path: docs/architectures/nnunet.md
     paper_title: "nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation"
     doi: 10.1038/s41592-020-01008-z
     arxiv: "1809.10486"
@@ -174,7 +174,7 @@ architectures:
     year: 2021
     family: Transformer hybrid
     parent: unet
-    chapter_path: null
+    chapter_path: docs/architectures/transunet.md
     paper_title: "TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation"
     doi: null
     arxiv: "2102.04306"
@@ -199,7 +199,7 @@ architectures:
     year: 2021
     family: Transformer U-shape
     parent: transunet
-    chapter_path: null
+    chapter_path: docs/architectures/swin-unet.md
     paper_title: "Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation"
     doi: null
     arxiv: "2105.05537"
@@ -224,7 +224,7 @@ architectures:
     year: 2022
     family: 3D Transformer
     parent: transunet
-    chapter_path: null
+    chapter_path: docs/architectures/unetr.md
     paper_title: "UNETR: Transformers for 3D Medical Image Segmentation"
     doi: 10.1109/WACV51458.2022.00181
     arxiv: "2103.10504"
@@ -252,7 +252,7 @@ architectures:
     year: 2024
     family: Promptable foundation model
     parent: null
-    chapter_path: null
+    chapter_path: docs/architectures/medsam.md
     paper_title: Segment Anything in Medical Images
     doi: 10.1038/s41467-024-44824-z
     arxiv: "2304.12306"

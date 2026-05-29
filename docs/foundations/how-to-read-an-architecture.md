@@ -3,6 +3,30 @@
 Architecture diagrams are easier to read when you break them into repeated
 questions.
 
+## Tensor Shape Notation
+
+Architecture pages use short tensor shapes to show how data changes as it moves
+through a model. A shape such as `(B, C, H, W)` describes the size of each axis
+in a PyTorch image tensor:
+
+- `B` is the batch size, or how many images are processed together.
+- `C` is the number of input channels or modalities, such as one grayscale
+  channel or three RGB channels.
+- `K` is the number of output segmentation channels, classes, or masks.
+- `F` is an internal feature-channel count chosen by the model.
+- `D`, `H`, and `W` are depth, height, and width. 2D models usually use
+  `(H, W)`, while 3D volume models use `(D, H, W)`.
+
+For example, `(B, K, H, W)` means the model returns one `H` by `W` score map for
+each of `K` segmentation outputs in each batch item. Shapes like `H/2`, `W/2`,
+or `D/2` mean the feature map has been downsampled conceptually by about half.
+Real code has to handle odd sizes carefully, because pooling a size such as
+`65` cannot split into two equal integer halves.
+
+Segmentation pages also use the word `logits`. Logits are raw model scores
+before an interpretation step such as `sigmoid` for binary masks or `softmax`
+for mutually exclusive classes.
+
 ## Encoder
 
 The encoder compresses the image into lower-resolution feature maps. It usually

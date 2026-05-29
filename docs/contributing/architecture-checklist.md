@@ -21,6 +21,8 @@ architecture entry.
 - [ ] Added or updated the architecture page.
 - [ ] Explained the problem the architecture solved.
 - [ ] Explained the core idea.
+- [ ] Added a `Minimum Architecture Form` section with building blocks, shape
+  flow, pseudocode, and a synthetic runnable sketch.
 - [ ] Explained tensor-shape intuition when useful.
 - [ ] Explained what changed relative to the parent architecture.
 - [ ] Added strengths and limitations.

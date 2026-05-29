@@ -38,11 +38,20 @@ nav:
       - Architecture Lineage: evolution/lineage.md
   - Architectures:
       - Architecture Index: architectures/index.md
+      - FCN: architectures/fcn.md
       - U-Net:
           - Overview: architectures/unet.md
           - Full Code: architectures/unet/code.md
           - Cookbook: architectures/unet/cookbook.md
           - Live Example: architectures/unet/live-example.md
+      - V-Net: architectures/vnet.md
+      - U-Net++: architectures/unetpp.md
+      - Attention U-Net: architectures/attention-unet.md
+      - nnU-Net: architectures/nnunet.md
+      - TransUNet: architectures/transunet.md
+      - Swin-Unet: architectures/swin-unet.md
+      - UNETR: architectures/unetr.md
+      - MedSAM: architectures/medsam.md
   - Contributing:
       - Overview: contributing/index.md
       - Adding An Architecture: contributing/adding-an-architecture.md
