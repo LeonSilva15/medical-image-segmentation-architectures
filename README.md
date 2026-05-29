@@ -66,7 +66,21 @@ chapters are added.
 
 ```sh
 uv run --python 3.11 python scripts/validate_references.py
+uv run --python 3.11 python scripts/validate_architecture_metadata.py
 ```
+
+## Contributing Architecture Changes
+
+Architecture metadata is tracked in `data/architectures.yml`. Before adding or
+modifying an architecture, read:
+
+- `docs/contributing/metadata-conventions.md`
+- `docs/contributing/architecture-template.md`
+- `docs/contributing/architecture-checklist.md`
+- `docs/contributing/code-change-checklist.md`
+
+Keep examples synthetic and do not add real patient data, PHI, clinical data,
+DICOM headers, model weights, or clinical-readiness claims.
 
 ## Run Tests
 

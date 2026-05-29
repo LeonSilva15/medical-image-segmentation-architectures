@@ -40,6 +40,10 @@ This file records what has been completed, what decisions are currently guiding 
 - `Done`: Added collapsible code excerpts to the U-Net chapter and documented the pattern for future implemented chapters.
 - `Done`: Added nested U-Net resource pages for full code, cookbook notes, and a future live example.
 - `Done`: Made full-code supporting pages non-collapsible and documented the convention.
+- `Done`: Added architecture governance contributing guides for metadata conventions, page templates, architecture checklists, and model code changes.
+- `Done`: Added architecture metadata validation for status labels, IDs, slugs, local paths, lineage, and paper link structure.
+- `Done`: Added test coverage for architecture metadata validation.
+- `Done`: Added a non-deployment CI workflow for validation, linting, tests, and strict docs builds.
 
 ## Current Decisions
 
@@ -48,7 +52,7 @@ This file records what has been completed, what decisions are currently guiding 
 - `Current`: Primary branch is `main`.
 - `Current`: The project is a research-to-code repository, not just a README.
 - `Current`: Architecture metadata belongs in `data/architectures.yml`.
-- `Current`: Architecture entries must distinguish `reference-only` from `implemented`.
+- `Current`: Architecture entries must use one of `implemented`, `reference-only`, `planned`, `external-pipeline`, or `deprecated`.
 - `Current`: U-Net is the first model implementation target.
 - `Current`: v1 should use plain PyTorch, pytest, and PyYAML before adding heavier medical-imaging libraries.
 - `Current`: Tests and demos should use synthetic data only.
@@ -60,6 +64,8 @@ This file records what has been completed, what decisions are currently guiding 
 - `Current`: Architecture chapters can use nested supporting pages for full code, cookbook recipes, and live examples when deeper material would crowd the overview.
 - `Current`: Full-code supporting pages should show source directly in a normal fenced code block.
 - `Current`: Agents and contributors should follow `docs/contributing/adding-an-architecture.md` before adding reference-only or implemented architectures.
+- `Current`: Contributors should treat `data/architectures.yml` as the canonical source of truth for architecture identity, status, lineage, implementation state, and references.
+- `Current`: Contributors should use the architecture metadata conventions, page template, architecture checklist, and code change checklist under `docs/contributing/`.
 - `Current`: Architecture images should be original repo-authored Mermaid diagrams, not copied paper figures.
 - `Current`: GitHub Pages publishing should use GitHub Actions, not `mkdocs gh-deploy`.
 - `Current`: The repository remains private unless publishing requirements force a visibility change.
@@ -67,7 +73,6 @@ This file records what has been completed, what decisions are currently guiding 
 ## Planned Work
 
 - `Planned`: Add Mermaid lineage generation after the registry is stable.
-- `Planned`: Consider GitHub Actions test CI after local tests and validation are in place.
 - `Planned`: Evaluate MONAI, TorchIO, notebooks, and public dataset scripts only when a later milestone needs them.
 - `Planned`: Add complete chapters for FCN, V-Net, U-Net++, Attention U-Net, nnU-Net, TransUNet, Swin-Unet, UNETR, and MedSAM.
 - `Planned`: Verify the first successful GitHub Pages deployment.
@@ -91,3 +96,4 @@ This file records what has been completed, what decisions are currently guiding 
 - `2026-05-27`: Added collapsible U-Net code excerpts and future guidance for architecture chapter snippets.
 - `2026-05-27`: Added nested U-Net resource pages for full code, cookbook notes, and a future live example.
 - `2026-05-27`: Made the U-Net full-code supporting page non-collapsible.
+- `2026-05-29`: Added architecture governance docs, metadata validation, validator tests, and non-deployment CI.

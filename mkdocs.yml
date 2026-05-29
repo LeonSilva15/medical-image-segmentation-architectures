@@ -44,5 +44,10 @@ nav:
           - Cookbook: architectures/unet/cookbook.md
           - Live Example: architectures/unet/live-example.md
   - Contributing:
+      - Overview: contributing/index.md
       - Adding An Architecture: contributing/adding-an-architecture.md
+      - Metadata Conventions: contributing/metadata-conventions.md
+      - Architecture Page Template: contributing/architecture-template.md
+      - Architecture Checklist: contributing/architecture-checklist.md
+      - Code Change Checklist: contributing/code-change-checklist.md
   - References: references.md

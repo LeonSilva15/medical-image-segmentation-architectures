@@ -1,0 +1,131 @@
+# Architecture Page Template
+
+Copy this template when adding a new architecture page. Delete sections that
+truly do not apply, but keep status, lineage, limitations, implementation
+boundaries, and references.
+
+````markdown
+# Architecture Name
+
+## Plain-Language Overview
+
+Explain what this architecture is and why it matters in direct language.
+
+## What Problem It Solved
+
+Describe the limitation or gap this architecture addressed. Keep claims
+source-supported and avoid unsupported benchmark language.
+
+## Visual Architecture Schematic
+
+This should be an original schematic for this book, not a copied paper figure.
+
+```mermaid
+graph LR
+    Input["Input"]
+    Encoder["Encoder or feature extractor"]
+    Decoder["Decoder or prediction head"]
+    Output["Segmentation logits"]
+
+    Input --> Encoder --> Decoder --> Output
+```
+
+## Step-By-Step Walkthrough
+
+1. Describe the input path.
+2. Describe the main representation changes.
+3. Describe the output path.
+
+## Tensor-Shape Intuition
+
+For 2D segmentation:
+
+```text
+Input:  (B, C, H, W)
+Output: (B, K, H, W)
+```
+
+For 3D segmentation:
+
+```text
+Input:  (B, C, D, H, W)
+Output: (B, K, D, H, W)
+```
+
+Where `B` is batch size, `C` is input channels or modalities, `K` is output
+classes or masks, and `D`, `H`, and `W` are spatial dimensions.
+
+## Implementation Walkthrough
+
+For implemented architectures, explain the repo implementation, module
+structure, tensor shape flow, and intentional simplifications.
+
+Add curated, collapsible code excerpts for important implementation pieces.
+
+??? example "Code: important implementation piece"
+
+    ```python
+    # Short, repo-authored snippet.
+    ```
+
+For reference-only, planned, external-pipeline, or deprecated entries, explain
+that local implementation code is not provided.
+
+## Implementation Resources
+
+Link to deeper supporting pages when they exist.
+
+- [Full Code](architecture-slug/code.md)
+- [Cookbook](architecture-slug/cookbook.md)
+- [Live Example](architecture-slug/live-example.md)
+
+## Learning Notes For Practitioners
+
+For implemented architectures, explain practical choices such as logits,
+channel counts, synthetic tests, shape contracts, and known simplifications.
+
+## What Changed Relative To Parent
+
+Explain the architectural change relative to the parent architecture. Rename
+this section if there is no accurate parent comparison.
+
+## Strengths
+
+- Add source-supported strengths.
+
+## Limitations
+
+- Add limitations and implementation boundaries.
+- State when the local implementation is educational rather than complete.
+
+## Implementation Status
+
+| Field | Value |
+| --- | --- |
+| Status | reference-only |
+| Code | Not implemented locally |
+| Tests | Not implemented locally |
+| Demo | Not implemented locally |
+| Data used in tests/demo | synthetic tensors only, if implemented |
+| Metadata ID | architecture-id |
+
+!!! note "Educational scope"
+    This repository is for education and research. This page does not claim
+    clinical readiness.
+
+## Model Details
+
+| Field | Value |
+| --- | --- |
+| Year | 2026 |
+| Parent | Parent architecture or None |
+| Family | Architecture family |
+| Paper title | Exact Paper Title |
+| DOI | `null` |
+| arXiv | `null` |
+
+## Read The Original Paper
+
+- DOI: add link if available
+- arXiv: add link if available
+````

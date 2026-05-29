@@ -9,8 +9,9 @@ architectures and their major modifications.
 
 - Do not invent paper titles, authors, DOIs, arXiv IDs, or claims.
 - Every architecture in `README.md` must have an entry in `data/architectures.yml`.
-- Every architecture entry must set `implementation_status` to `reference-only` or
-  `implemented`.
+- Every architecture entry must set `implementation_status` to one of
+  `implemented`, `reference-only`, `planned`, `external-pipeline`, or
+  `deprecated`.
 - Every architecture entry must include book metadata: `slug`, `family`,
   `chapter_path`, and `paper_links`.
 - Do not copy figures from papers. Use original repo-authored diagrams and link
@@ -27,6 +28,14 @@ architectures and their major modifications.
   not inside collapsible blocks.
 - Follow `docs/contributing/adding-an-architecture.md` before adding or
   implementing an architecture.
+- Treat `data/architectures.yml` as the canonical source of truth for
+  architecture identity, status, lineage, implementation state, and references.
+- New architecture pages should follow
+  `docs/contributing/architecture-template.md`.
+- Architecture additions or modifications should follow
+  `docs/contributing/architecture-checklist.md`.
+- Implemented model code changes should follow
+  `docs/contributing/code-change-checklist.md`.
 - Use synthetic data for tests and demos unless a public, properly licensed dataset
   is explicitly configured.
 - Do not add private medical images, PHI, patient identifiers, DICOM headers, or
@@ -38,6 +47,8 @@ architectures and their major modifications.
 
 - Validate references:
   `uv run --python 3.11 python scripts/validate_references.py`
+- Validate architecture metadata:
+  `uv run --python 3.11 python scripts/validate_architecture_metadata.py`
 - Run demo:
   `uv run --python 3.11 python demos/demo_forward_pass.py`
 - Run tests:

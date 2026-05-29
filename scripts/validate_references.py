@@ -29,7 +29,13 @@ REQUIRED_FIELDS = {
     "demo",
 }
 
-IMPLEMENTATION_STATUSES = {"reference-only", "implemented"}
+IMPLEMENTATION_STATUSES = {
+    "implemented",
+    "reference-only",
+    "planned",
+    "external-pipeline",
+    "deprecated",
+}
 PAPER_LINK_KINDS = {"doi", "arxiv", "paper"}
 IMPLEMENTED_CHAPTER_HEADINGS = (
     "## Implementation Walkthrough",
@@ -89,13 +95,13 @@ def validate_architecture(architecture: dict[str, Any], known_ids: set[str]) -> 
 
     errors.extend(validate_paper_links(architecture))
 
-    if status == "reference-only":
+    if status in {"reference-only", "planned", "external-pipeline", "deprecated"}:
         if architecture.get("code_path") is not None:
-            errors.append(f"{architecture_id}: reference-only entries must not set code_path")
+            errors.append(f"{architecture_id}: non-implemented entries must not set code_path")
         if architecture.get("tests") is not False:
-            errors.append(f"{architecture_id}: reference-only entries must set tests to false")
+            errors.append(f"{architecture_id}: non-implemented entries must set tests to false")
         if architecture.get("demo") is not False:
-            errors.append(f"{architecture_id}: reference-only entries must set demo to false")
+            errors.append(f"{architecture_id}: non-implemented entries must set demo to false")
 
     if status == "implemented":
         if not isinstance(chapter_path, str) or not chapter_path:

@@ -7,10 +7,16 @@ The goal is to keep the book, metadata, code, tests, demos, and tracker aligned.
 
 Choose one status before editing files.
 
-- [ ] `reference-only`: the architecture is documented for learning and citation,
-  but this repository does not provide tested code.
 - [ ] `implemented`: the architecture has code, registry wiring, CPU-friendly
   shape tests, a synthetic demo, and a complete chapter.
+- [ ] `reference-only`: the architecture is documented or tracked for learning
+  and citation, but this repository does not provide tested code.
+- [ ] `planned`: the project intends to add documentation or implementation
+  later, but the work is not complete.
+- [ ] `external-pipeline`: the entry is primarily an external framework or
+  pipeline, not a model reimplemented here.
+- [ ] `deprecated`: the entry is kept for historical context, but is no longer a
+  project focus.
 
 Do not mark an architecture as `implemented` until every implemented-architecture
 item below is complete.
@@ -20,7 +26,8 @@ item below is complete.
 - [ ] Verify the paper title, year, DOI, arXiv ID, and paper links from reliable
   sources. Do not invent missing metadata.
 - [ ] Add or update the entry in `data/architectures.yml`.
-- [ ] Set `implementation_status` to exactly `reference-only` or `implemented`.
+- [ ] Set `implementation_status` to exactly one of `implemented`,
+  `reference-only`, `planned`, `external-pipeline`, or `deprecated`.
 - [ ] Include `slug`, `family`, `chapter_path`, and `paper_links`.
 - [ ] Set `parent` to an existing architecture id or `null`.
 - [ ] Describe the modification in neutral, source-supported language.
@@ -44,6 +51,15 @@ item below is complete.
   the rendered architecture index.
 - [ ] Update `docs/references.md` if references are maintained manually for the
   new entry.
+
+## Planned, External-Pipeline, Or Deprecated Checklist
+
+- [ ] Set `code_path: null` unless local educational code exists and the status
+  is intentionally changed to `implemented`.
+- [ ] Set `tests: false` and `demo: false` unless local tests and demos exist.
+- [ ] Explain the status clearly in the architecture page if a page exists.
+- [ ] Link to the original paper or upstream project when appropriate.
+- [ ] Avoid implying that this repository provides a clinical-ready pipeline.
 
 ## Implemented Checklist
 
@@ -303,6 +319,7 @@ Run the relevant checks before considering the task done.
 
 ```sh
 uv run --python 3.11 python scripts/validate_references.py
+uv run --python 3.11 python scripts/validate_architecture_metadata.py
 uv run --python 3.11 pytest
 uv run --python 3.11 ruff check .
 uv run --python 3.11 --group docs mkdocs build --strict
