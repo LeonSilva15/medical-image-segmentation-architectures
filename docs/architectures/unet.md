@@ -59,25 +59,47 @@ paper.
 ### Module Structure
 
 `DoubleConv` is the repeated local feature extractor. It applies two `3x3`
-convolutions with ReLU activations. Both convolutions use padding, so the block
-changes channel count but preserves height and width.
+convolutions with configurable activation, optional normalization, and optional
+dropout. Both convolutions use padding, so the block changes channel count but
+preserves height and width.
 
 The core block is intentionally small: padding keeps each block shape-preserving,
 while the second convolution gives the model another local mixing step before
-any pooling or upsampling changes resolution.
+any pooling or upsampling changes resolution. The defaults keep the original
+compact behavior: no normalization, ReLU activations, and no dropout.
 
 ??? example "Code: `DoubleConv` block"
 
     ```python
     class DoubleConv(nn.Module):
-        def __init__(self, in_channels: int, out_channels: int) -> None:
+        def __init__(
+            self,
+            in_channels: int,
+            out_channels: int,
+            *,
+            norm: str = "none",
+            activation: str = "relu",
+            dropout: float = 0.0,
+        ) -> None:
             super().__init__()
-            self.layers = nn.Sequential(
-                nn.Conv2d(in_channels, out_channels, kernel_size=3, padding=1),
-                nn.ReLU(inplace=True),
-                nn.Conv2d(out_channels, out_channels, kernel_size=3, padding=1),
-                nn.ReLU(inplace=True),
+            layers: list[nn.Module] = []
+            _add_conv_step(
+                layers,
+                in_channels,
+                out_channels,
+                norm,
+                activation,
+                dropout,
             )
+            _add_conv_step(
+                layers,
+                out_channels,
+                out_channels,
+                norm,
+                activation,
+                dropout,
+            )
+            self.layers = nn.Sequential(*layers)
 
         def forward(self, x: torch.Tensor) -> torch.Tensor:
             return self.layers(x)
@@ -107,7 +129,15 @@ of the model while still letting the depth be controlled by `features`.
 
     current_channels = in_channels
     for feature_count in feature_list:
-        self.down_blocks.append(DoubleConv(current_channels, feature_count))
+        self.down_blocks.append(
+            DoubleConv(
+                current_channels,
+                feature_count,
+                norm=norm,
+                activation=activation,
+                dropout=dropout,
+            )
+        )
         current_channels = feature_count
     ```
 
@@ -121,27 +151,51 @@ the decoder has one upsampling and skip-fusion stage for every encoder stage.
 ??? example "Code: bottleneck and decoder construction"
 
     ```python
-    self.bottleneck = DoubleConv(feature_list[-1], feature_list[-1] * 2)
+    self.bottleneck = DoubleConv(
+        feature_list[-1],
+        feature_list[-1] * 2,
+        norm=norm,
+        activation=activation,
+        dropout=dropout,
+    )
 
     current_channels = feature_list[-1] * 2
     for feature_count in reversed(feature_list):
-        self.up_transposes.append(
-            nn.ConvTranspose2d(
-                current_channels,
+        if up_mode == "transpose":
+            self.up_layers.append(
+                nn.ConvTranspose2d(
+                    current_channels,
+                    feature_count,
+                    kernel_size=2,
+                    stride=2,
+                )
+            )
+        else:
+            self.up_layers.append(
+                nn.Conv2d(current_channels, feature_count, kernel_size=1)
+            )
+        self.up_blocks.append(
+            DoubleConv(
+                feature_count * 2,
                 feature_count,
-                kernel_size=2,
-                stride=2,
+                norm=norm,
+                activation=activation,
+                dropout=dropout,
             )
         )
-        self.up_blocks.append(DoubleConv(feature_count * 2, feature_count))
         current_channels = feature_count
     ```
 
 ### Decoder And Skip Fusion
 
-Each decoder stage starts with a transposed convolution that learns a `2x`
-upsampling operation. The upsampled decoder tensor is then concatenated with the
-matching encoder skip tensor along the channel dimension. The following
+Each decoder stage first restores the decoder tensor to the matching skip
+resolution and channel width. The default `up_mode="transpose"` path uses a
+transposed convolution that learns a `2x` upsampling operation. The
+`up_mode="interpolate"` path uses bilinear interpolation to the skip size,
+followed by a `1x1` convolution that projects channels before concatenation.
+
+The upsampled decoder tensor is then concatenated with the matching encoder skip
+tensor along the channel dimension. The following
 `DoubleConv` mixes those copied high-resolution features with the decoder's
 coarser semantic features.
 
@@ -166,20 +220,29 @@ encoder detail with decoder context.
 
     x = self.bottleneck(x)
 
-    for skip, up_transpose, up_block in zip(
+    for skip, up_layer, up_block in zip(
         reversed(skips),
-        self.up_transposes,
+        self.up_layers,
         self.up_blocks,
         strict=True,
     ):
-        x = up_transpose(x)
-        if x.shape[-2:] != skip.shape[-2:]:
+        if self.up_mode == "transpose":
+            x = up_layer(x)
+            if x.shape[-2:] != skip.shape[-2:]:
+                x = F.interpolate(
+                    x,
+                    size=skip.shape[-2:],
+                    mode="bilinear",
+                    align_corners=False,
+                )
+        else:
             x = F.interpolate(
                 x,
                 size=skip.shape[-2:],
                 mode="bilinear",
                 align_corners=False,
             )
+            x = up_layer(x)
         x = torch.cat((skip, x), dim=1)
         x = up_block(x)
     ```
@@ -209,7 +272,7 @@ deeper implementation material, use the U-Net resource pages:
 
 - [Full Code](unet/code.md): complete `UNet2D` source mirrored from the
   repository implementation.
-- [Cookbook](unet/cookbook.md): planned practical recipes using synthetic tensors.
+- [Cookbook](unet/cookbook.md): practical recipes using synthetic tensors.
 - [Live Example](unet/live-example.md): planned interactive or executable
   synthetic demo area.
 
@@ -244,6 +307,13 @@ input `(1, 1, 65, 73)` flows through the model as follows:
 - Change `features` by keeping a shallow-to-deep sequence of positive integers.
   More stages increase the amount of pooling and context; wider stages increase
   parameters and memory use.
+- Use `norm="batch"`, `norm="instance"`, or `norm="group"` when an experiment
+  needs normalization. Group normalization chooses the largest valid group count
+  up to eight groups, falling back to one group for awkward channel counts.
+- Use `activation="leaky_relu"` or `activation="gelu"` for quick activation
+  experiments, and keep `dropout` in `[0.0, 1.0)`.
+- Use `up_mode="interpolate"` to try interpolation plus `1x1` projection instead
+  of the default transposed-convolution decoder.
 - The shape tests protect the contract that output logits preserve the input
   height and width, including odd spatial sizes where pooling and upsampling do
   not divide evenly.
