@@ -15,7 +15,9 @@ Every architecture in `data/architectures.yml` must declare whether it is `refer
 
 For v1, use plain PyTorch, pytest, and PyYAML. Delay MONAI, TorchIO, notebooks, public dataset scripts, and CI until the baseline project shape is stable. Synthetic data is the default for demos and tests; do not add private medical images, PHI, patient identifiers, DICOM headers, or clinical data. This project is for research and education, not clinical diagnosis.
 
-Track completed work, current decisions, planned work, and blockers in `tracker.md` as the project evolves.
+Track current decisions, planned milestones, and active blockers in `ROADMAP.md`
+as the project evolves. Use git history, release notes, or issues for completed
+work history.
 
 ## 1. Recommended project structure
 
@@ -92,7 +94,7 @@ This repository documents and implements important medical image segmentation ar
   - a short demo under demos/
 - Use synthetic data for tests and demos unless a public, properly licensed dataset is explicitly configured.
 - Do not add private medical images, PHI, patient identifiers, DICOM headers, or clinical data to the repo.
-- Keep tracker.md current when work is completed, plans change, or blockers are discovered.
+- Use ROADMAP.md for current project direction, planned milestones, and active blockers.
 - Keep tests CPU-friendly and fast.
 - After code changes, run:
   - python -m pytest
@@ -447,7 +449,7 @@ Create:
 - demos/
 - docs/
 - data/architectures.yml
-- tracker.md
+- ROADMAP.md
 - scripts/validate_references.py
 
 Constraints:
@@ -457,7 +459,7 @@ Constraints:
 - README should explain the project goal and include a placeholder Mermaid diagram.
 - architecture metadata must live in data/architectures.yml.
 - Every architecture entry must have implementation_status set to reference-only or implemented.
-- tracker.md must log completed work, decisions, planned work, and blockers.
+- ROADMAP.md must record current decisions, planned milestones, and active blockers.
 
 Done when:
 - python -m pytest runs successfully
@@ -483,7 +485,8 @@ Also add:
 - tests/test_model_shapes.py with shape tests
 - demos/demo_forward_pass.py that runs a synthetic tensor through the model
 - update data/architectures.yml to mark U-Net as implemented
-- update tracker.md with the completed work and any follow-up items
+- update ROADMAP.md only if the work changes project direction, planned
+  milestones, or active blockers
 
 Done when:
 - python -m pytest passes
@@ -565,10 +568,11 @@ Rules:
 - Do not add dependencies just because they are common in the field.
 - Keep tests CPU-only.
 - Do not download datasets in tests.
-- Update README.md, pyproject.toml, and tracker.md if dependencies are added.
+- Update README.md, pyproject.toml, and ROADMAP.md if dependencies change project
+  direction, planned milestones, or active blockers.
 
 Done when:
-- the decision is recorded in tracker.md
+- the decision is recorded in ROADMAP.md or a linked issue
 - dependency changes, if any, are justified by a concrete milestone
 ```
 

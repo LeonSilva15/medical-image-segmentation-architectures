@@ -40,8 +40,8 @@ architectures and their major modifications.
   is explicitly configured.
 - Do not add private medical images, PHI, patient identifiers, DICOM headers, or
   clinical data.
-- Keep `tracker.md` current when work is completed, plans change, or blockers are
-  discovered.
+- Use `ROADMAP.md` for current project direction, planned milestones, and active
+  blockers. Use git history and issues for completed work history.
 
 ## Commands
 
@@ -60,5 +60,5 @@ architectures and their major modifications.
 
 ## Definition Of Done
 
-A task is done only when book pages, architecture metadata, tests, demos, and the
-tracker are consistent.
+A task is done only when affected book pages, architecture metadata, tests, demos,
+and project direction docs are consistent.

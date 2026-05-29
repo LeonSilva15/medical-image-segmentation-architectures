@@ -1,7 +1,7 @@
 # Adding An Architecture
 
 Use this checklist when adding a new architecture entry, chapter, or implementation.
-The goal is to keep the book, metadata, code, tests, demos, and tracker aligned.
+The goal is to keep the book, metadata, code, tests, and demos aligned.
 
 ## Decision Checkpoint
 
@@ -36,8 +36,8 @@ item below is complete.
   dataset is explicitly configured.
 - [ ] Do not add private medical images, PHI, patient identifiers, DICOM headers,
   or clinical data.
-- [ ] Update `tracker.md` when work is completed, plans change, or blockers are
-  discovered.
+- [ ] Update `ROADMAP.md` only when project-level direction, planned milestones,
+  or active blockers change.
 
 ## Reference-Only Checklist
 
