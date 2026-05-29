@@ -8,12 +8,31 @@ height, and width are modeled together.
 
 For the direct 2D U-Net-to-volume translation, see
 [3D U-Net](3d-unet.md). V-Net is a related volumetric encoder-decoder branch
-with its own design choices rather than a dependency of that page.
+with its own design choices rather than a dependency of that page. Its most
+important teaching points are full-volume thinking, a V-shaped 3D
+encoder-decoder, and a Dice-style objective for highly imbalanced segmentation
+targets.
 
 ## What Problem It Solved
 
-Medical scans are often volumetric. V-Net addresses this by using 3D operations
-for dense segmentation of full volume patches.
+Medical scans are often volumetric. A 2D slice model can segment each image
+plane, but it cannot directly model whether anatomy continues, narrows, or
+branches across neighboring slices. V-Net addresses that gap by using 3D
+operations for dense segmentation of volume patches.
+
+The original motivation was not just to make a larger 2D network. V-Net treated
+segmentation as a volumetric prediction problem: the input is a 3D scan region,
+the output is a 3D voxel mask, and the model learns local shape cues across
+depth, height, and width together. That makes it a useful reference point for
+tasks where the foreground structure is easier to identify from spatial
+continuity than from a single slice.
+
+V-Net also highlighted a training issue that is common in medical segmentation:
+the foreground can occupy a small fraction of the volume. If a loss is dominated
+by the many background voxels, the model can appear numerically successful while
+still under-segmenting the structure of interest. Dice-style objectives compare
+the predicted foreground region with the target foreground region, so they put
+more direct pressure on overlap for imbalanced foreground/background problems.
 
 ## Visual Architecture Schematic
 
@@ -37,6 +56,22 @@ graph LR
 2. Downsampling increases the receptive field across depth, height, and width.
 3. The decoder upsamples and reuses encoder features through skip connections.
 4. A final `1x1x1` convolution returns per-voxel logits.
+
+## 3D U-Net vs V-Net
+
+Both models belong to the 3D U-Net family in this book because both use
+volumetric encoder-decoder segmentation. The practical distinction is that
+[3D U-Net](3d-unet.md) is easiest to read as a direct dimensional upgrade of
+U-Net, while V-Net is a parallel 3D design that emphasizes volumetric residual
+blocks and Dice-style optimization.
+
+| Topic | 3D U-Net | V-Net |
+| --- | --- | --- |
+| Input assumptions | 3D volume patches, with the original paper focused on dense predictions from sparse volumetric annotation. | 3D volume patches, with the original paper focused on fully convolutional volumetric medical segmentation. |
+| Convolution type | Replaces U-Net's 2D convolution, pooling, upsampling, and output operations with 3D counterparts. | Uses 3D convolutional analysis and synthesis paths for voxelwise volume prediction. |
+| Skip/fusion style | Keeps the familiar U-Net idea of matching encoder-to-decoder 3D skips. | Uses V-shaped encoder-decoder feature reuse with V-Net-specific block design rather than being only a literal 3D U-Net translation. |
+| Loss emphasis | Often taught through sparse-label volumetric supervision and loss masking. | Strongly associated with a Dice-style objective for foreground/background imbalance. |
+| Practical tradeoffs | Good starting point when you want the clearest extension from 2D U-Net to 3D tensors. | Good starting point when the task is volumetric, foreground is small, and overlap-oriented training behavior is central. |
 
 ## Minimum Architecture Form
 
@@ -119,25 +154,46 @@ model, does not include a demo, and does not claim to reproduce the full paper.
 ## Learning Notes For Practitioners
 
 - The minimum form is intentionally small so the 3D tensor path is visible.
+- V-Net is a useful starting point when the target is genuinely volumetric and
+  a 2D slice model would miss through-plane context.
+- Dice-style losses are useful when foreground voxels are rare compared with
+  background voxels, but they do not remove the need for careful sampling,
+  preprocessing, and validation metrics.
 - Real 3D models need careful memory planning because volume tensors grow
-  quickly.
+  quickly across depth, height, width, channels, batch activations, and
+  gradients.
+- Patch size, batch size, feature width, and sliding-window inference strategy
+  are architecture decisions, not just training details.
+- Voxel spacing, orientation, cropping, and intensity normalization can change
+  what the network sees as a local 3D pattern.
 - Tests and demos for any future implementation should use small synthetic
   volumes unless a public, properly licensed dataset is configured.
 
 ## What Changed Relative To U-Net
 
 V-Net moves the U-Net-style encoder-decoder idea from 2D image tensors to 3D
-volume tensors.
+volume tensors. It is related to [3D U-Net](3d-unet.md), but it is not merely
+the same page with a different name: V-Net is commonly taught for its
+volumetric V-shaped design choices and Dice-style training objective, while 3D
+U-Net is commonly taught as the direct 3D counterpart of the original U-Net
+pattern.
 
 ## Strengths
 
 - Models local structure across depth, height, and width.
 - Fits volumetric segmentation tasks more directly than a slice-only 2D model.
+- Makes overlap-oriented training central for imbalanced medical masks.
+- Serves as a useful baseline family for organ, lesion, or anatomy segmentation
+  where 3D context is important.
 
 ## Limitations
 
 - The local page is reference-only and does not include tested package code.
 - 3D convolutional models are more memory intensive than 2D slice models.
+- Training often requires small patches, small batches, or both.
+- Patch-based inference can introduce stitching and boundary considerations.
+- Performance depends heavily on preprocessing choices such as voxel spacing,
+  orientation, cropping, and intensity normalization.
 
 ## Implementation Status
 
