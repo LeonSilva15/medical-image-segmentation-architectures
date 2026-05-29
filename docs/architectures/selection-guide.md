@@ -52,8 +52,8 @@ The book also separates where an idea came from:
   medical imaging.
 
 The canonical architecture list lives in `data/architectures.yml`. Related names
-such as base SAM, SAM-Med2D, MedSAM2, and Swin UNETR are useful context, but
-they are not separate local architecture pages in the current registry.
+such as base SAM, SAM-Med2D, and MedSAM2 are useful context, but they are not
+separate local architecture pages in the current registry.
 
 ## Taxonomy At A Glance
 
@@ -77,9 +77,19 @@ preprocessing, training, inference, and postprocessing choices, not only on the
 network block.
 
 Transformer and hybrid models are represented by [TransUNet](transunet.md),
-[Swin-Unet](swin-unet.md), and [UNETR](unetr.md). They show different ways to add
-attention-based context to U-Net-style segmentation. Swin UNETR is related
-context for this family, but it is not a separate current page.
+[Swin-Unet](swin-unet.md), [UNETR](unetr.md), and
+[Swin UNETR](swin-unetr.md). They show different ways to add attention-based
+context to U-Net-style segmentation in 2D, 3D, convolutional-hybrid, and
+shifted-window forms.
+
+## Transformer Branch Comparison
+
+| Architecture | Distinction |
+| --- | --- |
+| [TransUNet](transunet.md) | CNN/U-Net hybrid with Transformer context. |
+| [Swin-Unet](swin-unet.md) | Swin Transformer U-shaped segmentation idea. |
+| [UNETR](unetr.md) | Transformer encoder with U-Net-like decoder for 3D medical segmentation. |
+| [Swin UNETR](swin-unetr.md) | Shifted-window Transformer encoder for 3D medical segmentation. |
 
 Promptable and foundation-model-style segmentation is represented by
 [MedSAM](medsam.md). The broader SAM family explains the promptable segmentation
@@ -100,6 +110,7 @@ and MedSAM2 are related context, but they are not separate current pages.
 | [TransUNet](transunet.md) | Medical Transformer hybrid | Combines U-Net-style decoding with Transformer context modeling. | Learn the bridge from CNN baselines to Transformer encoders. | reference-only |
 | [Swin-Unet](swin-unet.md) | Medical Transformer U-shape | Rebuilds a U-shaped segmentation model around shifted-window Transformer blocks. | Study a more Transformer-native U-shaped design. | reference-only |
 | [UNETR](unetr.md) | Medical 3D Transformer | Applies Transformer encoding to volumetric segmentation. | Learn how Transformer ideas are adapted to 3D medical volumes. | reference-only |
+| [Swin UNETR](swin-unetr.md) | Medical 3D shifted-window Transformer | Applies Swin-style shifted-window attention to UNETR-style volumetric segmentation. | Compare full-token and windowed Transformer encoders for 3D segmentation. | reference-only |
 | [MedSAM](medsam.md) | Promptable medical foundation-model adaptation | Represents prompt-conditioned medical segmentation workflows. | Understand how prompts change the segmentation interface. | reference-only |
 
 ## What This Guide Does Not Claim

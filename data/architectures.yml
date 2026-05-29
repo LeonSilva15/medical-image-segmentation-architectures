@@ -276,6 +276,32 @@ architectures:
     tests: false
     demo: false
 
+  - id: swin_unetr
+    slug: swin-unetr
+    name: Swin UNETR
+    year: 2022
+    family: 3D shifted-window Transformer
+    parent: unetr
+    chapter_path: docs/architectures/swin-unetr.md
+    paper_title: "Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images"
+    doi: null
+    arxiv: "2201.01266"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2201.01266
+    modification: Uses a shifted-window Swin Transformer encoder for 3D medical segmentation.
+    technical_summary: >
+      Swin UNETR adapts UNETR-style 3D encoder-decoder segmentation with a
+      hierarchical shifted-window Swin Transformer encoder.
+    understandable_summary: >
+      Swin UNETR applies Swin Transformer window attention to 3D medical
+      segmentation volumes.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
   - id: medsam
     slug: medsam
     name: MedSAM

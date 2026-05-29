@@ -15,4 +15,5 @@ original papers for formal citation details.
 | TransUNet | TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation | Not listed | [2102.04306](https://arxiv.org/abs/2102.04306) |
 | Swin-Unet | Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation | Not listed | [2105.05537](https://arxiv.org/abs/2105.05537) |
 | UNETR | UNETR: Transformers for 3D Medical Image Segmentation | [10.1109/WACV51458.2022.00181](https://doi.org/10.1109/WACV51458.2022.00181) | [2103.10504](https://arxiv.org/abs/2103.10504) |
+| Swin UNETR | Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images | Not listed | [2201.01266](https://arxiv.org/abs/2201.01266) |
 | MedSAM | Segment Anything in Medical Images | [10.1038/s41467-024-44824-z](https://doi.org/10.1038/s41467-024-44824-z) | [2304.12306](https://arxiv.org/abs/2304.12306) |

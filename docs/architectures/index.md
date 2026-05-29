@@ -19,6 +19,7 @@ the [Architecture Selection Guide](selection-guide.md).
 | TransUNet | 2021 | Transformer hybrid | reference-only | U-Net | [Read](transunet.md) |
 | Swin-Unet | 2021 | Transformer U-shape | reference-only | TransUNet | [Read](swin-unet.md) |
 | UNETR | 2022 | 3D Transformer | reference-only | TransUNet | [Read](unetr.md) |
+| Swin UNETR | 2022 | 3D shifted-window Transformer | reference-only | UNETR | [Read](swin-unetr.md) |
 | MedSAM | 2024 | Promptable foundation model | reference-only | None | [Read](medsam.md) |
 
 ## How Chapters Will Grow

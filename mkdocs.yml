@@ -54,6 +54,7 @@ nav:
       - TransUNet: architectures/transunet.md
       - Swin-Unet: architectures/swin-unet.md
       - UNETR: architectures/unetr.md
+      - Swin UNETR: architectures/swin-unetr.md
       - MedSAM: architectures/medsam.md
   - Contributing:
       - Overview: contributing/index.md
