@@ -4,6 +4,9 @@ This index separates documented concepts from implemented code. `reference-only`
 means the architecture is included for learning and citations, but this
 repository does not yet provide a tested implementation.
 
+For a beginner-friendly explanation of why these architectures come first, see
+the [Architecture Selection Guide](selection-guide.md).
+
 | Architecture | Year | Family | Status | Parent | Chapter |
 | --- | ---: | --- | --- | --- | --- |
 | FCN | 2015 | Dense prediction | reference-only | None | [Read](fcn.md) |

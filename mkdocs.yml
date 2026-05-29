@@ -39,6 +39,7 @@ nav:
       - Architecture Lineage: evolution/lineage.md
   - Architectures:
       - Architecture Index: architectures/index.md
+      - Architecture Selection Guide: architectures/selection-guide.md
       - FCN: architectures/fcn.md
       - U-Net:
           - Overview: architectures/unet.md
