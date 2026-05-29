@@ -27,6 +27,41 @@ Segmentation pages also use the word `logits`. Logits are raw model scores
 before an interpretation step such as `sigmoid` for binary masks or `softmax`
 for mutually exclusive classes.
 
+## Inspecting Feature Widths In Code
+
+Feature widths control how many channels the model carries at each resolution.
+Two U-Net variants can preserve the same input and output shapes while using
+very different numbers of parameters internally. The inspection utilities use
+synthetic CPU tensors, so they are safe for quick educational checks without
+loading medical images or external datasets.
+
+```python
+from medseg_architectures import UNet2D, shape_trace, summarize_parameters
+
+input_shape = (1, 1, 65, 73)
+
+for features in [(8, 16), (16, 32, 64)]:
+    model = UNet2D(in_channels=1, out_channels=2, features=features)
+    summary = summarize_parameters(model)
+    trace = shape_trace(model, input_shape)
+
+    print(f"features={features}")
+    print(
+        "parameters="
+        f"total:{summary.total}, "
+        f"trainable:{summary.trainable}, "
+        f"frozen:{summary.frozen}"
+    )
+
+    for entry in trace:
+        if entry.module_type in {"Conv2d", "ConvTranspose2d", "MaxPool2d"}:
+            print(f"{entry.module_name}: {entry.input_shape} -> {entry.output_shape}")
+```
+
+The parameter summary shows the capacity cost of wider feature maps. The shape
+trace shows where spatial size shrinks, where channels widen, and where the
+decoder restores the output to `(B, K, H, W)`.
+
 ## Encoder
 
 The encoder compresses the image into lower-resolution feature maps. It usually
