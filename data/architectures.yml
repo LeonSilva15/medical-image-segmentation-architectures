@@ -330,3 +330,55 @@ architectures:
     code_path: null
     tests: false
     demo: false
+
+  - id: sam_med2d
+    slug: sam-med2d
+    name: SAM-Med2D
+    year: 2023
+    family: Promptable foundation model, 2D medical adaptation
+    parent: null
+    chapter_path: docs/architectures/sam-med2d.md
+    paper_title: SAM-Med2D
+    doi: null
+    arxiv: "2308.16184"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2308.16184
+    modification: Adapts SAM-style promptable segmentation to 2D medical images.
+    technical_summary: >
+      SAM-Med2D fine-tunes SAM-style image and prompt conditioning for 2D medical
+      image segmentation workflows with point, box, and mask prompts.
+    understandable_summary: >
+      SAM-Med2D shows how promptable segmentation can be adapted to 2D medical
+      images, while still requiring medical-domain validation.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+  - id: medsam2
+    slug: medsam2
+    name: MedSAM2
+    year: 2025
+    family: Promptable foundation model, 3D and video
+    parent: null
+    chapter_path: docs/architectures/medsam2.md
+    paper_title: "MedSAM2: Segment Anything in 3D Medical Images and Videos"
+    doi: null
+    arxiv: "2504.03600"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2504.03600
+    modification: Extends promptable medical segmentation toward 3D images and videos.
+    technical_summary: >
+      MedSAM2 adapts SAM2-style memory-conditioned prompting for medical 3D image
+      and video segmentation across slices or frames.
+    understandable_summary: >
+      MedSAM2 shows how promptable segmentation can use memory across slices or
+      frames instead of treating every medical image independently.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false

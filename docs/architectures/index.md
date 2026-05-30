@@ -21,6 +21,8 @@ the [Architecture Selection Guide](selection-guide.md).
 | UNETR | 2022 | 3D Transformer | reference-only | TransUNet | [Read](unetr.md) |
 | Swin UNETR | 2022 | 3D shifted-window Transformer | reference-only | UNETR | [Read](swin-unetr.md) |
 | MedSAM | 2024 | Promptable foundation model | reference-only | None | [Read](medsam.md) |
+| SAM-Med2D | 2023 | Promptable foundation model, 2D medical adaptation | reference-only | None | [Read](sam-med2d.md) |
+| MedSAM2 | 2025 | Promptable foundation model, 3D and video | reference-only | None | [Read](medsam2.md) |
 
 ## How Chapters Will Grow
 

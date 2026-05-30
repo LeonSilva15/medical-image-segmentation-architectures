@@ -51,9 +51,10 @@ The book also separates where an idea came from:
   newer medical segmentation workflow, even if the base family is broader than
   medical imaging.
 
-The canonical architecture list lives in `data/architectures.yml`. Related names
-such as base SAM, SAM-Med2D, and MedSAM2 are useful context, but they are not
-separate local architecture pages in the current registry.
+The canonical architecture list lives in `data/architectures.yml`. Base SAM and
+SAM2 are useful general-computer-vision context, while [MedSAM](medsam.md),
+[SAM-Med2D](sam-med2d.md), and [MedSAM2](medsam2.md) are tracked as
+reference-only medical promptable entries.
 
 ## Taxonomy At A Glance
 
@@ -92,9 +93,10 @@ shifted-window forms.
 | [Swin UNETR](swin-unetr.md) | Shifted-window Transformer encoder for 3D medical segmentation. |
 
 Promptable and foundation-model-style segmentation is represented by
-[MedSAM](medsam.md). The broader SAM family explains the promptable segmentation
-idea, while MedSAM is the current canonical medical page in this book. SAM-Med2D
-and MedSAM2 are related context, but they are not separate current pages.
+[MedSAM](medsam.md), [SAM-Med2D](sam-med2d.md), and
+[MedSAM2](medsam2.md). MedSAM introduces the medical SAM-style idea,
+SAM-Med2D focuses on 2D medical adaptation, and MedSAM2 focuses on 3D image and
+video-style prompting with memory across slices or frames.
 
 ## Architecture Coverage Table
 
@@ -112,6 +114,8 @@ and MedSAM2 are related context, but they are not separate current pages.
 | [UNETR](unetr.md) | Medical 3D Transformer | Applies Transformer encoding to volumetric segmentation. | Learn how Transformer ideas are adapted to 3D medical volumes. | reference-only |
 | [Swin UNETR](swin-unetr.md) | Medical 3D shifted-window Transformer | Applies Swin-style shifted-window attention to UNETR-style volumetric segmentation. | Compare full-token and windowed Transformer encoders for 3D segmentation. | reference-only |
 | [MedSAM](medsam.md) | Promptable medical foundation-model adaptation | Represents prompt-conditioned medical segmentation workflows. | Understand how prompts change the segmentation interface. | reference-only |
+| [SAM-Med2D](sam-med2d.md) | Promptable 2D medical adaptation | Shows how SAM-style prompting is adapted to 2D medical images. | Compare point, box, and mask prompts for 2D medical segmentation. | reference-only |
+| [MedSAM2](medsam2.md) | Promptable 3D and video medical adaptation | Adds memory-conditioned prompting for medical slices and frames. | Understand why 3D and video prompting need continuity validation. | reference-only |
 
 ## What This Guide Does Not Claim
 

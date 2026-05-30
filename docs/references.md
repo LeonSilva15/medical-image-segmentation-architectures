@@ -17,3 +17,5 @@ original papers for formal citation details.
 | UNETR | UNETR: Transformers for 3D Medical Image Segmentation | [10.1109/WACV51458.2022.00181](https://doi.org/10.1109/WACV51458.2022.00181) | [2103.10504](https://arxiv.org/abs/2103.10504) |
 | Swin UNETR | Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images | Not listed | [2201.01266](https://arxiv.org/abs/2201.01266) |
 | MedSAM | Segment Anything in Medical Images | [10.1038/s41467-024-44824-z](https://doi.org/10.1038/s41467-024-44824-z) | [2304.12306](https://arxiv.org/abs/2304.12306) |
+| SAM-Med2D | SAM-Med2D | Not listed | [2308.16184](https://arxiv.org/abs/2308.16184) |
+| MedSAM2 | MedSAM2: Segment Anything in 3D Medical Images and Videos | Not listed | [2504.03600](https://arxiv.org/abs/2504.03600) |

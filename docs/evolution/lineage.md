@@ -17,7 +17,10 @@ graph TD
     SwinUnet["Swin-Unet<br/>U-shaped Swin Transformer"]
     UNETR["UNETR<br/>3D Transformer encoder"]
     SwinUNETR["Swin UNETR<br/>3D shifted-window encoder"]
+    SAMRoot["SAM / SAM2 context<br/>General promptable segmentation"]
     MedSAM["MedSAM<br/>Promptable medical segmentation"]
+    SAMMed2D["SAM-Med2D<br/>2D medical prompting"]
+    MedSAM2["MedSAM2<br/>3D and video prompting"]
 
     FCN --> UNet
     UNet --> UNet3D
@@ -30,7 +33,9 @@ graph TD
     TransUNet --> UNETR
     UNETR --> SwinUNETR
     SwinUnet --> SwinUNETR
-    MedSAM
+    SAMRoot --> MedSAM
+    SAMRoot --> SAMMed2D
+    SAMRoot --> MedSAM2
 ```
 
 ## Main Branches
@@ -41,7 +46,7 @@ graph TD
 | U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), U-Net++, Attention U-Net |
 | Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | nnU-Net |
 | Transformer hybrids | Add attention-based global context to segmentation architectures. | TransUNet, Swin-Unet, UNETR, Swin UNETR |
-| Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | MedSAM |
+| Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | [MedSAM](../architectures/medsam.md), [SAM-Med2D](../architectures/sam-med2d.md), [MedSAM2](../architectures/medsam2.md) |
 
 ## Reading Order
 
@@ -54,4 +59,7 @@ branches. In the Transformer branch, read [TransUNet](../architectures/transunet
 for the CNN/Transformer hybrid bridge, [Swin-Unet](../architectures/swin-unet.md)
 for shifted-window U-shaped 2D segmentation, [UNETR](../architectures/unetr.md)
 for 3D Transformer encoding, and [Swin UNETR](../architectures/swin-unetr.md)
-for shifted-window Transformer encoding in 3D.
+for shifted-window Transformer encoding in 3D. In the promptable branch, read
+[MedSAM](../architectures/medsam.md) for the basic medical SAM-style interface,
+[SAM-Med2D](../architectures/sam-med2d.md) for 2D medical adaptation, and
+[MedSAM2](../architectures/medsam2.md) for 3D image and video-style prompting.

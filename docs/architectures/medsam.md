@@ -6,6 +6,10 @@ MedSAM represents promptable medical image segmentation. Instead of predicting a
 fixed task-specific mask from only an image, a prompt such as a box guides the
 segmentation output.
 
+In this book, MedSAM is the general medical SAM-style reference page. Related
+reference-only pages cover [SAM-Med2D](sam-med2d.md) for 2D medical adaptation
+and [MedSAM2](medsam2.md) for 3D image and video-style prompting.
+
 ## What Problem It Solved
 
 Promptable segmentation changes the workflow from one fixed class head to an
@@ -122,6 +126,11 @@ to reproduce the full paper.
 MedSAM-style segmentation conditions the mask on a prompt rather than using only
 a fixed output head for one predefined task.
 
+Classic fully supervised segmentation usually follows `image -> fixed task mask`.
+SAM-style prompting changes the interface to `image + prompt -> prompted mask`.
+The prompt can be a point, box, or mask-like cue, but it is conditioning input,
+not a ground-truth label or a clinical decision.
+
 ## Strengths
 
 - Makes prompt-conditioned segmentation explicit.
@@ -132,6 +141,8 @@ a fixed output head for one predefined task.
 - The local page is reference-only and does not include tested package code.
 - The minimum sketch is not a foundation-model implementation and does not load
   pretrained weights.
+- Medical deployment requires independent validation for the modality, scanner,
+  site, annotator policy, prompt policy, and clinical workflow.
 
 ## Implementation Status
 
