@@ -88,7 +88,7 @@
   position: relative;
   flex: 1;
   min-height: 0;
-  overflow: hidden;
+  overflow: auto;
   background:
     linear-gradient(90deg, var(--md-default-bg-color) 19px, transparent 1%) center / 20px 20px,
     linear-gradient(var(--md-default-bg-color) 19px, transparent 1%) center / 20px 20px,
@@ -103,22 +103,18 @@
 }
 
 .diagram-viewer__viewport {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transform:
-    translate(-50%, -50%)
-    translate(var(--diagram-viewer-x, 0px), var(--diagram-viewer-y, 0px))
-    scale(var(--diagram-viewer-scale, 1));
-  transform-origin: center;
-  will-change: transform;
+  display: grid;
+  min-width: 100%;
+  min-height: 100%;
+  place-items: center;
 }
 
-.diagram-viewer__viewport > .mermaid {
+.diagram-viewer__svg {
+  display: block;
+  flex: none;
+  height: auto;
   max-width: none;
+  max-height: none;
 }
 
 .diagram-viewer-open {

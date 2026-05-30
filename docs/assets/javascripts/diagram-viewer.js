@@ -1,15 +1,165 @@
 (function () {
   const prepared = new WeakSet();
+  const MIN_SCALE = 0.05;
+  const MAX_SCALE = 8;
+  const VIEWPORT_PADDING = 48;
+
   let active = null;
   let modal = null;
   let viewport = null;
   let stage = null;
   let scaleLabel = null;
-  let state = { scale: 1, x: 0, y: 0 };
+  let state = { scale: 1 };
   let pan = null;
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
+  }
+
+  function escapeRegExp(value) {
+    return value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+
+  function parseSvgLength(value) {
+    if (!value || value.includes("%")) {
+      return null;
+    }
+
+    const match = value.match(/^-?\d*\.?\d+/);
+    if (!match) {
+      return null;
+    }
+
+    const number = Number.parseFloat(match[0]);
+    return Number.isFinite(number) && number > 0 ? number : null;
+  }
+
+  function getSvgViewBox(svg) {
+    const value = svg.getAttribute("viewBox");
+    if (value) {
+      const parts = value
+        .trim()
+        .split(/[\s,]+/)
+        .map((part) => Number.parseFloat(part));
+
+      if (
+        parts.length === 4 &&
+        parts.every(Number.isFinite) &&
+        parts[2] > 0 &&
+        parts[3] > 0
+      ) {
+        return { width: parts[2], height: parts[3] };
+      }
+    }
+
+    if (svg.viewBox && svg.viewBox.baseVal.width > 0 && svg.viewBox.baseVal.height > 0) {
+      return {
+        width: svg.viewBox.baseVal.width,
+        height: svg.viewBox.baseVal.height,
+      };
+    }
+
+    return null;
+  }
+
+  function getSvgSize(svg) {
+    const viewBox = getSvgViewBox(svg);
+    if (viewBox) {
+      return viewBox;
+    }
+
+    const width = parseSvgLength(svg.getAttribute("width"));
+    const height = parseSvgLength(svg.getAttribute("height"));
+    if (width && height) {
+      return { width, height };
+    }
+
+    const rect = svg.getBoundingClientRect();
+    if (rect.width > 0 && rect.height > 0) {
+      return { width: rect.width, height: rect.height };
+    }
+
+    return { width: 800, height: 600 };
+  }
+
+  function findRenderedSvg(diagram) {
+    if (diagram.tagName && diagram.tagName.toLowerCase() === "svg") {
+      return diagram;
+    }
+
+    return diagram.querySelector("svg");
+  }
+
+  function replaceIdReferences(value, idMap) {
+    let updated = value;
+
+    idMap.forEach((newId, oldId) => {
+      const escaped = escapeRegExp(oldId);
+      updated = updated.replace(
+        new RegExp(`url\\(["']?#${escaped}["']?\\)`, "g"),
+        `url(#${newId})`
+      );
+      if (updated === `#${oldId}`) {
+        updated = `#${newId}`;
+      }
+    });
+
+    return updated;
+  }
+
+  function prefixSvgIds(svg) {
+    const idMap = new Map();
+    const prefix = `diagram-viewer-${Date.now()}-${Math.random().toString(36).slice(2)}`;
+
+    [svg, ...svg.querySelectorAll("[id]")].forEach((element) => {
+      if (!element.id) {
+        return;
+      }
+
+      const oldId = element.id;
+      const newId = `${prefix}-${oldId}`;
+      idMap.set(oldId, newId);
+      element.id = newId;
+    });
+
+    if (!idMap.size) {
+      return;
+    }
+
+    [svg, ...svg.querySelectorAll("*")].forEach((element) => {
+      Array.from(element.attributes).forEach((attribute) => {
+        const updated = replaceIdReferences(attribute.value, idMap);
+        if (updated !== attribute.value) {
+          element.setAttribute(attribute.name, updated);
+        }
+      });
+    });
+
+    svg.querySelectorAll("style").forEach((style) => {
+      style.textContent = replaceIdReferences(style.textContent, idMap);
+    });
+  }
+
+  function cloneDiagramSvg(diagram) {
+    const sourceSvg = findRenderedSvg(diagram);
+    if (!sourceSvg) {
+      return null;
+    }
+
+    const svg = sourceSvg.cloneNode(true);
+    svg.classList.add("diagram-viewer__svg");
+    svg.removeAttribute("width");
+    svg.removeAttribute("height");
+    svg.style.width = "";
+    svg.style.height = "";
+    svg.style.maxWidth = "none";
+    svg.style.maxHeight = "none";
+    prefixSvgIds(svg);
+
+    return {
+      svg,
+      size: getSvgSize(sourceSvg),
+    };
   }
 
   function ensureModal() {
@@ -30,6 +180,7 @@
       '    <div class="diagram-viewer__controls">',
       '      <button class="diagram-viewer__control" type="button" data-diagram-viewer-zoom-out aria-label="Zoom out">-</button>',
       '      <button class="diagram-viewer__control" type="button" data-diagram-viewer-zoom-in aria-label="Zoom in">+</button>',
+      '      <button class="diagram-viewer__control" type="button" data-diagram-viewer-fit>Fit</button>',
       '      <button class="diagram-viewer__control" type="button" data-diagram-viewer-reset>Reset</button>',
       '      <span class="diagram-viewer__control" aria-live="polite" data-diagram-viewer-scale>100%</span>',
       '      <button class="diagram-viewer__control" type="button" data-diagram-viewer-close>Close</button>',
@@ -50,7 +201,8 @@
     modal.querySelectorAll("[data-diagram-viewer-close]").forEach((button) => {
       button.addEventListener("click", closeViewer);
     });
-    modal.querySelector("[data-diagram-viewer-reset]").addEventListener("click", fitDiagram);
+    modal.querySelector("[data-diagram-viewer-fit]").addEventListener("click", fitDiagram);
+    modal.querySelector("[data-diagram-viewer-reset]").addEventListener("click", resetDiagram);
     modal.querySelector("[data-diagram-viewer-zoom-in]").addEventListener("click", () => zoomBy(1.2));
     modal.querySelector("[data-diagram-viewer-zoom-out]").addEventListener("click", () => zoomBy(1 / 1.2));
 
@@ -67,11 +219,61 @@
     });
   }
 
-  function updateTransform() {
-    viewport.style.setProperty("--diagram-viewer-scale", state.scale.toString());
-    viewport.style.setProperty("--diagram-viewer-x", `${state.x}px`);
-    viewport.style.setProperty("--diagram-viewer-y", `${state.y}px`);
+  function getLayout(scale) {
+    const scaledWidth = active.size.width * scale;
+    const scaledHeight = active.size.height * scale;
+    const viewportWidth = Math.max(stage.clientWidth, scaledWidth + VIEWPORT_PADDING * 2);
+    const viewportHeight = Math.max(stage.clientHeight, scaledHeight + VIEWPORT_PADDING * 2);
+
+    return {
+      scaledWidth,
+      scaledHeight,
+      viewportWidth,
+      viewportHeight,
+      offsetX: (viewportWidth - scaledWidth) / 2,
+      offsetY: (viewportHeight - scaledHeight) / 2,
+    };
+  }
+
+  function applyLayout(layout) {
+    viewport.style.width = `${layout.viewportWidth}px`;
+    viewport.style.height = `${layout.viewportHeight}px`;
+    active.svg.style.width = `${layout.scaledWidth}px`;
+    active.svg.style.height = `${layout.scaledHeight}px`;
     scaleLabel.textContent = `${Math.round(state.scale * 100)}%`;
+  }
+
+  function centerDiagram() {
+    stage.scrollLeft = (stage.scrollWidth - stage.clientWidth) / 2;
+    stage.scrollTop = (stage.scrollHeight - stage.clientHeight) / 2;
+  }
+
+  function setScale(nextScale, options) {
+    if (!active || !Number.isFinite(nextScale)) {
+      return;
+    }
+
+    const previousScale = state.scale;
+    const previousLayout = getLayout(previousScale);
+    const stageRect = stage.getBoundingClientRect();
+    const hasAnchor =
+      options && Number.isFinite(options.clientX) && Number.isFinite(options.clientY);
+    const anchorX = hasAnchor ? options.clientX - stageRect.left : stageRect.width / 2;
+    const anchorY = hasAnchor ? options.clientY - stageRect.top : stageRect.height / 2;
+    const contentX = (stage.scrollLeft + anchorX - previousLayout.offsetX) / previousScale;
+    const contentY = (stage.scrollTop + anchorY - previousLayout.offsetY) / previousScale;
+
+    state.scale = clamp(nextScale, MIN_SCALE, MAX_SCALE);
+    const nextLayout = getLayout(state.scale);
+    applyLayout(nextLayout);
+
+    if (options && options.center) {
+      centerDiagram();
+      return;
+    }
+
+    stage.scrollLeft = contentX * state.scale + nextLayout.offsetX - anchorX;
+    stage.scrollTop = contentY * state.scale + nextLayout.offsetY - anchorY;
   }
 
   function fitDiagram() {
@@ -79,24 +281,18 @@
       return;
     }
 
-    state = { scale: 1, x: 0, y: 0 };
-    updateTransform();
+    const widthRatio = Math.max(stage.clientWidth - VIEWPORT_PADDING * 2, 1) / active.size.width;
+    const heightRatio = Math.max(stage.clientHeight - VIEWPORT_PADDING * 2, 1) / active.size.height;
+    const fitScale = clamp(Math.min(widthRatio, heightRatio), MIN_SCALE, MAX_SCALE);
+    setScale(fitScale, { center: true });
+  }
 
-    window.requestAnimationFrame(() => {
-      const diagramRect = active.diagram.getBoundingClientRect();
-      const stageRect = stage.getBoundingClientRect();
-      const widthRatio = (stageRect.width * 0.92) / diagramRect.width;
-      const heightRatio = (stageRect.height * 0.88) / diagramRect.height;
-      state.scale = clamp(Math.min(widthRatio, heightRatio, 1), 0.15, 4);
-      state.x = 0;
-      state.y = 0;
-      updateTransform();
-    });
+  function resetDiagram() {
+    setScale(1, { center: true });
   }
 
   function zoomBy(factor) {
-    state.scale = clamp(state.scale * factor, 0.15, 8);
-    updateTransform();
+    setScale(state.scale * factor);
   }
 
   function onWheel(event) {
@@ -105,7 +301,10 @@
     }
 
     event.preventDefault();
-    zoomBy(event.deltaY < 0 ? 1.12 : 1 / 1.12);
+    setScale(state.scale * (event.deltaY < 0 ? 1.12 : 1 / 1.12), {
+      clientX: event.clientX,
+      clientY: event.clientY,
+    });
   }
 
   function onPointerDown(event) {
@@ -113,12 +312,13 @@
       return;
     }
 
+    event.preventDefault();
     pan = {
       pointerId: event.pointerId,
       startX: event.clientX,
       startY: event.clientY,
-      x: state.x,
-      y: state.y,
+      scrollLeft: stage.scrollLeft,
+      scrollTop: stage.scrollTop,
     };
     stage.classList.add("is-panning");
     stage.setPointerCapture(event.pointerId);
@@ -129,9 +329,8 @@
       return;
     }
 
-    state.x = pan.x + event.clientX - pan.startX;
-    state.y = pan.y + event.clientY - pan.startY;
-    updateTransform();
+    stage.scrollLeft = pan.scrollLeft - (event.clientX - pan.startX);
+    stage.scrollTop = pan.scrollTop - (event.clientY - pan.startY);
   }
 
   function endPan(event) {
@@ -139,28 +338,35 @@
       return;
     }
 
+    if (stage.hasPointerCapture(event.pointerId)) {
+      stage.releasePointerCapture(event.pointerId);
+    }
+
     pan = null;
     stage.classList.remove("is-panning");
   }
 
   function openViewer(diagram) {
+    const cloned = cloneDiagramSvg(diagram);
+    if (!cloned) {
+      return;
+    }
+
     ensureModal();
+    closeViewer();
 
-    const placeholder = document.createElement("div");
-    placeholder.hidden = true;
-    diagram.parentNode.insertBefore(placeholder, diagram);
-
-    active = {
-      diagram,
-      placeholder,
-      parent: placeholder.parentNode,
-    };
-
-    viewport.appendChild(diagram);
+    active = cloned;
+    state = { scale: 1 };
+    viewport.replaceChildren(active.svg);
     modal.classList.add("is-open");
     document.body.classList.add("diagram-viewer-open");
     modal.querySelector("[data-diagram-viewer-close]").focus();
-    fitDiagram();
+
+    window.requestAnimationFrame(() => {
+      if (active) {
+        resetDiagram();
+      }
+    });
   }
 
   function closeViewer() {
@@ -168,9 +374,8 @@
       return;
     }
 
-    active.parent.insertBefore(active.diagram, active.placeholder);
-    active.placeholder.remove();
     viewport.textContent = "";
+    viewport.removeAttribute("style");
     modal.classList.remove("is-open");
     document.body.classList.remove("diagram-viewer-open");
     active = null;
@@ -179,7 +384,7 @@
   }
 
   function prepareDiagram(diagram) {
-    if (prepared.has(diagram) || diagram.closest(".diagram-viewer__modal")) {
+    if (prepared.has(diagram) || diagram.closest(".diagram-viewer__modal") || !findRenderedSvg(diagram)) {
       return;
     }
 
@@ -205,7 +410,7 @@
   }
 
   function scan() {
-    document.querySelectorAll(".md-typeset div.mermaid").forEach(prepareDiagram);
+    document.querySelectorAll(".md-typeset .mermaid").forEach(prepareDiagram);
   }
 
   function scheduleScan() {
