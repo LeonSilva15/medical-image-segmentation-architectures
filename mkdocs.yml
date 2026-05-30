@@ -41,6 +41,7 @@ nav:
       - Architecture Index: architectures/index.md
       - Architecture Selection Guide: architectures/selection-guide.md
       - FCN: architectures/fcn.md
+      - DeepLabv3+: architectures/deeplabv3plus.md
       - U-Net:
           - Overview: architectures/unet.md
           - Full Code: architectures/unet/code.md

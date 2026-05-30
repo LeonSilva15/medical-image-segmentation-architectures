@@ -56,6 +56,36 @@ architectures:
     tests: true
     demo: true
 
+  - id: deeplabv3plus
+    slug: deeplabv3plus
+    name: DeepLabv3+
+    year: 2018
+    family: General CV dense prediction, atrous encoder-decoder
+    parent: fcn
+    chapter_path: docs/architectures/deeplabv3plus.md
+    paper_title: "Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation"
+    doi: 10.1007/978-3-030-01234-2_49
+    arxiv: "1802.02611"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1007/978-3-030-01234-2_49
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1802.02611
+    modification: Combines atrous spatial pyramid pooling with a lightweight decoder.
+    technical_summary: >
+      DeepLabv3+ uses atrous convolution and ASPP to gather multi-scale context,
+      then adds a decoder path that refines coarse segmentation results with
+      lower-level spatial features.
+    understandable_summary: >
+      DeepLabv3+ is a general segmentation model that teaches how dilated
+      convolutions, multi-scale context, and decoder refinement can work together.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
   - id: 3d_unet
     slug: 3d-unet
     name: 3D U-Net
