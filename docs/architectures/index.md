@@ -14,6 +14,7 @@ the [Architecture Selection Guide](selection-guide.md).
 | DeepLabv3+ | 2018 | General CV dense prediction, atrous encoder-decoder | reference-only | FCN | [Read](deeplabv3plus.md) |
 | 3D U-Net | 2016 | U-Net family, 3D | reference-only | U-Net | [Read](3d-unet.md) |
 | V-Net | 2016 | U-Net family, 3D | reference-only | U-Net | [Read](vnet.md) |
+| Residual U-Net / ResUNet-style variants | 2018 | U-Net family, residual variants | reference-only | U-Net | [Read](resunet-style-variants.md) |
 | U-Net++ | 2018 | U-Net family, skip variants | reference-only | U-Net | [Read](unetpp.md) |
 | Attention U-Net | 2018 | U-Net family, attention gates | reference-only | U-Net | [Read](attention-unet.md) |
 | nnU-Net | 2021 | Self-configuring pipeline | reference-only | U-Net | [Read](nnunet.md) |

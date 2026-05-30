@@ -74,9 +74,11 @@ segmentation reference point in this repository. 3D U-Net is the direct
 volumetric extension of that idea, while V-Net represents a related volumetric
 encoder-decoder branch.
 
-U-Net skip and attention variants are represented by [U-Net++](unetpp.md) and
-[Attention U-Net](attention-unet.md). These pages show how later architectures
-modify the information passed from encoder to decoder.
+U-Net block, skip, and attention variants are represented by
+[Residual U-Net / ResUNet-style variants](resunet-style-variants.md),
+[U-Net++](unetpp.md), and [Attention U-Net](attention-unet.md). These pages show
+how later architectures modify the local feature blocks or the information
+passed from encoder to decoder.
 
 Pipeline and self-configuring systems are represented by [nnU-Net](nnunet.md).
 It is included because many practical segmentation results depend on
@@ -113,6 +115,7 @@ video-style prompting with memory across slices or frames.
 | [U-Net](unet.md) | Medical CNN baseline | Establishes the encoder-decoder and skip-connection pattern used by many medical segmentation models. | Start here for a tested local model and the core medical segmentation baseline. | implemented |
 | [3D U-Net](3d-unet.md) | Medical 3D CNN baseline | Extends U-Net's encoder-decoder and skip-connection pattern from 2D images to volumetric patches. | Learn why CT/MRI segmentation often needs through-plane context, patch-based training, and sparse-label handling. | reference-only |
 | [V-Net](vnet.md) | Medical 3D CNN baseline | Extends encoder-decoder segmentation ideas to volumetric inputs. | Learn why 3D scans need different memory and tensor-shape thinking. | reference-only |
+| [Residual U-Net / ResUNet-style variants](resunet-style-variants.md) | Medical U-Net residual variant | Explains the common pattern of replacing plain U-Net convolution blocks with residual blocks. | Compare local block changes with skip-path and attention changes. | reference-only |
 | [U-Net++](unetpp.md) | Medical U-Net skip variant | Shows how nested skip pathways refine the information passed into the decoder. | Compare direct U-Net skips with denser skip designs. | reference-only |
 | [Attention U-Net](attention-unet.md) | Medical U-Net attention variant | Adds attention gates that filter skip-connection features. | Learn how attention can focus decoder fusion. | reference-only |
 | [nnU-Net](nnunet.md) | Medical self-configuring pipeline | Shows why preprocessing, training, and inference policy can matter as much as the model block. | Understand segmentation as a full pipeline rather than only a neural network. | reference-only |

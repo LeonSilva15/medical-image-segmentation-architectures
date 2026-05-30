@@ -11,6 +11,7 @@ graph TD
     UNet["U-Net<br/>Encoder-decoder + skip connections"]
     UNet3D["3D U-Net<br/>Direct volumetric extension"]
     VNet["V-Net<br/>3D volumetric U-Net branch"]
+    ResUNetStyle["Residual U-Net / ResUNet-style<br/>Residual blocks in U-Net stages"]
     UNetPP["U-Net++<br/>Nested dense skip pathways"]
     AttUNet["Attention U-Net<br/>Attention-filtered skips"]
     nnUNet["nnU-Net<br/>Self-configuring pipeline"]
@@ -27,6 +28,7 @@ graph TD
     FCN --> DeepLabV3Plus
     UNet --> UNet3D
     UNet --> VNet
+    UNet --> ResUNetStyle
     UNet --> UNetPP
     UNet --> AttUNet
     UNet --> nnUNet
@@ -46,7 +48,7 @@ graph TD
 | --- | --- | --- |
 | Dense prediction | Convert classification CNNs into pixel-level predictors. | FCN |
 | General CV context modules | Add multi-scale context and lightweight boundary refinement to dense prediction. | DeepLabv3+ |
-| U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), U-Net++, Attention U-Net |
+| U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md), U-Net++, Attention U-Net |
 | Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | nnU-Net |
 | Transformer hybrids | Add attention-based global context to segmentation architectures. | TransUNet, Swin-Unet, UNETR, Swin UNETR |
 | Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | [MedSAM](../architectures/medsam.md), [SAM-Med2D](../architectures/sam-med2d.md), [MedSAM2](../architectures/medsam2.md) |
@@ -60,6 +62,8 @@ boundary-refining decoders. Then read U-Net because many medical segmentation
 variants are easier to understand as modifications of its encoder-decoder
 shape. After that, split into 3D models such as
 [3D U-Net](../architectures/3d-unet.md) and [V-Net](../architectures/vnet.md),
+residual block variants such as
+[Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md),
 skip-connection variants, pipeline methods, and Transformer/foundation-model
 branches. In the Transformer branch, read [TransUNet](../architectures/transunet.md)
 for the CNN/Transformer hybrid bridge, [Swin-Unet](../architectures/swin-unet.md)

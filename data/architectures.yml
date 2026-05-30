@@ -144,6 +144,33 @@ architectures:
     tests: false
     demo: false
 
+  - id: resunet_style_variants
+    slug: resunet-style-variants
+    name: Residual U-Net / ResUNet-style variants
+    year: 2018
+    family: U-Net family, residual variants
+    parent: unet
+    chapter_path: docs/architectures/resunet-style-variants.md
+    paper_title: "Recurrent Residual Convolutional Neural Network based on U-Net (R2U-Net) for Medical Image Segmentation"
+    doi: null
+    arxiv: "1802.06955"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1802.06955
+    modification: Replaces plain U-Net convolution blocks with residual-style blocks.
+    technical_summary: >
+      Residual U-Net-style variants keep the U-Net encoder-decoder and long skip
+      connections while using residual shortcuts inside local feature blocks to
+      improve optimization of deeper segmentation networks.
+    understandable_summary: >
+      ResUNet-style models keep U-Net's overall shape but make each stage easier
+      to train by adding shortcut paths inside the convolution blocks.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
   - id: unetpp
     slug: unetpp
     name: U-Net++
