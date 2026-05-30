@@ -59,6 +59,8 @@ nav:
       - MedSAM: architectures/medsam.md
       - SAM-Med2D: architectures/sam-med2d.md
       - MedSAM2: architectures/medsam2.md
+  - Appendix:
+      - General Segmentation Context: appendix/general-segmentation-context.md
   - Contributing:
       - Overview: contributing/index.md
       - Adding An Architecture: contributing/adding-an-architecture.md
