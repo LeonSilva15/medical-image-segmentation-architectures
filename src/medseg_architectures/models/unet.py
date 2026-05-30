@@ -10,7 +10,7 @@ from collections.abc import Sequence
 
 import torch
 from torch import nn
-from torch.nn import functional as F
+from torch.nn import functional
 
 _VALID_NORMS = ("none", "batch", "instance", "group")
 _VALID_ACTIVATIONS = ("relu", "leaky_relu", "gelu")
@@ -322,14 +322,14 @@ class UNet2D(nn.Module):
                     # after repeated pooling and transposed convolution.
                     # Resizing to the skip shape keeps concatenation valid and
                     # preserves the original input size at the output.
-                    x = F.interpolate(
+                    x = functional.interpolate(
                         x,
                         size=skip.shape[-2:],
                         mode="bilinear",
                         align_corners=False,
                     )
             else:
-                x = F.interpolate(
+                x = functional.interpolate(
                     x,
                     size=skip.shape[-2:],
                     mode="bilinear",

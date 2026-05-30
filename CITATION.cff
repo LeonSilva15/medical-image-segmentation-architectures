@@ -1,0 +1,10 @@
+cff-version: 1.2.0
+message: "If you use this repository, please cite it and the original architecture papers."
+title: "Medical Image Segmentation Architectures"
+authors:
+  - family-names: "Silva"
+    given-names: "Leon"
+version: "0.1.0"
+license: "MIT"
+repository-code: "https://github.com/LeonSilva15/medical-image-segmentation-architectures"
+url: "https://leonsilva15.github.io/medical-image-segmentation-architectures/"

@@ -1,5 +1,7 @@
 """Educational utilities for inspecting PyTorch segmentation models."""
 
+from __future__ import annotations
+
 from collections.abc import Sequence
 from dataclasses import dataclass
 from typing import TypeAlias
@@ -8,7 +10,7 @@ import torch
 from torch import nn
 
 TensorShape: TypeAlias = tuple[int, ...]
-ShapeValue: TypeAlias = TensorShape | tuple[TensorShape | str, ...] | str
+ShapeValue: TypeAlias = TensorShape | tuple["ShapeValue", ...] | str
 
 
 @dataclass(frozen=True)

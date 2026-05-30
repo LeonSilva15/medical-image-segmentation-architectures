@@ -23,16 +23,19 @@ jobs:
         uses: astral-sh/setup-uv@v5
 
       - name: Validate references
-        run: uv run --python 3.11 python scripts/validate_references.py
+        run: uv run --locked --python 3.11 python scripts/validate_references.py
 
       - name: Validate architecture metadata
-        run: uv run --python 3.11 python scripts/validate_architecture_metadata.py
+        run: uv run --locked --python 3.11 python scripts/validate_architecture_metadata.py
 
       - name: Lint
-        run: uv run --python 3.11 ruff check .
+        run: uv run --locked --python 3.11 ruff check .
+
+      - name: Type check
+        run: uv run --locked --python 3.11 mypy src scripts demos tests
 
       - name: Test
-        run: uv run --python 3.11 pytest
+        run: uv run --locked --python 3.11 pytest
 
       - name: Build docs
-        run: uv run --python 3.11 --group docs mkdocs build --strict
+        run: uv run --locked --python 3.11 --group docs mkdocs build --strict

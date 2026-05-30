@@ -190,12 +190,20 @@ def validate() -> None:
     architectures = load_architectures()
     errors: list[str] = []
 
-    ids = [architecture.get("id") for architecture in architectures]
+    ids: list[str] = []
+    for architecture in architectures:
+        architecture_id = architecture.get("id")
+        if isinstance(architecture_id, str):
+            ids.append(architecture_id)
     duplicate_ids = {architecture_id for architecture_id in ids if ids.count(architecture_id) > 1}
     if duplicate_ids:
         errors.append(f"duplicate architecture ids: {sorted(duplicate_ids)}")
 
-    slugs = [architecture.get("slug") for architecture in architectures]
+    slugs: list[str] = []
+    for architecture in architectures:
+        slug = architecture.get("slug")
+        if isinstance(slug, str):
+            slugs.append(slug)
     duplicate_slugs = {slug for slug in slugs if slugs.count(slug) > 1}
     if duplicate_slugs:
         errors.append(f"duplicate architecture slugs: {sorted(duplicate_slugs)}")

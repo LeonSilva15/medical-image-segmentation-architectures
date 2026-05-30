@@ -14,6 +14,8 @@ blockers. Completed work belongs in git history, release notes, or issues.
 - U-Net is the first implemented architecture target.
 - v1 uses plain PyTorch, pytest, and PyYAML before adding heavier
   medical-imaging libraries.
+- Local and CI verification use Python 3.11 with dependency resolution captured
+  in `uv.lock`.
 - Tests and demos use synthetic data only unless a public, properly licensed
   dataset is explicitly configured.
 - The MkDocs book under `docs/` is the learning front door.
@@ -38,5 +40,3 @@ blockers. Completed work belongs in git history, release notes, or issues.
 
 - GitHub Pages API returned `404` before enabling or first deployment;
   private-repo Pages may require a paid GitHub plan.
-- The local Codex shell cannot run `uv run` verification commands because `uv`
-  is not on PATH.

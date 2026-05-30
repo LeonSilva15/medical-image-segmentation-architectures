@@ -7,25 +7,31 @@ small tested implementations.
 
 ## Read The Book
 
-The learning material lives under `docs/` and is configured by `mkdocs.yml`.
+The published book is expected at:
 
-Start here:
+```text
+https://leonsilva15.github.io/medical-image-segmentation-architectures/
+```
 
-- `docs/index.md`
-- `docs/foundations/what-is-segmentation.md`
-- `docs/evolution/lineage.md`
-- `docs/architectures/unet.md`
+The source pages live under `docs/` and are configured by `mkdocs.yml`.
+
+Start with these book pages:
+
+- Start Here: `docs/index.md`
+- What Is Segmentation?: `docs/foundations/what-is-segmentation.md`
+- Architecture Lineage: `docs/evolution/lineage.md`
+- U-Net Overview: `docs/architectures/unet.md`
 
 Build the book locally with:
 
 ```sh
-uv run --python 3.11 --group docs mkdocs build --strict
+uv run --locked --python 3.11 --group docs mkdocs build --strict
 ```
 
 Serve it locally with:
 
 ```sh
-uv run --python 3.11 --group docs mkdocs serve
+uv run --locked --python 3.11 --group docs mkdocs serve
 ```
 
 ## Publishing
@@ -34,7 +40,7 @@ The book is configured for GitHub Pages through GitHub Actions. After Pages is
 enabled with **GitHub Actions** as the source, pushes to `main` build and deploy
 the MkDocs site.
 
-Expected project-site URL:
+Project-site URL:
 
 ```text
 https://leonsilva15.github.io/medical-image-segmentation-architectures/
@@ -55,7 +61,7 @@ served, check `Settings -> Pages -> Build and deployment -> Source` and select
 
 ## Current Implementation Status
 
-| Model | Status | Code in `src/` | Tests | Demo | Documentation-only page |
+| Model | Status | Code in `src/` | Tests | Demo | Reference-only docs? |
 | --- | --- | --- | --- | --- | --- |
 | Fully Convolutional Network (FCN) | reference-only | No | No | No | Yes |
 | U-Net | implemented | Yes: `src/medseg_architectures/models/unet.py` | Yes: `tests/test_model_shapes.py` | Yes: `demos/demo_forward_pass.py` | No |
@@ -76,14 +82,17 @@ served, check `Settings -> Pages -> Build and deployment -> Source` and select
 
 Reader-facing docs use `external pipeline`; metadata stores the same status as
 `external-pipeline`. Non-U-Net entries do not provide local package code, tests,
-or demos until their metadata status changes.
+or demos until their metadata status changes. Every architecture listed in this
+table has a book page; `Reference-only docs?` means the page documents the
+architecture without a local implementation.
 
 ## Validate Metadata
 
 ```sh
-uv run --python 3.11 python scripts/validate_references.py
-uv run --python 3.11 python scripts/validate_architecture_metadata.py
-uv run --python 3.11 ruff check .
+uv run --locked --python 3.11 python scripts/validate_references.py
+uv run --locked --python 3.11 python scripts/validate_architecture_metadata.py
+uv run --locked --python 3.11 ruff check .
+uv run --locked --python 3.11 mypy src scripts demos tests
 ```
 
 ## Contributing Architecture Changes
@@ -91,6 +100,7 @@ uv run --python 3.11 ruff check .
 Architecture metadata is tracked in `data/architectures.yml`. Before adding or
 modifying an architecture, read:
 
+- `docs/contributing/adding-an-architecture.md`
 - `docs/contributing/metadata-conventions.md`
 - `docs/contributing/architecture-template.md`
 - `docs/contributing/architecture-checklist.md`
@@ -102,13 +112,13 @@ DICOM headers, model weights, or clinical-readiness claims.
 ## Run Tests
 
 ```sh
-uv run --python 3.11 pytest
+uv run --locked --python 3.11 pytest
 ```
 
 ## Run The Synthetic Demo
 
 ```sh
-uv run --python 3.11 python demos/demo_forward_pass.py
+uv run --locked --python 3.11 python demos/demo_forward_pass.py
 ```
 
 The demo uses a synthetic tensor only. It does not load medical images or
@@ -122,5 +132,6 @@ patient identifiers, DICOM headers, or clinical data.
 
 ## Citation
 
-When using an architecture, cite the original paper listed in
-`data/architectures.yml` or `docs/references.md`.
+Use `CITATION.cff` to cite this repository. When using or discussing a specific
+architecture, also cite the original paper listed in `data/architectures.yml` or
+`docs/references.md`.

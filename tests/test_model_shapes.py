@@ -1,3 +1,5 @@
+from typing import Any
+
 import pytest
 import torch
 from torch import nn
@@ -155,7 +157,7 @@ def test_unet_2d_rejects_non_positive_feature_values(features: tuple[int, ...]) 
     ],
 )
 def test_unet_2d_rejects_invalid_config_options(
-    kwargs: dict[str, object],
+    kwargs: dict[str, Any],
     match: str,
 ) -> None:
     with pytest.raises(ValueError, match=match):

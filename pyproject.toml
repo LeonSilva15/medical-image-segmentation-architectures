@@ -7,21 +7,24 @@ name = "medseg-architectures"
 version = "0.1.0"
 description = "Research-to-code map of medical image segmentation architectures."
 readme = "README.md"
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 dependencies = [
-  "numpy",
-  "pyyaml",
-  "torch",
+  "numpy>=1.26,<3",
+  "pyyaml>=6,<7",
+  "torch>=2.2,<3",
 ]
 
 [dependency-groups]
 dev = [
-  "pytest",
-  "ruff",
+  "mypy>=1.10,<2",
+  "pytest>=8,<9",
+  "ruff>=0.8,<1",
+  "types-PyYAML>=6,<7",
 ]
 docs = [
-  "mkdocs",
-  "mkdocs-material",
+  "mkdocs>=1.6,<2",
+  "mkdocs-material>=9.5,<10",
+  "pymdown-extensions>=10,<11",
 ]
 
 [tool.hatch.build.targets.wheel]
@@ -34,6 +37,15 @@ pythonpath = ["src"]
 [tool.ruff]
 line-length = 100
 src = ["src", "tests", "scripts", "demos"]
+target-version = "py311"
 
 [tool.ruff.lint]
-select = ["E", "F", "I", "UP"]
+select = ["E", "F", "I", "N", "UP", "W"]
+
+[tool.mypy]
+python_version = "3.11"
+check_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+pretty = true
+warn_unused_configs = true
