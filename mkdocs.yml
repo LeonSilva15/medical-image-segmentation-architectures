@@ -16,12 +16,6 @@ theme:
 plugins:
   - search
 
-extra_css:
-  - assets/stylesheets/diagram-viewer.css
-
-extra_javascript:
-  - assets/javascripts/diagram-viewer.js
-
 markdown_extensions:
   - admonition
   - attr_list
