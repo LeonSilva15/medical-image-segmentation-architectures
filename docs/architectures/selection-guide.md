@@ -37,12 +37,16 @@ self-configuration, Transformers, and prompts.
 
 ## How To Read Coverage
 
-Architecture coverage has two different meanings in this book:
+Architecture coverage uses these reader-facing status labels:
 
 - `implemented`: the repository provides local code, CPU-friendly tests, and a
   synthetic demo for the architecture.
 - `reference-only`: the architecture is included for learning and citation, but
   the repository does not provide a tested local implementation.
+- `planned`: the architecture is intended for future documentation or
+  implementation work, but that work is not complete.
+- `external pipeline`: the entry describes a framework-style pipeline that is
+  not reimplemented as local package code.
 
 The book also separates where an idea came from:
 
@@ -118,7 +122,7 @@ video-style prompting with memory across slices or frames.
 | [Residual U-Net / ResUNet-style variants](resunet-style-variants.md) | Medical U-Net residual variant | Explains the common pattern of replacing plain U-Net convolution blocks with residual blocks. | Compare local block changes with skip-path and attention changes. | reference-only |
 | [U-Net++](unetpp.md) | Medical U-Net skip variant | Shows how nested skip pathways refine the information passed into the decoder. | Compare direct U-Net skips with denser skip designs. | reference-only |
 | [Attention U-Net](attention-unet.md) | Medical U-Net attention variant | Adds attention gates that filter skip-connection features. | Learn how attention can focus decoder fusion. | reference-only |
-| [nnU-Net](nnunet.md) | Medical self-configuring pipeline | Shows why preprocessing, training, and inference policy can matter as much as the model block. | Understand segmentation as a full pipeline rather than only a neural network. | reference-only |
+| [nnU-Net](nnunet.md) | Medical self-configuring pipeline | Shows why preprocessing, training, and inference policy can matter as much as the model block. | Understand segmentation as a full pipeline rather than only a neural network. | external pipeline |
 | [TransUNet](transunet.md) | Medical Transformer hybrid | Combines U-Net-style decoding with Transformer context modeling. | Learn the bridge from CNN baselines to Transformer encoders. | reference-only |
 | [Swin-Unet](swin-unet.md) | Medical Transformer U-shape | Rebuilds a U-shaped segmentation model around shifted-window Transformer blocks. | Study a more Transformer-native U-shaped design. | reference-only |
 | [UNETR](unetr.md) | Medical 3D Transformer | Applies Transformer encoding to volumetric segmentation. | Learn how Transformer ideas are adapted to 3D medical volumes. | reference-only |
@@ -131,7 +135,8 @@ video-style prompting with memory across slices or frames.
 
 This guide does not claim that the covered architectures are clinically ready,
 best for a particular dataset, or complete as a survey of every important model.
-It also does not imply that a reference-only page has local package code.
+It also does not imply that a reference-only or external pipeline page has local
+package code.
 
 Use the guide as a learning path. For experiments, read the original paper links,
 check the implementation status, use properly licensed data, and validate the

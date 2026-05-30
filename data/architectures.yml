@@ -250,7 +250,7 @@ architectures:
     understandable_summary: >
       nnU-Net is important because it automates many choices researchers used to
       tune by hand for each dataset.
-    implementation_status: reference-only
+    implementation_status: external-pipeline
     code_path: null
     tests: false
     demo: false

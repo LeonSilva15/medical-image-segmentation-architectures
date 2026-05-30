@@ -125,10 +125,11 @@ UNETR applies Transformer encoding directly to 3D volumetric segmentation.
 | Field | Value |
 | --- | --- |
 | Status | reference-only |
-| Code | Not implemented locally |
-| Tests | Not implemented locally |
-| Demo | Not implemented locally |
-| Data used in examples | synthetic tensors only |
+| Code in `src/` | No local `src/` implementation |
+| Tests | No local tests |
+| Demo | No local demo |
+| Documentation-only page | Yes |
+| Data scope | Synthetic examples only |
 | Metadata ID | `unetr` |
 
 !!! note "Educational scope"

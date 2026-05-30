@@ -431,11 +431,13 @@ help restore spatial detail that would otherwise be weakened by downsampling.
 | Field | Value |
 | --- | --- |
 | Status | implemented |
-| Code | `src/medseg_architectures/models/unet.py` |
+| Code in `src/` | Yes: `src/medseg_architectures/models/unet.py` |
 | Registry name | `unet2d` |
-| Tests | `tests/test_model_shapes.py` |
-| Demo | `demos/demo_forward_pass.py` |
-| Data used in tests/demo | synthetic tensors only |
+| Tests | Yes: `tests/test_model_shapes.py` |
+| Demo | Yes: `demos/demo_forward_pass.py` |
+| Documentation-only page | No |
+| Data scope | Synthetic tensors only |
+| Metadata ID | `unet` |
 
 ## Model Details
 

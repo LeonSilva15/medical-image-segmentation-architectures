@@ -197,15 +197,16 @@ this repository.
   annotation quality, preprocessing, loss design, or clinical validation.
 - The local page is reference-only and does not include tested package code.
 
-## Implementation status
+## Implementation Status
 
 | Field | Value |
 | --- | --- |
 | Status | reference-only |
-| Code | Not implemented locally |
-| Tests | Not implemented locally |
-| Demo | Not implemented locally |
-| Data used in examples | synthetic tensors only |
+| Code in `src/` | No local `src/` implementation |
+| Tests | No local tests |
+| Demo | No local demo |
+| Documentation-only page | Yes |
+| Data scope | Synthetic examples only |
 | Metadata ID | `deeplabv3plus` |
 
 !!! note "Educational scope"

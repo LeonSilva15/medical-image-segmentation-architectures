@@ -204,9 +204,9 @@ full system should use the upstream nnU-Net project and read the original paper.
 ## Implementation Walkthrough
 
 There is no package model, registry entry, test, or demo for nnU-Net in this
-repository. The chapter is reference-only because the repo does not maintain the
-full preprocessing, planning, training, inference, and postprocessing stack that
-defines nnU-Net.
+repository. The chapter is an external pipeline documentation page because the
+repo does not maintain the full preprocessing, planning, training, inference,
+and postprocessing stack that defines nnU-Net.
 
 ## Learning Notes For Practitioners
 
@@ -236,7 +236,8 @@ uses the same plan through inference and postprocessing.
 
 ## Limitations
 
-- The local page is reference-only and does not include tested package code.
+- The local page documents an external pipeline and does not include tested
+  package code.
 - nnU-Net is a full framework-style pipeline, so reimplementing it safely is much
   larger than adding one model class.
 - The best configuration still depends on valid dataset formatting, task
@@ -247,11 +248,12 @@ uses the same plan through inference and postprocessing.
 
 | Field | Value |
 | --- | --- |
-| Status | reference-only |
-| Code | Not implemented locally |
-| Tests | Not implemented locally |
-| Demo | Not implemented locally |
-| Data used in examples | synthetic tensors only |
+| Status | external pipeline |
+| Code in `src/` | No local `src/` implementation |
+| Tests | No local tests |
+| Demo | No local demo |
+| Documentation-only page | Yes |
+| Data scope | Synthetic examples only |
 | Metadata ID | `nnunet` |
 
 !!! note "Educational scope"

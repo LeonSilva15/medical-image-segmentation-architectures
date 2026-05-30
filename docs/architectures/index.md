@@ -1,8 +1,13 @@
 # Architecture Index
 
-This index separates documented concepts from implemented code. `reference-only`
-means the architecture is included for learning and citations, but this
-repository does not yet provide a tested implementation.
+This index separates documented concepts, local implementations, and external
+pipeline coverage. Status labels use the reader-facing forms `implemented`,
+`reference-only`, `planned`, and `external pipeline`. `implemented` means local
+code, tests, and a demo exist. `reference-only` means the architecture is
+included for learning and citations without a tested local implementation.
+`planned` means future documentation or implementation work is intended but not
+complete. `external pipeline` means the entry describes a framework-style
+pipeline that is not reimplemented locally.
 
 For a beginner-friendly explanation of why these architectures come first, see
 the [Architecture Selection Guide](selection-guide.md).
@@ -17,7 +22,7 @@ the [Architecture Selection Guide](selection-guide.md).
 | Residual U-Net / ResUNet-style variants | 2018 | U-Net family, residual variants | reference-only | U-Net | [Read](resunet-style-variants.md) |
 | U-Net++ | 2018 | U-Net family, skip variants | reference-only | U-Net | [Read](unetpp.md) |
 | Attention U-Net | 2018 | U-Net family, attention gates | reference-only | U-Net | [Read](attention-unet.md) |
-| nnU-Net | 2021 | Self-configuring pipeline | reference-only | U-Net | [Read](nnunet.md) |
+| nnU-Net | 2021 | Self-configuring pipeline | external pipeline | U-Net | [Read](nnunet.md) |
 | TransUNet | 2021 | Transformer hybrid | reference-only | U-Net | [Read](transunet.md) |
 | Swin-Unet | 2021 | Transformer U-shape | reference-only | TransUNet | [Read](swin-unet.md) |
 | UNETR | 2022 | 3D Transformer | reference-only | TransUNet | [Read](unetr.md) |

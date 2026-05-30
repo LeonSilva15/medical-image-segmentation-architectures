@@ -291,10 +291,11 @@ this section if there is no accurate parent comparison.
 | Field | Value |
 | --- | --- |
 | Status | reference-only |
-| Code | Not implemented |
-| Tests | Not implemented |
-| Demo | Not implemented |
-| Data used in tests/demo | synthetic tensors only, if implemented |
+| Code in `src/` | No local `src/` implementation |
+| Tests | No local tests |
+| Demo | No local demo |
+| Documentation-only page | Yes |
+| Data scope | synthetic tensors only, if implemented |
 
 ## Model Details
 

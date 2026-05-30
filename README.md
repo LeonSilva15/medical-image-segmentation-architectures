@@ -55,12 +55,28 @@ served, check `Settings -> Pages -> Build and deployment -> Source` and select
 
 ## Current Implementation Status
 
-| Model | Status | Code | Demo |
-| --- | --- | --- | --- |
-| U-Net 2D | implemented | `src/medseg_architectures/models/unet.py` | `demos/demo_forward_pass.py` |
+| Model | Status | Code in `src/` | Tests | Demo | Documentation-only page |
+| --- | --- | --- | --- | --- | --- |
+| FCN | reference-only | No | No | No | Yes |
+| U-Net | implemented | Yes: `src/medseg_architectures/models/unet.py` | Yes: `tests/test_model_shapes.py` | Yes: `demos/demo_forward_pass.py` | No |
+| DeepLabv3+ | reference-only | No | No | No | Yes |
+| 3D U-Net | reference-only | No | No | No | Yes |
+| V-Net | reference-only | No | No | No | Yes |
+| Residual U-Net / ResUNet-style variants | reference-only | No | No | No | Yes |
+| U-Net++ | reference-only | No | No | No | Yes |
+| Attention U-Net | reference-only | No | No | No | Yes |
+| nnU-Net | external pipeline | No | No | No | Yes |
+| TransUNet | reference-only | No | No | No | Yes |
+| Swin-Unet | reference-only | No | No | No | Yes |
+| UNETR | reference-only | No | No | No | Yes |
+| Swin UNETR | reference-only | No | No | No | Yes |
+| MedSAM | reference-only | No | No | No | Yes |
+| SAM-Med2D | reference-only | No | No | No | Yes |
+| MedSAM2 | reference-only | No | No | No | Yes |
 
-Other architectures are reference-only until code, tests, demos, and complete
-chapters are added.
+Reader-facing docs use `external pipeline`; metadata stores the same status as
+`external-pipeline`. Non-U-Net entries do not provide local package code, tests,
+or demos until their metadata status changes.
 
 ## Validate Metadata
 
