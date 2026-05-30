@@ -1,0 +1,237 @@
+.diagram-viewer-open {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  margin: 0.4rem 0 0.2rem;
+  padding: 0.35rem 0.7rem;
+  border: 0.05rem solid var(--md-default-fg-color--lighter);
+  border-radius: 0.2rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-primary-fg-color);
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1.2;
+  cursor: pointer;
+}
+
+.diagram-viewer-open::before {
+  content: "";
+  width: 0.85rem;
+  height: 0.85rem;
+  background: currentcolor;
+  clip-path: polygon(
+    8% 8%,
+    46% 8%,
+    46% 20%,
+    28% 20%,
+    60% 52%,
+    52% 60%,
+    20% 28%,
+    20% 46%,
+    8% 46%,
+    8% 8%,
+    54% 8%,
+    92% 8%,
+    92% 46%,
+    80% 46%,
+    80% 28%,
+    48% 60%,
+    40% 52%,
+    72% 20%,
+    54% 20%
+  );
+}
+
+.diagram-viewer-open:hover,
+.diagram-viewer-open:focus-visible {
+  border-color: var(--md-primary-fg-color);
+  background: var(--md-accent-fg-color--transparent);
+}
+
+.diagram-viewer-target {
+  cursor: zoom-in;
+  overflow-x: auto;
+}
+
+.diagram-viewer-target:focus-visible {
+  outline: 0.12rem solid var(--md-accent-fg-color);
+  outline-offset: 0.2rem;
+}
+
+.diagram-viewer[hidden] {
+  display: none;
+}
+
+.diagram-viewer {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: grid;
+  padding: 1rem;
+}
+
+.diagram-viewer__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.72);
+}
+
+.diagram-viewer__dialog {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr);
+  width: min(96vw, 76rem);
+  max-height: 92vh;
+  margin: auto;
+  overflow: hidden;
+  border: 0.05rem solid var(--md-default-fg-color--lightest);
+  border-radius: 0.4rem;
+  background: var(--md-default-bg-color);
+  box-shadow: var(--md-shadow-z3);
+}
+
+.diagram-viewer__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.65rem 0.8rem;
+  border-bottom: 0.05rem solid var(--md-default-fg-color--lightest);
+  background: var(--md-code-bg-color);
+}
+
+.diagram-viewer__title {
+  min-width: 0;
+  margin: 0;
+  overflow: hidden;
+  color: var(--md-default-fg-color);
+  font-size: 0.85rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.diagram-viewer__controls {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.diagram-viewer__button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 2rem;
+  min-height: 2rem;
+  padding: 0 0.55rem;
+  border: 0.05rem solid var(--md-default-fg-color--lighter);
+  border-radius: 0.2rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  font: inherit;
+  font-size: 0.75rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.diagram-viewer__button--wide {
+  min-width: 3.2rem;
+}
+
+.diagram-viewer__button:hover,
+.diagram-viewer__button:focus-visible {
+  border-color: var(--md-primary-fg-color);
+  color: var(--md-primary-fg-color);
+}
+
+.diagram-viewer__zoom {
+  min-width: 3rem;
+  color: var(--md-default-fg-color--light);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.diagram-viewer__viewport {
+  min-height: 16rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+  padding: 1rem;
+  cursor: grab;
+  touch-action: none;
+  background:
+    linear-gradient(45deg, var(--md-default-fg-color--lightest) 25%, transparent 25%),
+    linear-gradient(-45deg, var(--md-default-fg-color--lightest) 25%, transparent 25%),
+    linear-gradient(45deg, transparent 75%, var(--md-default-fg-color--lightest) 75%),
+    linear-gradient(-45deg, transparent 75%, var(--md-default-fg-color--lightest) 75%);
+  background-color: var(--md-default-bg-color);
+  background-position:
+    0 0,
+    0 0.5rem,
+    0.5rem -0.5rem,
+    -0.5rem 0;
+  background-size: 1rem 1rem;
+}
+
+.diagram-viewer__viewport:focus-visible {
+  outline: 0.12rem solid var(--md-accent-fg-color);
+  outline-offset: -0.12rem;
+}
+
+.diagram-viewer__viewport--panning {
+  cursor: grabbing;
+  user-select: none;
+}
+
+.diagram-viewer__stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 100%;
+  min-height: 100%;
+}
+
+.diagram-viewer__svg {
+  display: block;
+  height: auto;
+  max-width: none;
+}
+
+.diagram-viewer-is-open {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 44.9375em) {
+  .diagram-viewer {
+    padding: 0.45rem;
+  }
+
+  .diagram-viewer__dialog {
+    width: 100%;
+    max-height: 96vh;
+  }
+
+  .diagram-viewer__toolbar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .diagram-viewer__title {
+    white-space: normal;
+  }
+
+  .diagram-viewer__controls {
+    flex-wrap: wrap;
+  }
+
+  .diagram-viewer__button {
+    flex: 1 1 auto;
+  }
+
+  .diagram-viewer__viewport {
+    min-height: 70vh;
+    padding: 0.6rem;
+  }
+}
