@@ -1,0 +1,140 @@
+.diagram-viewer-inline {
+  margin: 1.25rem 0;
+}
+
+.diagram-viewer-inline__actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 0.35rem;
+}
+
+.diagram-viewer__open,
+.diagram-viewer__control {
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.2rem;
+  background: var(--md-default-bg-color);
+  color: var(--md-default-fg-color);
+  cursor: pointer;
+  font: inherit;
+  font-size: 0.68rem;
+  line-height: 1.2;
+  padding: 0.32rem 0.55rem;
+}
+
+.diagram-viewer__open:hover,
+.diagram-viewer__control:hover {
+  border-color: var(--md-accent-fg-color);
+  color: var(--md-accent-fg-color);
+}
+
+.diagram-viewer__open:focus-visible,
+.diagram-viewer__control:focus-visible {
+  outline: 2px solid var(--md-accent-fg-color);
+  outline-offset: 2px;
+}
+
+.diagram-viewer__modal {
+  display: none;
+  position: fixed;
+  z-index: 10000;
+  inset: 0;
+}
+
+.diagram-viewer__modal.is-open {
+  display: block;
+}
+
+.diagram-viewer__backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgb(0 0 0 / 0.64);
+}
+
+.diagram-viewer__panel {
+  position: absolute;
+  inset: 1rem;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border: 1px solid var(--md-default-fg-color--lightest);
+  border-radius: 0.25rem;
+  background: var(--md-default-bg-color);
+  box-shadow: var(--md-shadow-z3);
+}
+
+.diagram-viewer__toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.4rem;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--md-default-fg-color--lightest);
+  padding: 0.55rem 0.65rem;
+}
+
+.diagram-viewer__title {
+  color: var(--md-default-fg-color);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.diagram-viewer__controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+}
+
+.diagram-viewer__stage {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  background:
+    linear-gradient(90deg, var(--md-default-bg-color) 19px, transparent 1%) center / 20px 20px,
+    linear-gradient(var(--md-default-bg-color) 19px, transparent 1%) center / 20px 20px,
+    var(--md-code-bg-color);
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+}
+
+.diagram-viewer__stage.is-panning {
+  cursor: grabbing;
+}
+
+.diagram-viewer__viewport {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform:
+    translate(-50%, -50%)
+    translate(var(--diagram-viewer-x, 0px), var(--diagram-viewer-y, 0px))
+    scale(var(--diagram-viewer-scale, 1));
+  transform-origin: center;
+  will-change: transform;
+}
+
+.diagram-viewer__viewport > .mermaid {
+  max-width: none;
+}
+
+.diagram-viewer-open {
+  overflow: hidden;
+}
+
+@media screen and (max-width: 44.9375em) {
+  .diagram-viewer__panel {
+    inset: 0.5rem;
+  }
+
+  .diagram-viewer__toolbar {
+    align-items: flex-start;
+  }
+
+  .diagram-viewer__title {
+    width: 100%;
+  }
+}
