@@ -46,16 +46,16 @@ graph TD
 
 | Branch | Main Idea | Examples |
 | --- | --- | --- |
-| Dense prediction | Convert classification CNNs into pixel-level predictors. | FCN |
-| General CV context modules | Add multi-scale context and lightweight boundary refinement to dense prediction. | DeepLabv3+ |
-| U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md), U-Net++, Attention U-Net |
-| Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | nnU-Net |
-| Transformer hybrids | Add attention-based global context to segmentation architectures. | TransUNet, Swin-Unet, UNETR, Swin UNETR |
+| Dense prediction | Convert classification CNNs into pixel-level predictors. | [FCN](../architectures/fcn.md) |
+| General CV context modules | Add multi-scale context and lightweight boundary refinement to dense prediction. | [DeepLabv3+](../architectures/deeplabv3plus.md) |
+| U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md), [U-Net++](../architectures/unetpp.md), [Attention U-Net](../architectures/attention-unet.md) |
+| Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | [nnU-Net](../architectures/nnunet.md) |
+| Transformer hybrids | Add attention-based global context to segmentation architectures. | [TransUNet](../architectures/transunet.md), [Swin-Unet](../architectures/swin-unet.md), [UNETR](../architectures/unetr.md), [Swin UNETR](../architectures/swin-unetr.md) |
 | Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | [MedSAM](../architectures/medsam.md), [SAM-Med2D](../architectures/sam-med2d.md), [MedSAM2](../architectures/medsam2.md) |
 
 ## Reading Order
 
-Read FCN first to understand dense prediction. Read
+Read [FCN](../architectures/fcn.md) first to understand dense prediction. Read
 [DeepLabv3+](../architectures/deeplabv3plus.md) when you want general
 computer-vision context for atrous convolution, ASPP, multi-scale context, and
 boundary-refining decoders. Then read U-Net because many medical segmentation
@@ -64,7 +64,9 @@ shape. After that, split into 3D models such as
 [3D U-Net](../architectures/3d-unet.md) and [V-Net](../architectures/vnet.md),
 residual block variants such as
 [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md),
-skip-connection variants, pipeline methods, and Transformer/foundation-model
+skip-connection variants such as [U-Net++](../architectures/unetpp.md) and
+[Attention U-Net](../architectures/attention-unet.md), pipeline methods such as
+[nnU-Net](../architectures/nnunet.md), and Transformer/foundation-model
 branches. In the Transformer branch, read [TransUNet](../architectures/transunet.md)
 for the CNN/Transformer hybrid bridge, [Swin-Unet](../architectures/swin-unet.md)
 for shifted-window U-shaped 2D segmentation, [UNETR](../architectures/unetr.md)

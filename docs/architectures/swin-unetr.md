@@ -205,9 +205,10 @@ hierarchical shifted-window Swin Transformer encoder.
 | Parent | UNETR |
 | Family | 3D shifted-window Transformer |
 | Paper title | Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images |
-| DOI | Not listed |
+| DOI | `10.1007/978-3-031-08999-2_22` |
 | arXiv | `2201.01266` |
 
 ## Read The Original Paper
 
+- DOI: [10.1007/978-3-031-08999-2_22](https://doi.org/10.1007/978-3-031-08999-2_22)
 - arXiv: [2201.01266](https://arxiv.org/abs/2201.01266)

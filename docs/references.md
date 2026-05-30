@@ -3,6 +3,9 @@
 This page lists the primary papers tracked in `data/architectures.yml`. Use the
 original papers for formal citation details.
 
+`Not listed` means this book does not track a verified publisher,
+proceedings, or journal DOI for that paper version.
+
 | Architecture | Paper | DOI | arXiv |
 | --- | --- | --- | --- |
 | Fully Convolutional Network (FCN) | Fully Convolutional Networks for Semantic Segmentation | [10.1109/CVPR.2015.7298965](https://doi.org/10.1109/CVPR.2015.7298965) | [1411.4038](https://arxiv.org/abs/1411.4038) |
@@ -15,9 +18,9 @@ original papers for formal citation details.
 | Attention U-Net | Attention U-Net: Learning Where to Look for the Pancreas | Not listed | [1804.03999](https://arxiv.org/abs/1804.03999) |
 | nnU-Net | nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation | [10.1038/s41592-020-01008-z](https://doi.org/10.1038/s41592-020-01008-z) | [1809.10486](https://arxiv.org/abs/1809.10486) |
 | TransUNet | TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation | Not listed | [2102.04306](https://arxiv.org/abs/2102.04306) |
-| Swin-Unet | Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation | Not listed | [2105.05537](https://arxiv.org/abs/2105.05537) |
+| Swin-Unet | Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation | [10.1007/978-3-031-25066-8_9](https://doi.org/10.1007/978-3-031-25066-8_9) | [2105.05537](https://arxiv.org/abs/2105.05537) |
 | UNETR | UNETR: Transformers for 3D Medical Image Segmentation | [10.1109/WACV51458.2022.00181](https://doi.org/10.1109/WACV51458.2022.00181) | [2103.10504](https://arxiv.org/abs/2103.10504) |
-| Swin UNETR | Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images | Not listed | [2201.01266](https://arxiv.org/abs/2201.01266) |
+| Swin UNETR | Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images | [10.1007/978-3-031-08999-2_22](https://doi.org/10.1007/978-3-031-08999-2_22) | [2201.01266](https://arxiv.org/abs/2201.01266) |
 | MedSAM | Segment Anything in Medical Images | [10.1038/s41467-024-44824-z](https://doi.org/10.1038/s41467-024-44824-z) | [2304.12306](https://arxiv.org/abs/2304.12306) |
 | SAM-Med2D | SAM-Med2D | Not listed | [2308.16184](https://arxiv.org/abs/2308.16184) |
 | MedSAM2 | MedSAM2: Segment Anything in 3D Medical Images and Videos | Not listed | [2504.03600](https://arxiv.org/abs/2504.03600) |

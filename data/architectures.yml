@@ -288,9 +288,12 @@ architectures:
     parent: transunet
     chapter_path: docs/architectures/swin-unet.md
     paper_title: "Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation"
-    doi: null
+    doi: 10.1007/978-3-031-25066-8_9
     arxiv: "2105.05537"
     paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1007/978-3-031-25066-8_9
       - kind: arxiv
         label: arXiv
         url: https://arxiv.org/abs/2105.05537
@@ -341,9 +344,12 @@ architectures:
     parent: unetr
     chapter_path: docs/architectures/swin-unetr.md
     paper_title: "Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images"
-    doi: null
+    doi: 10.1007/978-3-031-08999-2_22
     arxiv: "2201.01266"
     paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1007/978-3-031-08999-2_22
       - kind: arxiv
         label: arXiv
         url: https://arxiv.org/abs/2201.01266

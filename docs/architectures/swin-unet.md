@@ -169,9 +169,10 @@ with windowed token mixing.
 | Parent | TransUNet |
 | Family | Transformer U-shape |
 | Paper title | Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation |
-| DOI | Not listed |
+| DOI | `10.1007/978-3-031-25066-8_9` |
 | arXiv | `2105.05537` |
 
 ## Read The Original Paper
 
+- DOI: [10.1007/978-3-031-25066-8_9](https://doi.org/10.1007/978-3-031-25066-8_9)
 - arXiv: [2105.05537](https://arxiv.org/abs/2105.05537)
