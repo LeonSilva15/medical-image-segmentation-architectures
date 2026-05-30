@@ -262,11 +262,12 @@ Add collapsible code excerpts for important implementation pieces.
 
 ## Implementation Resources
 
-Link to deeper supporting pages when they exist.
+Link to deeper supporting pages when they exist. Replace these literal example
+paths with links only after the pages exist:
 
-- [Full Code](architecture-slug/code.md)
-- [Cookbook](architecture-slug/cookbook.md)
-- [Live Example](architecture-slug/live-example.md)
+- Full Code: `architecture-slug/code.md`
+- Cookbook: `architecture-slug/cookbook.md`
+- Live Example: `architecture-slug/live-example.md`
 
 ## Learning Notes For Practitioners
 

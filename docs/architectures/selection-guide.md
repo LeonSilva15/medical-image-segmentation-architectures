@@ -114,7 +114,7 @@ video-style prompting with memory across slices or frames.
 
 | Architecture | Category | Why it is included | Good first use case | Implementation status |
 | --- | --- | --- | --- | --- |
-| [FCN](fcn.md) | General CV dense prediction root | Introduces fully convolutional pixel-level prediction, which later medical architectures build on. | Understand how a CNN becomes a segmentation model. | reference-only |
+| [Fully Convolutional Network (FCN)](fcn.md) | General CV dense prediction root | Introduces fully convolutional pixel-level prediction, which later medical architectures build on. | Understand how a CNN becomes a segmentation model. | reference-only |
 | [DeepLabv3+](deeplabv3plus.md) | General CV atrous encoder-decoder context | Explains atrous convolution, ASPP, multi-scale context, and lightweight decoder refinement. | Learn context modules and boundary refinement before comparing medical encoder-decoder variants. | reference-only |
 | [U-Net](unet.md) | Medical CNN baseline | Establishes the encoder-decoder and skip-connection pattern used by many medical segmentation models. | Start here for a tested local model and the core medical segmentation baseline. | implemented |
 | [3D U-Net](3d-unet.md) | Medical 3D CNN baseline | Extends U-Net's encoder-decoder and skip-connection pattern from 2D images to volumetric patches. | Learn why CT/MRI segmentation often needs through-plane context, patch-based training, and sparse-label handling. | reference-only |

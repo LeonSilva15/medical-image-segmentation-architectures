@@ -25,7 +25,7 @@ Use only these implementation status labels.
 | `external-pipeline` | The entry is primarily an external framework or pipeline, not a model reimplemented here. |
 | `deprecated` | The entry is kept for historical context, but is no longer a project focus. |
 
-## Current Compatible Schema
+## Current Canonical Schema
 
 The repository currently uses this flat style:
 
@@ -63,7 +63,8 @@ architectures:
 ## Lightly Enriched Future Schema
 
 The metadata validator also supports a lightly enriched nested style for future
-entries. Do not migrate the existing file just for style.
+entries. Do not migrate the existing file just for style. Current entries should
+still use the canonical `implementation_status` field.
 
 ```yaml
 architectures:
@@ -73,7 +74,7 @@ architectures:
     year: 2026
     category: architecture-category
     family: Architecture family
-    status: reference-only
+    implementation_status: reference-only
     implementation:
       module: null
       class: null
@@ -116,7 +117,7 @@ Every architecture entry should have:
 - `name`
 - `family`
 - `chapter_path` or `documentation.page`, unless no page exists yet
-- a status field: `implementation_status` or `status`
+- `implementation_status`
 - `paper_links`
 - reference information from the original source
 

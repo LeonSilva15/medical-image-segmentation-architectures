@@ -1,4 +1,4 @@
-# Residual U-Net / ResUNet-Style Variants
+# Residual U-Net / ResUNet-style variants
 
 ## Plain-Language Overview
 

@@ -57,7 +57,7 @@ served, check `Settings -> Pages -> Build and deployment -> Source` and select
 
 | Model | Status | Code in `src/` | Tests | Demo | Documentation-only page |
 | --- | --- | --- | --- | --- | --- |
-| FCN | reference-only | No | No | No | Yes |
+| Fully Convolutional Network (FCN) | reference-only | No | No | No | Yes |
 | U-Net | implemented | Yes: `src/medseg_architectures/models/unet.py` | Yes: `tests/test_model_shapes.py` | Yes: `demos/demo_forward_pass.py` | No |
 | DeepLabv3+ | reference-only | No | No | No | Yes |
 | 3D U-Net | reference-only | No | No | No | Yes |
@@ -83,6 +83,7 @@ or demos until their metadata status changes.
 ```sh
 uv run --python 3.11 python scripts/validate_references.py
 uv run --python 3.11 python scripts/validate_architecture_metadata.py
+uv run --python 3.11 ruff check .
 ```
 
 ## Contributing Architecture Changes

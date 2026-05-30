@@ -5,7 +5,7 @@ original papers for formal citation details.
 
 | Architecture | Paper | DOI | arXiv |
 | --- | --- | --- | --- |
-| FCN | Fully Convolutional Networks for Semantic Segmentation | [10.1109/CVPR.2015.7298965](https://doi.org/10.1109/CVPR.2015.7298965) | [1411.4038](https://arxiv.org/abs/1411.4038) |
+| Fully Convolutional Network (FCN) | Fully Convolutional Networks for Semantic Segmentation | [10.1109/CVPR.2015.7298965](https://doi.org/10.1109/CVPR.2015.7298965) | [1411.4038](https://arxiv.org/abs/1411.4038) |
 | U-Net | U-Net: Convolutional Networks for Biomedical Image Segmentation | [10.1007/978-3-319-24574-4_28](https://doi.org/10.1007/978-3-319-24574-4_28) | [1505.04597](https://arxiv.org/abs/1505.04597) |
 | DeepLabv3+ | Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation | [10.1007/978-3-030-01234-2_49](https://doi.org/10.1007/978-3-030-01234-2_49) | [1802.02611](https://arxiv.org/abs/1802.02611) |
 | 3D U-Net | 3D U-Net: Learning Dense Volumetric Segmentation from Sparse Annotation | [10.1007/978-3-319-46723-8_49](https://doi.org/10.1007/978-3-319-46723-8_49) | [1606.06650](https://arxiv.org/abs/1606.06650) |

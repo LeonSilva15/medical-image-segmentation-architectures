@@ -14,7 +14,7 @@ the [Architecture Selection Guide](selection-guide.md).
 
 | Architecture | Year | Family | Status | Parent | Chapter |
 | --- | ---: | --- | --- | --- | --- |
-| FCN | 2015 | Dense prediction | reference-only | None | [Read](fcn.md) |
+| Fully Convolutional Network (FCN) | 2015 | Dense prediction | reference-only | None | [Read](fcn.md) |
 | U-Net | 2015 | U-Net family | implemented | FCN | [Read](unet.md) |
 | DeepLabv3+ | 2018 | General CV dense prediction, atrous encoder-decoder | reference-only | FCN | [Read](deeplabv3plus.md) |
 | 3D U-Net | 2016 | U-Net family, 3D | reference-only | U-Net | [Read](3d-unet.md) |
