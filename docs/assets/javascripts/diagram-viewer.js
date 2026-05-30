@@ -389,6 +389,19 @@
     }
 
     prepared.add(diagram);
+    diagram.classList.add("diagram-viewer-inline__diagram");
+    diagram.setAttribute("role", "button");
+    diagram.setAttribute("tabindex", "0");
+    diagram.setAttribute("aria-label", "Open diagram in viewer");
+    diagram.addEventListener("click", () => openViewer(diagram));
+    diagram.addEventListener("keydown", (event) => {
+      if (event.key !== "Enter" && event.key !== " ") {
+        return;
+      }
+
+      event.preventDefault();
+      openViewer(diagram);
+    });
 
     const wrapper = document.createElement("div");
     wrapper.className = "diagram-viewer-inline";
@@ -432,4 +445,6 @@
     childList: true,
     subtree: true,
   });
+
+  scheduleScan();
 })();

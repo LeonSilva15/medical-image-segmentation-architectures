@@ -8,6 +8,10 @@
   margin-bottom: 0.35rem;
 }
 
+.diagram-viewer-inline__diagram {
+  cursor: zoom-in;
+}
+
 .diagram-viewer__open,
 .diagram-viewer__control {
   border: 1px solid var(--md-default-fg-color--lightest);
@@ -27,6 +31,7 @@
   color: var(--md-accent-fg-color);
 }
 
+.diagram-viewer-inline__diagram:focus-visible,
 .diagram-viewer__open:focus-visible,
 .diagram-viewer__control:focus-visible {
   outline: 2px solid var(--md-accent-fg-color);
