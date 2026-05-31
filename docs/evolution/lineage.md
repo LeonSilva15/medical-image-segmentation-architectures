@@ -26,6 +26,7 @@ graph TD
     SAMRoot["SAM / SAM2 context<br/>General promptable segmentation"]
     MedSAM["MedSAM<br/>Promptable medical segmentation"]
     SAMMed2D["SAM-Med2D<br/>2D medical prompting"]
+    SAMMed3D["SAM-Med3D<br/>3D promptable foundation model"]
     MedSAM2["MedSAM2<br/>3D and video prompting"]
 
     FCN --> UNet
@@ -48,6 +49,7 @@ graph TD
     SAMRoot --> MedSAM
     SAMRoot --> SAMMed2D
     SAMRoot --> MedSAM2
+    MedSAM --> SAMMed3D
 ```
 
 ## Main Branches

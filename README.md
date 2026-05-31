@@ -82,6 +82,7 @@ served, check `Settings -> Pages -> Build and deployment -> Source` and select
 | Swin UNETR | reference-only | No | No | No | Yes |
 | MedSAM | reference-only | No | No | No | Yes |
 | SAM-Med2D | reference-only | No | No | No | Yes |
+| SAM-Med3D | reference-only | No | No | No | Yes |
 | MedSAM2 | reference-only | No | No | No | Yes |
 
 Reader-facing docs use `external pipeline`; metadata stores the same status as

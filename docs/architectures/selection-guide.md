@@ -137,6 +137,7 @@ video-style prompting with memory across slices or frames.
 | [Swin UNETR](swin-unetr.md) | Medical 3D shifted-window Transformer | Applies Swin-style shifted-window attention to UNETR-style volumetric segmentation. | Compare full-token and windowed Transformer encoders for 3D segmentation. | reference-only |
 | [MedSAM](medsam.md) | Promptable medical foundation-model adaptation | Represents prompt-conditioned medical segmentation workflows. | Understand how prompts change the segmentation interface. | reference-only |
 | [SAM-Med2D](sam-med2d.md) | Promptable 2D medical adaptation | Shows how SAM-style prompting is adapted to 2D medical images. | Compare point, box, and mask prompts for 2D medical segmentation. | reference-only |
+| [SAM-Med3D](sam-med3d.md) | Promptable 3D medical foundation model | Moves SAM-style prompting to native volumetric medical segmentation. | Compare one 3D point prompt with slice-by-slice 2D prompting. | reference-only |
 | [MedSAM2](medsam2.md) | Promptable 3D and video medical adaptation | Adds memory-conditioned prompting for medical slices and frames. | Understand why 3D and video prompting need continuity validation. | reference-only |
 
 ## What This Guide Does Not Claim

@@ -541,6 +541,33 @@ architectures:
     tests: false
     demo: false
 
+  - id: sam-med3d
+    slug: sam-med3d
+    name: SAM-Med3D
+    year: 2023
+    family: foundation-models
+    parent: medsam
+    chapter_path: docs/architectures/sam-med3d.md
+    paper_title: >
+      SAM-Med3D: Towards General-purpose Segmentation Models
+      for Volumetric Medical Images
+    doi: null
+    arxiv: "2310.15161"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2310.15161
+    modification: Extends SAM-style promptable medical segmentation to native 3D volumes.
+    technical_summary: >
+      SAM-Med3D replaces 2D SAM components with 3D image and point-prompt
+      encoders so a volumetric model can respond to prompts in 3D volume space.
+    understandable_summary: >
+      SAM-Med3D connects 2D promptable medical segmentation to native volumetric
+      prompting with a single point in 3D space.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
 
 
   - id: medsam2

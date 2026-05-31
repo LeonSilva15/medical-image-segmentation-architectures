@@ -27,4 +27,5 @@ proceedings, or journal DOI for that paper version.
 | Swin UNETR | Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images | [10.1007/978-3-031-08999-2_22](https://doi.org/10.1007/978-3-031-08999-2_22) | [2201.01266](https://arxiv.org/abs/2201.01266) |
 | MedSAM | Segment Anything in Medical Images | [10.1038/s41467-024-44824-z](https://doi.org/10.1038/s41467-024-44824-z) | [2304.12306](https://arxiv.org/abs/2304.12306) |
 | SAM-Med2D | SAM-Med2D | Not listed | [2308.16184](https://arxiv.org/abs/2308.16184) |
+| SAM-Med3D | SAM-Med3D: Towards General-purpose Segmentation Models for Volumetric Medical Images | Not listed | [2310.15161](https://arxiv.org/abs/2310.15161) |
 | MedSAM2 | MedSAM2: Segment Anything in 3D Medical Images and Videos | Not listed | [2504.03600](https://arxiv.org/abs/2504.03600) |
