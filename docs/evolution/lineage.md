@@ -58,6 +58,8 @@ graph TD
     SAMRoot --> MedSAM
     SAMRoot --> SAMMed2D
     SAMRoot --> MedSAM2
+    MedSAM --> SAMMed2D
+    SAMMed2D --> MedSAM2
     MedSAM --> SAMMed3D
     MedSAM --> SegVol
 ```
