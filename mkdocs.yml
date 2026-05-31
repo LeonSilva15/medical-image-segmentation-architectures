@@ -74,6 +74,7 @@ nav:
       - Swin UNETR: architectures/swin-unetr.md
       - Instance Segmentation:
           - StarDist-3D: architectures/stardist-3d.md
+          - Cellpose: architectures/cellpose.md
       - MedSAM: architectures/medsam.md
       - SAM-Med2D: architectures/sam-med2d.md
       - SAM-Med3D: architectures/sam-med3d.md

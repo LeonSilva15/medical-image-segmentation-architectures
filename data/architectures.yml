@@ -585,6 +585,73 @@ architectures:
     tests: false
     demo: false
 
+  - id: cellpose
+    slug: cellpose
+    name: Cellpose
+    year: 2021
+    family: instance-segmentation
+    parent: stardist-3d
+    chapter_path: docs/architectures/cellpose.md
+    paper_title: "Cellpose: a generalist algorithm for cellular segmentation"
+    authors:
+      - Carsen Stringer
+      - Tim Wang
+      - Michalis Michaelos
+      - Marius Pachitariu
+    venue: Nature Methods, 2021
+    doi: "10.1038/s41592-020-01018-x"
+    pmid: "33318659"
+    arxiv: null
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1038/s41592-020-01018-x
+    official_code: https://github.com/MouseLand/cellpose
+    versions:
+      cellpose_2:
+        paper_title: "Cellpose 2.0: how to train your own model"
+        doi: "10.1038/s41592-022-01663-4"
+        year: 2022
+      cellpose_3:
+        paper_title: "Cellpose3: one-click image restoration for improved segmentation"
+        doi: "10.1038/s41592-025-02604-7"
+        year: 2025
+    modification: >
+      Replaces shape-based instance representation such as polygons or
+      polyhedra with a physics-inspired flow-field representation derived from
+      the heat diffusion equation. Introduces a no-annotation-free 3D extension
+      that reuses a 2D model across orthogonal planes, removing the need for 3D
+      instance labels during training.
+    technical_summary: >
+      Cellpose trains a U-Net to predict, at every pixel, a 2D flow vector
+      representing the pre-computed solution of the heat diffusion equation
+      applied to ground-truth instance masks, with a heat source at each object
+      centre. A second output head predicts a cell probability map. At
+      inference, predicted flows are integrated by a gradient tracking step that
+      clusters pixels whose trajectories converge to the same fixed point,
+      yielding instance masks without an explicit shape prior. The 3D extension
+      processes all three orthogonal planes, XY, XZ, and YZ, with the same 2D
+      model and averages the six resulting gradient components to produce full
+      3D vector gradients, enabling 3D instance segmentation without 3D-labelled
+      training data.
+    understandable_summary: >
+      Cellpose teaches a network to predict, for every pixel, which direction to
+      flow to reach its object's centre. At test time pixels are grouped by
+      following those flows; pixels that end up at the same centre belong to the
+      same object. The 3D extension reuses the 2D model on all three slice
+      orientations and combines the results, so it works in 3D without any 3D
+      ground truth.
+    limitations: >
+      Flow field integration can fail for very elongated objects. The 3D
+      extension assumes the object appears coherently in all three orthogonal
+      planes, which breaks down for objects with extreme aspect ratios.
+      Performance on densely packed elongated structures is not well
+      characterised in the original paper.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
   - id: medsam
     slug: medsam
     name: MedSAM
