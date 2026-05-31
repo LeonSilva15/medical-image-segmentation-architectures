@@ -32,6 +32,7 @@ the [Architecture Selection Guide](selection-guide.md).
 | Swin-Unet | 2021 | Transformer U-shape | reference-only | TransUNet | [Read](swin-unet.md) |
 | UNETR | 2022 | 3D Transformer | reference-only | TransUNet | [Read](unetr.md) |
 | Swin UNETR | 2022 | 3D shifted-window Transformer | reference-only | UNETR | [Read](swin-unetr.md) |
+| StarDist-3D | 2020 | instance-segmentation | reference-only | 3D U-Net | [Read](stardist-3d.md) |
 | MedSAM | 2024 | Promptable foundation model | reference-only | None | [Read](medsam.md) |
 | SAM-Med2D | 2023 | Promptable foundation model, 2D medical adaptation | reference-only | None | [Read](sam-med2d.md) |
 | SAM-Med3D | 2023 | foundation-models | reference-only | MedSAM | [Read](sam-med3d.md) |

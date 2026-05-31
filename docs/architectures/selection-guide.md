@@ -25,6 +25,7 @@ medical image segmentation:
   attention variants;
 - self-configuring segmentation pipelines;
 - Transformer and hybrid encoder-decoder models;
+- instance segmentation with object-level shape predictions;
 - promptable and foundation-model-style segmentation.
 
 That sequence is intentional. FCN teaches the idea of predicting a label at each
@@ -99,6 +100,11 @@ Transformer and hybrid models are represented by [TransUNet](transunet.md),
 context to U-Net-style segmentation in 2D, 3D, convolutional-hybrid, and
 shifted-window forms.
 
+Instance segmentation is represented by [StarDist-3D](stardist-3d.md). It shows
+how a 3D U-Net-style backbone can predict object probability and star-convex
+polyhedron geometry so touching microscopy nuclei can be separated into
+instances.
+
 ## Transformer Branch Comparison
 
 | Architecture | Distinction |
@@ -107,6 +113,12 @@ shifted-window forms.
 | [Swin-Unet](swin-unet.md) | Swin Transformer U-shaped segmentation idea. |
 | [UNETR](unetr.md) | Transformer encoder with U-Net-like decoder for 3D medical segmentation. |
 | [Swin UNETR](swin-unetr.md) | Shifted-window Transformer encoder for 3D medical segmentation. |
+
+## Instance Segmentation Branch
+
+| Architecture | Distinction |
+| --- | --- |
+| [StarDist-3D](stardist-3d.md) | Predicts per-voxel object probability and radial distances for star-convex polyhedra, then prunes candidates with 3D NMS. |
 
 Promptable and foundation-model-style segmentation is represented by
 [MedSAM](medsam.md), [SAM-Med2D](sam-med2d.md),
@@ -137,6 +149,7 @@ prompting with memory across slices or frames.
 | [Swin-Unet](swin-unet.md) | Medical Transformer U-shape | Rebuilds a U-shaped segmentation model around shifted-window Transformer blocks. | Study a more Transformer-native U-shaped design. | reference-only |
 | [UNETR](unetr.md) | Medical 3D Transformer | Applies Transformer encoding to volumetric segmentation. | Learn how Transformer ideas are adapted to 3D medical volumes. | reference-only |
 | [Swin UNETR](swin-unetr.md) | Medical 3D shifted-window Transformer | Applies Swin-style shifted-window attention to UNETR-style volumetric segmentation. | Compare full-token and windowed Transformer encoders for 3D segmentation. | reference-only |
+| [StarDist-3D](stardist-3d.md) | 3D microscopy instance segmentation | Predicts star-convex polyhedra from a 3D U-Net-style backbone and uses NMS to separate object instances. | Study how object-level outputs differ from semantic voxel labels and where star-convex assumptions fail. | reference-only |
 | [MedSAM](medsam.md) | Promptable medical foundation-model adaptation | Represents prompt-conditioned medical segmentation workflows. | Understand how prompts change the segmentation interface. | reference-only |
 | [SAM-Med2D](sam-med2d.md) | Promptable 2D medical adaptation | Shows how SAM-style prompting is adapted to 2D medical images. | Compare point, box, and mask prompts for 2D medical segmentation. | reference-only |
 | [SAM-Med3D](sam-med3d.md) | Promptable 3D medical foundation model | Moves SAM-style prompting to native volumetric medical segmentation. | Compare one 3D point prompt with slice-by-slice 2D prompting. | reference-only |

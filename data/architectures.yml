@@ -538,6 +538,53 @@ architectures:
     tests: false
     demo: false
 
+  - id: stardist-3d
+    slug: stardist-3d
+    name: StarDist-3D
+    year: 2020
+    family: instance-segmentation
+    parent: 3d_unet
+    chapter_path: docs/architectures/stardist-3d.md
+    paper_title: "Star-convex Polyhedra for 3D Object Detection and Segmentation in Microscopy"
+    doi: 10.1109/WACV45572.2020.9093435
+    arxiv: "1908.03636"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1109/WACV45572.2020.9093435
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1908.03636
+    official_code: https://github.com/stardist/stardist
+    modification: >
+      Replaces per-voxel class labels with per-voxel star-convex polyhedra
+      predictions for direct instance segmentation without a separate
+      watershed-style post-processing step.
+    technical_summary: >
+      StarDist-3D extends the 2D star-convex polygon approach to 3D volumes by
+      representing each object as a star-convex polyhedron parameterized by
+      radial distances along fixed directions on the unit sphere. A modified 3D
+      U-Net backbone predicts an object probability and an R-length radial
+      distance vector at every voxel. Dense candidate polyhedra are pruned with
+      non-maximum suppression using a differentiable polyhedra intersection
+      algorithm, and anisotropic voxel spacings are handled by adapting the
+      representation for axial compression common in fluorescence microscopy.
+    understandable_summary: >
+      StarDist-3D finds individual cell nuclei in 3D microscopy volumes by
+      predicting, for each voxel, how far the object boundary is in fixed 3D
+      directions. Overlapping candidates are pruned so one instance remains per
+      object, and the method accounts for stretched Z-resolution in confocal
+      microscopy.
+    limitations: >
+      Star-convex polyhedra cannot represent objects that are highly elongated
+      along one axis, such as myotubes, axons, or blood vessels. Training
+      requires fully annotated 3D instance labels, and the number of radial
+      directions is a memory/accuracy trade-off set before training.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
   - id: medsam
     slug: medsam
     name: MedSAM

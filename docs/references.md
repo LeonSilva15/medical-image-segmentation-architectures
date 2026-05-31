@@ -26,6 +26,7 @@ proceedings, or journal DOI for that paper version.
 | Swin-Unet | Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation | [10.1007/978-3-031-25066-8_9](https://doi.org/10.1007/978-3-031-25066-8_9) | [2105.05537](https://arxiv.org/abs/2105.05537) |
 | UNETR | UNETR: Transformers for 3D Medical Image Segmentation | [10.1109/WACV51458.2022.00181](https://doi.org/10.1109/WACV51458.2022.00181) | [2103.10504](https://arxiv.org/abs/2103.10504) |
 | Swin UNETR | Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images | [10.1007/978-3-031-08999-2_22](https://doi.org/10.1007/978-3-031-08999-2_22) | [2201.01266](https://arxiv.org/abs/2201.01266) |
+| StarDist-3D | Star-convex Polyhedra for 3D Object Detection and Segmentation in Microscopy | [10.1109/WACV45572.2020.9093435](https://doi.org/10.1109/WACV45572.2020.9093435) | [1908.03636](https://arxiv.org/abs/1908.03636) |
 | MedSAM | Segment Anything in Medical Images | [10.1038/s41467-024-44824-z](https://doi.org/10.1038/s41467-024-44824-z) | [2304.12306](https://arxiv.org/abs/2304.12306) |
 | SAM-Med2D | SAM-Med2D | Not listed | [2308.16184](https://arxiv.org/abs/2308.16184) |
 | SAM-Med3D | SAM-Med3D: Towards General-purpose Segmentation Models for Volumetric Medical Images | Not listed | [2310.15161](https://arxiv.org/abs/2310.15161) |
