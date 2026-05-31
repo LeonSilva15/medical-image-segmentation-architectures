@@ -652,6 +652,75 @@ architectures:
     tests: false
     demo: false
 
+  - id: wnet3d
+    slug: wnet3d
+    name: WNet3D
+    year: 2024
+    family: instance-segmentation
+    parent: cellpose
+    chapter_path: docs/architectures/wnet3d.md
+    paper_title: "CellSeg3D: self-supervised 3D cell segmentation for fluorescence microscopy"
+    authors:
+      - Cyril Achard
+      - Timokleia Kousi
+      - Markus Frey
+      - Maxime Vappiani
+      - Thibault Bhend
+      - Sebastián Sanchez Moran
+      - Corinne Bhend
+      - Nikita Dvornik
+      - Frederique Bhend
+      - Adrian Bhend
+      - Shriya Bhend
+      - Adrian Bhend
+      - Mackenzie Mathis
+    venue: eLife, 2024
+    doi: "10.7554/eLife.99848"
+    arxiv: null
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.7554/eLife.99848
+    official_code: https://github.com/AdaptiveMotorControlLab/CellSeg3D
+    modification: >
+      Replaces supervised training with a self-supervised NCut plus
+      reconstruction objective, removing the requirement for manually annotated
+      3D instance masks. Introduces a W-shaped dual-U-Net architecture where
+      the segmentation from the first U-Net is used as input to the second
+      U-Net that reconstructs the original image.
+    technical_summary: >
+      WNet3D is a self-supervised segmentation architecture consisting of two
+      coupled U-Net encoders arranged in a W-shape: the first encodes the input
+      volume into a soft segmentation map, and the second reconstructs the
+      original volume from that map. The soft cut loss, NCut, encourages spatial
+      consistency in the segmentation by penalizing cuts through regions of
+      similar intensity, while the reconstruction loss prevents trivial
+      solutions, such as assigning all voxels to one segment. The model is
+      pretrained on unlabelled 3D fluorescence volumes and can be fine-tuned
+      with as few as one labelled example. Instance labels are derived post-hoc
+      from the semantic output using Voronoi-Otsu labelling or
+      connected-component watershed.
+    understandable_summary: >
+      WNet3D learns to segment 3D microscopy images without any labels by
+      training two U-Nets: one that segments, and one that reconstructs the
+      original image from the segmentation. The reconstruction objective forces
+      the segmentation to be meaningful rather than arbitrary. After
+      unsupervised training it can be fine-tuned with just a handful of
+      labelled slices.
+    limitations: >
+      The NCut loss requires a differentiable brightness-affinity graph that is
+      computed on image patches, making training memory-intensive for large 3D
+      volumes. The architecture assumes objects are distinguishable by local
+      intensity patterns; it struggles when objects and background have similar
+      fluorescence intensity profiles. Post-hoc instance extraction,
+      Voronoi-Otsu, inherits the assumption that object centres are
+      identifiable as local intensity maxima, which may not hold for uniformly
+      labelled object shafts.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
   - id: medsam
     slug: medsam
     name: MedSAM

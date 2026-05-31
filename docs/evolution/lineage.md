@@ -25,7 +25,8 @@ graph TD
     UNETR["UNETR<br/>3D Transformer encoder"]
     SwinUNETR["Swin UNETR<br/>3D shifted-window encoder"]
     StarDist3D["StarDist-3D<br/>Star-convex polyhedra, instance seg."]
-    Cellpose["Cellpose<br/>Flow-field instance seg."]
+    cellpose["Cellpose<br/>Flow-field instance seg."]
+    wnet3d["WNet3D<br/>Self-supervised, no labels needed"]
     SAMRoot["SAM / SAM2 context<br/>General promptable segmentation"]
     MedSAM["MedSAM<br/>Promptable medical segmentation"]
     SAMMed2D["SAM-Med2D<br/>2D medical prompting"]
@@ -52,7 +53,8 @@ graph TD
     UNETR --> SwinUNETR
     SwinUnet --> SwinUNETR
     UNet3D --> StarDist3D
-    StarDist3D --> Cellpose
+    StarDist3D --> cellpose
+    cellpose --> wnet3d
     SAMRoot --> MedSAM
     SAMRoot --> SAMMed2D
     SAMRoot --> MedSAM2
@@ -69,7 +71,7 @@ graph TD
 | U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md), [R2U-Net](../architectures/r2unet.md), [MultiResUNet](../architectures/multiresunet.md), [SegResNet](../architectures/segresnet.md), [U-Net++](../architectures/unetpp.md), [UNet 3+](../architectures/unet3plus.md), [Attention U-Net](../architectures/attention-unet.md), [U²-Net](../architectures/u2net.md) |
 | Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | [nnU-Net](../architectures/nnunet.md) |
 | Transformer hybrids | Add attention-based global context to segmentation architectures. | [TransUNet](../architectures/transunet.md), [Swin-Unet](../architectures/swin-unet.md), [UNETR](../architectures/unetr.md), [Swin UNETR](../architectures/swin-unetr.md) |
-| Instance segmentation | Predict object candidates, shape parameters, or flow fields to separate individual objects. | [StarDist-3D](../architectures/stardist-3d.md), [Cellpose](../architectures/cellpose.md) |
+| Instance segmentation | Predict object candidates, shape parameters, flow fields, or self-supervised region assignments to separate individual objects. | [StarDist-3D](../architectures/stardist-3d.md), [Cellpose](../architectures/cellpose.md), [WNet3D](../architectures/wnet3d.md) |
 | Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | [MedSAM](../architectures/medsam.md), [SAM-Med2D](../architectures/sam-med2d.md), [SAM-Med3D](../architectures/sam-med3d.md), [SegVol](../architectures/segvol.md), [MedSAM2](../architectures/medsam2.md) |
 
 ## Reading Order
@@ -100,7 +102,10 @@ for shifted-window Transformer encoding in 3D. For instance segmentation, read
 predict object-level star-convex polyhedra instead of semantic voxel labels.
 Then read [Cellpose](../architectures/cellpose.md) as the flow-field answer to
 the same instance-segmentation problem: it groups pixels by following predicted
-flows to object centres instead of assuming star-convex shapes. In the
+flows to object centres instead of assuming star-convex shapes. Read
+[WNet3D](../architectures/wnet3d.md) next for the self-supervised 3D route:
+pretraining on unlabelled fluorescence volumes with NCut and reconstruction
+before optional fine-tuning. In the
 promptable branch, read
 [MedSAM](../architectures/medsam.md) for the basic medical SAM-style interface,
 [SAM-Med2D](../architectures/sam-med2d.md) for 2D medical adaptation, and

@@ -75,6 +75,7 @@ nav:
       - Instance Segmentation:
           - StarDist-3D: architectures/stardist-3d.md
           - Cellpose: architectures/cellpose.md
+          - WNet3D: architectures/wnet3d.md
       - MedSAM: architectures/medsam.md
       - SAM-Med2D: architectures/sam-med2d.md
       - SAM-Med3D: architectures/sam-med3d.md

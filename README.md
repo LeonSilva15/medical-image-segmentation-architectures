@@ -83,6 +83,7 @@ served, check `Settings -> Pages -> Build and deployment -> Source` and select
 | Swin UNETR | reference-only | No | No | No | Yes |
 | StarDist-3D | reference-only | No | No | No | Yes |
 | Cellpose | reference-only | No | No | No | Yes |
+| WNet3D | reference-only | No | No | No | Yes |
 | MedSAM | reference-only | No | No | No | Yes |
 | SAM-Med2D | reference-only | No | No | No | Yes |
 | SAM-Med3D | reference-only | No | No | No | Yes |
