@@ -74,6 +74,7 @@ nav:
       - MedSAM: architectures/medsam.md
       - SAM-Med2D: architectures/sam-med2d.md
       - SAM-Med3D: architectures/sam-med3d.md
+      - SegVol: architectures/segvol.md
       - MedSAM2: architectures/medsam2.md
   - Appendix:
       - General Segmentation Context: appendix/general-segmentation-context.md

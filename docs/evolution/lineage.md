@@ -27,6 +27,7 @@ graph TD
     MedSAM["MedSAM<br/>Promptable medical segmentation"]
     SAMMed2D["SAM-Med2D<br/>2D medical prompting"]
     SAMMed3D["SAM-Med3D<br/>3D promptable foundation model"]
+    SegVol["SegVol<br/>Text + spatial prompts, 200+ categories"]
     MedSAM2["MedSAM2<br/>3D and video prompting"]
 
     FCN --> UNet
@@ -50,6 +51,7 @@ graph TD
     SAMRoot --> SAMMed2D
     SAMRoot --> MedSAM2
     MedSAM --> SAMMed3D
+    MedSAM --> SegVol
 ```
 
 ## Main Branches
@@ -61,7 +63,7 @@ graph TD
 | U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md), [R2U-Net](../architectures/r2unet.md), [MultiResUNet](../architectures/multiresunet.md), [U-Net++](../architectures/unetpp.md), [UNet 3+](../architectures/unet3plus.md), [Attention U-Net](../architectures/attention-unet.md), [U²-Net](../architectures/u2net.md) |
 | Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | [nnU-Net](../architectures/nnunet.md) |
 | Transformer hybrids | Add attention-based global context to segmentation architectures. | [TransUNet](../architectures/transunet.md), [Swin-Unet](../architectures/swin-unet.md), [UNETR](../architectures/unetr.md), [Swin UNETR](../architectures/swin-unetr.md) |
-| Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | [MedSAM](../architectures/medsam.md), [SAM-Med2D](../architectures/sam-med2d.md), [MedSAM2](../architectures/medsam2.md) |
+| Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | [MedSAM](../architectures/medsam.md), [SAM-Med2D](../architectures/sam-med2d.md), [SAM-Med3D](../architectures/sam-med3d.md), [SegVol](../architectures/segvol.md), [MedSAM2](../architectures/medsam2.md) |
 
 ## Reading Order
 
@@ -87,4 +89,6 @@ for 3D Transformer encoding, and [Swin UNETR](../architectures/swin-unetr.md)
 for shifted-window Transformer encoding in 3D. In the promptable branch, read
 [MedSAM](../architectures/medsam.md) for the basic medical SAM-style interface,
 [SAM-Med2D](../architectures/sam-med2d.md) for 2D medical adaptation, and
-[MedSAM2](../architectures/medsam2.md) for 3D image and video-style prompting.
+[SAM-Med3D](../architectures/sam-med3d.md) and [SegVol](../architectures/segvol.md)
+for native volumetric promptable branches before [MedSAM2](../architectures/medsam2.md)
+for 3D image and video-style prompting.

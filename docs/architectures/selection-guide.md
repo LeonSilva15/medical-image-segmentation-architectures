@@ -62,8 +62,8 @@ The book also separates where an idea came from:
 
 The canonical architecture list lives in `data/architectures.yml`. Base SAM and
 SAM2 are useful general-computer-vision context, while [MedSAM](medsam.md),
-[SAM-Med2D](sam-med2d.md), and [MedSAM2](medsam2.md) are tracked as
-reference-only medical promptable entries.
+[SAM-Med2D](sam-med2d.md), [SAM-Med3D](sam-med3d.md), [SegVol](segvol.md), and
+[MedSAM2](medsam2.md) are tracked as reference-only medical promptable entries.
 
 ## Taxonomy At A Glance
 
@@ -109,10 +109,12 @@ shifted-window forms.
 | [Swin UNETR](swin-unetr.md) | Shifted-window Transformer encoder for 3D medical segmentation. |
 
 Promptable and foundation-model-style segmentation is represented by
-[MedSAM](medsam.md), [SAM-Med2D](sam-med2d.md), and
+[MedSAM](medsam.md), [SAM-Med2D](sam-med2d.md),
+[SAM-Med3D](sam-med3d.md), [SegVol](segvol.md), and
 [MedSAM2](medsam2.md). MedSAM introduces the medical SAM-style idea,
-SAM-Med2D focuses on 2D medical adaptation, and MedSAM2 focuses on 3D image and
-video-style prompting with memory across slices or frames.
+SAM-Med2D focuses on 2D medical adaptation, SAM-Med3D and SegVol cover native
+volumetric promptable branches, and MedSAM2 focuses on 3D image and video-style
+prompting with memory across slices or frames.
 
 ## Architecture Coverage Table
 
@@ -138,6 +140,7 @@ video-style prompting with memory across slices or frames.
 | [MedSAM](medsam.md) | Promptable medical foundation-model adaptation | Represents prompt-conditioned medical segmentation workflows. | Understand how prompts change the segmentation interface. | reference-only |
 | [SAM-Med2D](sam-med2d.md) | Promptable 2D medical adaptation | Shows how SAM-style prompting is adapted to 2D medical images. | Compare point, box, and mask prompts for 2D medical segmentation. | reference-only |
 | [SAM-Med3D](sam-med3d.md) | Promptable 3D medical foundation model | Moves SAM-style prompting to native volumetric medical segmentation. | Compare one 3D point prompt with slice-by-slice 2D prompting. | reference-only |
+| [SegVol](segvol.md) | Text-promptable volumetric foundation model | Combines volumetric image features with semantic text prompts and spatial prompts. | Learn the text-promptable branch of 3D medical foundation models. | reference-only |
 | [MedSAM2](medsam2.md) | Promptable 3D and video medical adaptation | Adds memory-conditioned prompting for medical slices and frames. | Understand why 3D and video prompting need continuity validation. | reference-only |
 
 ## What This Guide Does Not Claim

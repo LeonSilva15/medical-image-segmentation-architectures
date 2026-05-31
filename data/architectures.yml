@@ -569,6 +569,35 @@ architectures:
     tests: false
     demo: false
 
+  - id: segvol
+    slug: segvol
+    name: SegVol
+    year: 2023
+    family: foundation-models
+    parent: medsam
+    chapter_path: docs/architectures/segvol.md
+    paper_title: "SegVol: Universal and Interactive Volumetric Medical Image Segmentation"
+    doi: 10.48550/arXiv.2311.13385
+    arxiv: "2311.13385"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.48550/arXiv.2311.13385
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2311.13385
+    modification: Combines volumetric image features with semantic text and spatial prompts.
+    technical_summary: >
+      SegVol uses a 3D foundation segmentation model with CLIP-based text
+      prompting, spatial prompts, and zoom-out-zoom-in inference for volumetric
+      medical segmentation.
+    understandable_summary: >
+      SegVol represents the text-promptable branch of 3D medical foundation
+      segmentation models.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
 
   - id: medsam2
     slug: medsam2

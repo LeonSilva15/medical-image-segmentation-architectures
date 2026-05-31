@@ -28,4 +28,5 @@ proceedings, or journal DOI for that paper version.
 | MedSAM | Segment Anything in Medical Images | [10.1038/s41467-024-44824-z](https://doi.org/10.1038/s41467-024-44824-z) | [2304.12306](https://arxiv.org/abs/2304.12306) |
 | SAM-Med2D | SAM-Med2D | Not listed | [2308.16184](https://arxiv.org/abs/2308.16184) |
 | SAM-Med3D | SAM-Med3D: Towards General-purpose Segmentation Models for Volumetric Medical Images | Not listed | [2310.15161](https://arxiv.org/abs/2310.15161) |
+| SegVol | SegVol: Universal and Interactive Volumetric Medical Image Segmentation | [10.48550/arXiv.2311.13385](https://doi.org/10.48550/arXiv.2311.13385) | [2311.13385](https://arxiv.org/abs/2311.13385) |
 | MedSAM2 | MedSAM2: Segment Anything in 3D Medical Images and Videos | Not listed | [2504.03600](https://arxiv.org/abs/2504.03600) |

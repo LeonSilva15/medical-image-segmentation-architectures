@@ -34,6 +34,7 @@ the [Architecture Selection Guide](selection-guide.md).
 | MedSAM | 2024 | Promptable foundation model | reference-only | None | [Read](medsam.md) |
 | SAM-Med2D | 2023 | Promptable foundation model, 2D medical adaptation | reference-only | None | [Read](sam-med2d.md) |
 | SAM-Med3D | 2023 | foundation-models | reference-only | MedSAM | [Read](sam-med3d.md) |
+| SegVol | 2023 | foundation-models | reference-only | MedSAM | [Read](segvol.md) |
 | MedSAM2 | 2025 | Promptable foundation model, 3D and video | reference-only | None | [Read](medsam2.md) |
 
 ## How Chapters Will Grow

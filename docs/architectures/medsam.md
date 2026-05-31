@@ -7,9 +7,10 @@ fixed task-specific mask from only an image, a prompt such as a box guides the
 segmentation output.
 
 In this book, MedSAM is the general medical SAM-style reference page. Related
-reference-only pages cover [SAM-Med2D](sam-med2d.md) for 2D medical adaptation,
-[SAM-Med3D](sam-med3d.md) for volumetric prompting, and [MedSAM2](medsam2.md)
-for 3D image and video-style prompting.
+reference-only pages cover [SAM-Med2D](sam-med2d.md) for 2D medical adaptation
+and [SAM-Med3D](sam-med3d.md), [SegVol](segvol.md), and
+[MedSAM2](medsam2.md) for volumetric, text-promptable, and 3D/video prompting
+branches.
 
 ## What Problem It Solved
 
