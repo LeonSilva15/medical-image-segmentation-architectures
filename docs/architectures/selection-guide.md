@@ -21,7 +21,8 @@ medical image segmentation:
 - atrous/dilated convolution, ASPP, and multi-scale context;
 - encoder-decoder segmentation with skip connections;
 - 3D volumetric segmentation;
-- skip-connection and attention variants;
+- residual, recurrent, multi-resolution, skip-connection, nested-block, and
+  attention variants;
 - self-configuring segmentation pipelines;
 - Transformer and hybrid encoder-decoder models;
 - promptable and foundation-model-style segmentation.
@@ -32,7 +33,8 @@ ASPP, multi-scale context, and lightweight decoder refinement. U-Net then
 becomes the central medical segmentation baseline because many later models are
 easiest to understand as changes to its encoder, decoder, skip connections, or
 training pipeline. The later chapters show how researchers extended that
-baseline with 3D operations, denser skip paths, attention gates,
+baseline with 3D operations, recurrent residual blocks, multi-resolution blocks,
+denser skip paths, nested U-structure blocks, attention gates,
 self-configuration, Transformers, and prompts.
 
 ## How To Read Coverage
@@ -80,9 +82,11 @@ encoder-decoder branch.
 
 U-Net block, skip, and attention variants are represented by
 [Residual U-Net / ResUNet-style variants](resunet-style-variants.md),
-[U-Net++](unetpp.md), and [Attention U-Net](attention-unet.md). These pages show
-how later architectures modify the local feature blocks or the information
-passed from encoder to decoder.
+[R2U-Net](r2unet.md), [MultiResUNet](multiresunet.md),
+[U-Net++](unetpp.md), [UNet 3+](unet3plus.md),
+[Attention U-Net](attention-unet.md), and [U²-Net](u2net.md). These pages show
+how later architectures modify local feature blocks, nested block structure, or
+the information passed from encoder to decoder.
 
 Pipeline and self-configuring systems are represented by [nnU-Net](nnunet.md).
 It is included because many practical segmentation results depend on
@@ -125,6 +129,7 @@ video-style prompting with memory across slices or frames.
 | [U-Net++](unetpp.md) | Medical U-Net skip variant | Shows how nested skip pathways refine the information passed into the decoder. | Compare direct U-Net skips with denser skip designs. | reference-only |
 | [UNet 3+](unet3plus.md) | Medical U-Net full-scale skip variant | Extends U-Net++ by connecting decoder nodes to all encoder scales. | Study full-scale skip fusion and deep supervision. | reference-only |
 | [Attention U-Net](attention-unet.md) | Medical U-Net attention variant | Adds attention gates that filter skip-connection features. | Learn how attention can focus decoder fusion. | reference-only |
+| [U²-Net](u2net.md) | Nested U-structure block variant | Replaces each outer U-Net node with a smaller U-shaped RSU block. | Learn how nested blocks differ from changing skip pathways. | reference-only |
 | [nnU-Net](nnunet.md) | Medical self-configuring pipeline | Shows why preprocessing, training, and inference policy can matter as much as the model block. | Understand segmentation as a full pipeline rather than only a neural network. | external pipeline |
 | [TransUNet](transunet.md) | Medical Transformer hybrid | Combines U-Net-style decoding with Transformer context modeling. | Learn the bridge from CNN baselines to Transformer encoders. | reference-only |
 | [Swin-Unet](swin-unet.md) | Medical Transformer U-shape | Rebuilds a U-shaped segmentation model around shifted-window Transformer blocks. | Study a more Transformer-native U-shaped design. | reference-only |

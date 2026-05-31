@@ -65,6 +65,7 @@ nav:
       - U-Net++: architectures/unetpp.md
       - UNet 3+: architectures/unet3plus.md
       - Attention U-Net: architectures/attention-unet.md
+      - U²-Net: architectures/u2net.md
       - nnU-Net: architectures/nnunet.md
       - TransUNet: architectures/transunet.md
       - Swin-Unet: architectures/swin-unet.md

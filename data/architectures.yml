@@ -317,6 +317,35 @@ architectures:
     tests: false
     demo: false
 
+  - id: u2net
+    slug: u2net
+    name: U²-Net
+    year: 2020
+    family: unet
+    parent: unet
+    chapter_path: docs/architectures/u2net.md
+    paper_title: "U2-Net: Going Deeper with Nested U-Structure for Salient Object Detection"
+    doi: 10.1016/j.patcog.2020.107404
+    arxiv: "2005.09007"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1016/j.patcog.2020.107404
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2005.09007
+    modification: Replaces each outer U-Net node with a nested U-shaped RSU block.
+    technical_summary: >
+      U²-Net builds a two-level nested U-structure: the outer U-shape fuses
+      scales, while each inner RSU block extracts local detail and broader
+      context at a resolution level.
+    understandable_summary: >
+      U²-Net changes the blocks inside U-Net rather than only changing the skip
+      connections between encoder and decoder stages.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
 
   - id: nnunet
     slug: nnunet
