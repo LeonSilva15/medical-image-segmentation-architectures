@@ -9,8 +9,8 @@ blocks inspired by ResNet.
 
 This page is a family overview, not a claim that there is one canonical ResUNet
 implementation in this repository. Different papers and codebases use names
-such as ResUNet, Residual U-Net, R2U-Net, MultiResUNet, or ResUNet++ for related
-but non-identical designs.
+such as ResUNet, Residual U-Net, [R2U-Net](r2unet.md),
+MultiResUNet, or ResUNet++ for related but non-identical designs.
 
 ## What Problem It Solved
 
@@ -172,6 +172,7 @@ or any other named ResUNet paper.
 | [U-Net](unet.md) | Provides the encoder-decoder shape, long skip connections, and dense segmentation output pattern. |
 | ResNet | Provides the residual shortcut idea used inside local feature blocks. |
 | [V-Net](vnet.md) | Also uses residual-style volumetric block design, but it is a 3D branch with its own architecture and Dice-style training focus. |
+| [R2U-Net](r2unet.md) | Adds recurrent convolutional refinement inside residual U-Net-style blocks. |
 | [U-Net++](unetpp.md) | Changes skip pathways with nested dense skip nodes rather than primarily replacing the local block type. |
 | [Attention U-Net](attention-unet.md) | Adds attention gates that filter skip features; residual U-Net variants usually focus on block optimization instead. |
 

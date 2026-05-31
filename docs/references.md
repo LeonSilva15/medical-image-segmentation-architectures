@@ -14,6 +14,7 @@ proceedings, or journal DOI for that paper version.
 | 3D U-Net | 3D U-Net: Learning Dense Volumetric Segmentation from Sparse Annotation | [10.1007/978-3-319-46723-8_49](https://doi.org/10.1007/978-3-319-46723-8_49) | [1606.06650](https://arxiv.org/abs/1606.06650) |
 | V-Net | Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation | [10.1109/3DV.2016.79](https://doi.org/10.1109/3DV.2016.79) | [1606.04797](https://arxiv.org/abs/1606.04797) |
 | Residual U-Net / ResUNet-style variants | Recurrent Residual Convolutional Neural Network based on U-Net (R2U-Net) for Medical Image Segmentation | Not listed | [1802.06955](https://arxiv.org/abs/1802.06955) |
+| R2U-Net | Recurrent Residual Convolutional Neural Network based on U-Net (R2U-Net) for Medical Image Segmentation | Not listed | [1802.06955](https://arxiv.org/abs/1802.06955) |
 | U-Net++ | UNet++: A Nested U-Net Architecture for Medical Image Segmentation | [10.1007/978-3-030-00889-5_1](https://doi.org/10.1007/978-3-030-00889-5_1) | [1807.10165](https://arxiv.org/abs/1807.10165) |
 | Attention U-Net | Attention U-Net: Learning Where to Look for the Pancreas | Not listed | [1804.03999](https://arxiv.org/abs/1804.03999) |
 | nnU-Net | nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation | [10.1038/s41592-020-01008-z](https://doi.org/10.1038/s41592-020-01008-z) | [1809.10486](https://arxiv.org/abs/1809.10486) |

@@ -60,6 +60,7 @@ nav:
       - 3D U-Net: architectures/3d-unet.md
       - V-Net: architectures/vnet.md
       - Residual U-Net / ResUNet-style variants: architectures/resunet-style-variants.md
+      - R2U-Net: architectures/r2unet.md
       - U-Net++: architectures/unetpp.md
       - Attention U-Net: architectures/attention-unet.md
       - nnU-Net: architectures/nnunet.md

@@ -171,6 +171,36 @@ architectures:
     tests: false
     demo: false
 
+  - id: r2unet
+    slug: r2unet
+    name: R2U-Net
+    year: 2018
+    family: unet
+    parent: resunet_style_variants
+    chapter_path: docs/architectures/r2unet.md
+    paper_title: >
+      Recurrent Residual Convolutional Neural Network based on U-Net
+      (R2U-Net) for Medical Image Segmentation
+    doi: null
+    arxiv: "1802.06955"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1802.06955
+    modification: Replaces U-Net's plain double-convolution blocks with recurrent residual blocks.
+    technical_summary: >
+      R2U-Net keeps the U-Net encoder-decoder layout while using Recurrent
+      Residual Convolutional blocks so each scale can accumulate context across
+      recurrent steps and use residual connections for optimization.
+    understandable_summary: >
+      R2U-Net shows how recurrence and residual shortcuts can strengthen the
+      feature blocks inside a U-Net-style segmentation model.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
+
   - id: unetpp
     slug: unetpp
     name: U-Net++
@@ -200,6 +230,7 @@ architectures:
     tests: false
     demo: false
 
+
   - id: attention_unet
     slug: attention-unet
     name: Attention U-Net
@@ -225,6 +256,7 @@ architectures:
     code_path: null
     tests: false
     demo: false
+
 
   - id: nnunet
     slug: nnunet
@@ -419,6 +451,8 @@ architectures:
     code_path: null
     tests: false
     demo: false
+
+
 
   - id: medsam2
     slug: medsam2

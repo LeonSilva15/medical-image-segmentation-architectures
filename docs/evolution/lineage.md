@@ -12,6 +12,7 @@ graph TD
     UNet3D["3D U-Net<br/>Direct volumetric extension"]
     VNet["V-Net<br/>3D volumetric U-Net branch"]
     ResUNetStyle["Residual U-Net / ResUNet-style<br/>Residual blocks in U-Net stages"]
+    R2UNet["R2U-Net<br/>Recurrent residual blocks"]
     UNetPP["U-Net++<br/>Nested dense skip pathways"]
     AttUNet["Attention U-Net<br/>Attention-filtered skips"]
     nnUNet["nnU-Net<br/>Self-configuring pipeline"]
@@ -33,6 +34,7 @@ graph TD
     UNet --> AttUNet
     UNet --> nnUNet
     UNet --> TransUNet
+    ResUNetStyle --> R2UNet
     TransUNet --> SwinUnet
     TransUNet --> UNETR
     UNETR --> SwinUNETR

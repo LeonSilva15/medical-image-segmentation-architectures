@@ -20,6 +20,7 @@ the [Architecture Selection Guide](selection-guide.md).
 | 3D U-Net | 2016 | U-Net family, 3D | reference-only | U-Net | [Read](3d-unet.md) |
 | V-Net | 2016 | U-Net family, 3D | reference-only | U-Net | [Read](vnet.md) |
 | Residual U-Net / ResUNet-style variants | 2018 | U-Net family, residual variants | reference-only | U-Net | [Read](resunet-style-variants.md) |
+| R2U-Net | 2018 | unet | reference-only | Residual U-Net / ResUNet-style variants | [Read](r2unet.md) |
 | U-Net++ | 2018 | U-Net family, skip variants | reference-only | U-Net | [Read](unetpp.md) |
 | Attention U-Net | 2018 | U-Net family, attention gates | reference-only | U-Net | [Read](attention-unet.md) |
 | nnU-Net | 2021 | Self-configuring pipeline | external pipeline | U-Net | [Read](nnunet.md) |
