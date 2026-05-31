@@ -23,6 +23,7 @@ the [Architecture Selection Guide](selection-guide.md).
 | R2U-Net | 2018 | unet | reference-only | Residual U-Net / ResUNet-style variants | [Read](r2unet.md) |
 | MultiResUNet | 2020 | unet | reference-only | Residual U-Net / ResUNet-style variants | [Read](multiresunet.md) |
 | U-Net++ | 2018 | U-Net family, skip variants | reference-only | U-Net | [Read](unetpp.md) |
+| UNet 3+ | 2020 | unet | reference-only | U-Net++ | [Read](unet3plus.md) |
 | Attention U-Net | 2018 | U-Net family, attention gates | reference-only | U-Net | [Read](attention-unet.md) |
 | nnU-Net | 2021 | Self-configuring pipeline | external pipeline | U-Net | [Read](nnunet.md) |
 | TransUNet | 2021 | Transformer hybrid | reference-only | U-Net | [Read](transunet.md) |

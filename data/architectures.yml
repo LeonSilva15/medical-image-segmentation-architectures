@@ -261,6 +261,35 @@ architectures:
     tests: false
     demo: false
 
+  - id: unet3plus
+    slug: unet3plus
+    name: UNet 3+
+    year: 2020
+    family: unet
+    parent: unetpp
+    chapter_path: docs/architectures/unet3plus.md
+    paper_title: "UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation"
+    doi: 10.1109/ICASSP40776.2020.9053405
+    arxiv: "2004.08790"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1109/ICASSP40776.2020.9053405
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/2004.08790
+    modification: Adds full-scale skip connections, deep supervision, and classification guidance.
+    technical_summary: >
+      UNet 3+ connects each decoder node to feature maps from all encoder scales,
+      adds deep supervision on decoder outputs, and uses classification guidance
+      to reduce over-segmentation when no target organ is present.
+    understandable_summary: >
+      UNet 3+ extends the U-Net and U-Net++ skip-connection arc by giving each
+      decoder stage information from every encoder scale at once.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
 
   - id: attention_unet
     slug: attention-unet

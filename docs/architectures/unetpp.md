@@ -117,6 +117,8 @@ model, does not include a demo, and does not claim to reproduce the full paper.
 
 - The minimum form shows the nested skip idea with one shallow nested node.
 - Full U-Net++ variants can include more nested nodes and deep supervision.
+- [UNet 3+](unet3plus.md) is the next skip-connection chapter in this book
+  because it connects decoder nodes to all encoder scales.
 - Future local implementation work should add tests that verify all skip paths
   keep compatible spatial sizes.
 

@@ -63,6 +63,7 @@ nav:
       - R2U-Net: architectures/r2unet.md
       - MultiResUNet: architectures/multiresunet.md
       - U-Net++: architectures/unetpp.md
+      - UNet 3+: architectures/unet3plus.md
       - Attention U-Net: architectures/attention-unet.md
       - nnU-Net: architectures/nnunet.md
       - TransUNet: architectures/transunet.md

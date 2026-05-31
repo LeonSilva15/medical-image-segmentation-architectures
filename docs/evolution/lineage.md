@@ -15,6 +15,7 @@ graph TD
     R2UNet["R2U-Net<br/>Recurrent residual blocks"]
     MultiResUNet["MultiResUNet<br/>Multi-scale blocks + ResPaths"]
     UNetPP["U-Net++<br/>Nested dense skip pathways"]
+    UNet3Plus["UNet 3+<br/>Full-scale skip connections"]
     AttUNet["Attention U-Net<br/>Attention-filtered skips"]
     nnUNet["nnU-Net<br/>Self-configuring pipeline"]
     TransUNet["TransUNet<br/>CNN/U-Net + Transformer context"]
@@ -37,6 +38,7 @@ graph TD
     UNet --> TransUNet
     ResUNetStyle --> R2UNet
     ResUNetStyle --> MultiResUNet
+    UNetPP --> UNet3Plus
     TransUNet --> SwinUnet
     TransUNet --> UNETR
     UNETR --> SwinUNETR
