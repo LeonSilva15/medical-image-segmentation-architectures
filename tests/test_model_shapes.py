@@ -162,3 +162,11 @@ def test_unet_2d_rejects_invalid_config_options(
 ) -> None:
     with pytest.raises(ValueError, match=match):
         UNet2D(in_channels=1, out_channels=1, features=(8, 16), **kwargs)
+
+
+def test_unet_2d_choice_errors_wrap_options_in_brackets() -> None:
+    with pytest.raises(
+        ValueError,
+        match=r"norm must be one of \[none, batch, instance, group\]",
+    ):
+        UNet2D(in_channels=1, out_channels=1, features=(8, 16), norm="layer")

@@ -19,6 +19,20 @@ VALID_STATUSES = {
     "deprecated",
 }
 PAPER_LINK_KINDS = {"doi", "arxiv", "paper"}
+COMPACT_STRING_FIELDS = (
+    "id",
+    "slug",
+    "name",
+    "family",
+    "chapter_path",
+    "paper_title",
+    "doi",
+    "arxiv",
+    "modification",
+    "implementation_status",
+    "code_path",
+)
+PAPER_LINK_STRING_FIELDS = ("kind", "label", "url")
 
 ID_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
@@ -144,9 +158,11 @@ def validate_paper_links(entry: dict[str, Any], architecture_id: str) -> list[Va
 
     paper_links = entry.get("paper_links")
     if paper_links is None:
-        return []
+        return [ValidationIssue("error", architecture_id, "Missing required field: paper_links.")]
     if not isinstance(paper_links, list):
         return [ValidationIssue("error", architecture_id, "paper_links must be a list.")]
+    if not paper_links:
+        return [ValidationIssue("error", architecture_id, "paper_links must be non-empty.")]
 
     issues: list[ValidationIssue] = []
     for index, link in enumerate(paper_links):
@@ -181,6 +197,56 @@ def validate_paper_links(entry: dict[str, Any], architecture_id: str) -> list[Va
     return issues
 
 
+def validate_trimmed_strings(entry: dict[str, Any], architecture_id: str) -> list[ValidationIssue]:
+    """Require compact metadata strings to avoid leading or trailing whitespace."""
+
+    issues: list[ValidationIssue] = []
+
+    for field in COMPACT_STRING_FIELDS:
+        value = entry.get(field)
+        if isinstance(value, str) and value != value.strip():
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    f"{field} must not have leading or trailing whitespace.",
+                )
+            )
+
+    nested_compact_values = {
+        "documentation.page": nested(entry, "documentation", "page"),
+        "implementation.code_path": nested(entry, "implementation", "code_path"),
+    }
+    for field, value in nested_compact_values.items():
+        if isinstance(value, str) and value != value.strip():
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    f"{field} must not have leading or trailing whitespace.",
+                )
+            )
+
+    paper_links = entry.get("paper_links")
+    if isinstance(paper_links, list):
+        for index, link in enumerate(paper_links):
+            if not isinstance(link, dict):
+                continue
+            for field in PAPER_LINK_STRING_FIELDS:
+                value = link.get(field)
+                if isinstance(value, str) and value != value.strip():
+                    issues.append(
+                        ValidationIssue(
+                            "error",
+                            architecture_id,
+                            f"paper_links[{index}].{field} must not have leading or "
+                            "trailing whitespace.",
+                        )
+                    )
+
+    return issues
+
+
 def validate_metadata(
     metadata_path: Path,
     repo: Path | None = None,
@@ -205,6 +271,7 @@ def validate_metadata(
             continue
 
         architecture_id = str(entry.get("id") or fallback_id)
+        issues.extend(validate_trimmed_strings(entry, architecture_id))
 
         if not entry.get("id"):
             issues.append(ValidationIssue("error", architecture_id, "Missing required field: id."))
@@ -224,6 +291,24 @@ def validate_metadata(
         if not entry.get("name"):
             issues.append(
                 ValidationIssue("error", architecture_id, "Missing required field: name.")
+            )
+
+        if not entry.get("modification"):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    "Missing required field: modification.",
+                )
+            )
+
+        if not entry.get("doi") and not entry.get("arxiv"):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    "At least one of doi or arxiv must be set.",
+                )
             )
 
         slug = entry.get("slug")

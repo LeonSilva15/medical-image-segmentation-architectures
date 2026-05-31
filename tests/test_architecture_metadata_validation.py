@@ -59,6 +59,7 @@ def test_current_flat_schema_validates(tmp_path: Path) -> None:
               - kind: arxiv
                 label: arXiv
                 url: https://arxiv.org/abs/1411.4038
+            modification: Converts classification CNNs into dense pixel prediction networks.
             implementation_status: reference-only
             code_path: null
             tests: false
@@ -76,6 +77,7 @@ def test_current_flat_schema_validates(tmp_path: Path) -> None:
               - kind: arxiv
                 label: arXiv
                 url: https://arxiv.org/abs/1505.04597
+            modification: Adds a symmetric encoder-decoder with skip connections.
             implementation_status: implemented
             code_path: src/medseg_architectures/models/unet.py
             tests: true
@@ -96,18 +98,21 @@ def test_enriched_schema_validates(tmp_path: Path) -> None:
         tmp_path,
         """
         architectures:
-          - id: parent-model
-            slug: parent-model
-            name: Parent Model
+          - id: fcn
+            slug: fcn
+            name: Fully Convolutional Network
             status: reference-only
+            arxiv: "1411.4038"
             paper_links:
-              - kind: paper
-                label: Paper
-                url: https://example.org/parent-paper
-          - id: example-model
-            slug: example-model
-            name: Example Model
+              - kind: arxiv
+                label: arXiv
+                url: https://arxiv.org/abs/1411.4038
+            modification: Converts classification CNNs into dense pixel prediction networks.
+          - id: unet
+            slug: unet
+            name: U-Net
             status: reference-only
+            arxiv: "1505.04597"
             implementation:
               code_path: null
               tests: false
@@ -116,12 +121,13 @@ def test_enriched_schema_validates(tmp_path: Path) -> None:
               page: docs/architectures/example.md
             lineage:
               parents:
-                - parent-model
+                - fcn
               children: []
             paper_links:
-              - kind: paper
-                label: Paper
-                url: https://example.org/example-paper
+              - kind: arxiv
+                label: arXiv
+                url: https://arxiv.org/abs/1505.04597
+            modification: Adds a symmetric encoder-decoder with skip connections.
         """,
     )
 
@@ -195,6 +201,101 @@ def test_missing_name_is_error(tmp_path: Path) -> None:
 
     issues = validator.validate_metadata(metadata_path, tmp_path)
     assert any("Missing required field: name" in message for message in messages(issues))
+
+
+def test_missing_reference_identifier_is_error(tmp_path: Path) -> None:
+    validator = load_validator()
+    metadata_path = write_metadata(
+        tmp_path,
+        """
+        architectures:
+          - id: unet
+            name: U-Net
+            implementation_status: reference-only
+            modification: Adds a symmetric encoder-decoder with skip connections.
+            paper_links:
+              - kind: paper
+                label: Paper
+                url: https://example.org/paper
+        """,
+    )
+
+    issues = validator.validate_metadata(metadata_path, tmp_path)
+    assert any(
+        "At least one of doi or arxiv must be set" in message for message in messages(issues)
+    )
+
+
+def test_missing_modification_is_error(tmp_path: Path) -> None:
+    validator = load_validator()
+    metadata_path = write_metadata(
+        tmp_path,
+        """
+        architectures:
+          - id: unet
+            name: U-Net
+            implementation_status: reference-only
+            arxiv: "1505.04597"
+            paper_links:
+              - kind: arxiv
+                label: arXiv
+                url: https://arxiv.org/abs/1505.04597
+        """,
+    )
+
+    issues = validator.validate_metadata(metadata_path, tmp_path)
+    assert any("Missing required field: modification" in message for message in messages(issues))
+
+
+def test_missing_or_empty_paper_links_are_errors(tmp_path: Path) -> None:
+    validator = load_validator()
+    metadata_path = write_metadata(
+        tmp_path,
+        """
+        architectures:
+          - id: unet
+            name: U-Net
+            implementation_status: reference-only
+            arxiv: "1505.04597"
+            modification: Adds a symmetric encoder-decoder with skip connections.
+          - id: fcn
+            name: Fully Convolutional Network
+            implementation_status: reference-only
+            arxiv: "1411.4038"
+            paper_links: []
+            modification: Converts classification CNNs into dense pixel prediction networks.
+        """,
+    )
+
+    issues = validator.validate_metadata(metadata_path, tmp_path)
+    assert any("Missing required field: paper_links" in message for message in messages(issues))
+    assert any("paper_links must be non-empty" in message for message in messages(issues))
+
+
+def test_untrimmed_compact_strings_are_errors(tmp_path: Path) -> None:
+    validator = load_validator()
+    metadata_path = write_metadata(
+        tmp_path,
+        """
+        architectures:
+          - id: unet
+            name: U-Net
+            implementation_status: reference-only
+            arxiv: "1505.04597"
+            paper_title: >
+              U-Net: Convolutional Networks for Biomedical Image Segmentation
+            modification: " Adds a symmetric encoder-decoder with skip connections."
+            paper_links:
+              - kind: arxiv
+                label: " arXiv"
+                url: https://arxiv.org/abs/1505.04597
+        """,
+    )
+
+    issues = validator.validate_metadata(metadata_path, tmp_path)
+    assert any("paper_title must not have" in message for message in messages(issues))
+    assert any("modification must not have" in message for message in messages(issues))
+    assert any("paper_links[0].label must not have" in message for message in messages(issues))
 
 
 def test_implemented_entry_requires_existing_code_path(tmp_path: Path) -> None:

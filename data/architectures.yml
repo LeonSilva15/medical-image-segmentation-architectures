@@ -147,17 +147,17 @@ architectures:
   - id: resunet_style_variants
     slug: resunet-style-variants
     name: Residual U-Net / ResUNet-style variants
-    year: 2018
+    year: 2016
     family: U-Net family, residual variants
     parent: unet
     chapter_path: docs/architectures/resunet-style-variants.md
-    paper_title: "Recurrent Residual Convolutional Neural Network based on U-Net (R2U-Net) for Medical Image Segmentation"
+    paper_title: "The Importance of Skip Connections in Biomedical Image Segmentation"
     doi: null
-    arxiv: "1802.06955"
+    arxiv: "1608.04117"
     paper_links:
       - kind: arxiv
         label: arXiv
-        url: https://arxiv.org/abs/1802.06955
+        url: https://arxiv.org/abs/1608.04117
     modification: Replaces plain U-Net convolution blocks with residual-style blocks.
     technical_summary: >
       Residual U-Net-style variants keep the U-Net encoder-decoder and long skip
@@ -178,7 +178,7 @@ architectures:
     family: unet
     parent: resunet_style_variants
     chapter_path: docs/architectures/r2unet.md
-    paper_title: >
+    paper_title: >-
       Recurrent Residual Convolutional Neural Network based on U-Net
       (R2U-Net) for Medical Image Segmentation
     doi: null
@@ -207,7 +207,7 @@ architectures:
     family: unet
     parent: resunet_style_variants
     chapter_path: docs/architectures/multiresunet.md
-    paper_title: >
+    paper_title: >-
       MultiResUNet: Rethinking the U-Net Architecture for Multimodal
       Biomedical Image Segmentation
     doi: 10.1016/j.neunet.2019.08.025
@@ -393,7 +393,7 @@ architectures:
       - kind: doi
         label: DOI
         url: https://doi.org/10.1007/978-3-030-11726-9_28
-    modification: >
+    modification: >-
       Adds a variational autoencoder branch to the encoder bottleneck that
       reconstructs the input image during training, regularising the encoder
       under small labelled-dataset conditions. Uses an asymmetric
@@ -556,7 +556,7 @@ architectures:
         label: arXiv
         url: https://arxiv.org/abs/1908.03636
     official_code: https://github.com/stardist/stardist
-    modification: >
+    modification: >-
       Replaces per-voxel class labels with per-voxel star-convex polyhedra
       predictions for direct instance segmentation without a separate
       watershed-style post-processing step.
@@ -616,7 +616,7 @@ architectures:
         paper_title: "Cellpose3: one-click image restoration for improved segmentation"
         doi: "10.1038/s41592-025-02604-7"
         year: 2025
-    modification: >
+    modification: >-
       Replaces shape-based instance representation such as polygons or
       polyhedra with a physics-inspired flow-field representation derived from
       the heat diffusion equation. Introduces a no-annotation-free 3D extension
@@ -682,7 +682,7 @@ architectures:
         label: DOI
         url: https://doi.org/10.7554/eLife.99848
     official_code: https://github.com/AdaptiveMotorControlLab/CellSeg3D
-    modification: >
+    modification: >-
       Replaces supervised training with a self-supervised NCut plus
       reconstruction objective, removing the requirement for manually annotated
       3D instance masks. Introduces a W-shaped dual-U-Net architecture where
@@ -807,7 +807,7 @@ architectures:
         label: arXiv
         url: https://arxiv.org/abs/2310.15161
     official_code: https://github.com/uni-medical/SAM-Med3D
-    modification: >
+    modification: >-
       Replaces the 2D ViT image encoder and 2D prompt encoder with 3D
       equivalents, enabling a single 3D point prompt to segment a full
       volumetric structure. Adds a two-stage training procedure: 3D masked

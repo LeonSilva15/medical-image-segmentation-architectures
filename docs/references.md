@@ -13,7 +13,7 @@ proceedings, or journal DOI for that paper version.
 | DeepLabv3+ | Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation | [10.1007/978-3-030-01234-2_49](https://doi.org/10.1007/978-3-030-01234-2_49) | [1802.02611](https://arxiv.org/abs/1802.02611) |
 | 3D U-Net | 3D U-Net: Learning Dense Volumetric Segmentation from Sparse Annotation | [10.1007/978-3-319-46723-8_49](https://doi.org/10.1007/978-3-319-46723-8_49) | [1606.06650](https://arxiv.org/abs/1606.06650) |
 | V-Net | Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation | [10.1109/3DV.2016.79](https://doi.org/10.1109/3DV.2016.79) | [1606.04797](https://arxiv.org/abs/1606.04797) |
-| Residual U-Net / ResUNet-style variants | Recurrent Residual Convolutional Neural Network based on U-Net (R2U-Net) for Medical Image Segmentation | Not listed | [1802.06955](https://arxiv.org/abs/1802.06955) |
+| Residual U-Net / ResUNet-style variants | The Importance of Skip Connections in Biomedical Image Segmentation | Not listed | [1608.04117](https://arxiv.org/abs/1608.04117) |
 | R2U-Net | Recurrent Residual Convolutional Neural Network based on U-Net (R2U-Net) for Medical Image Segmentation | Not listed | [1802.06955](https://arxiv.org/abs/1802.06955) |
 | MultiResUNet | MultiResUNet: Rethinking the U-Net Architecture for Multimodal Biomedical Image Segmentation | [10.1016/j.neunet.2019.08.025](https://doi.org/10.1016/j.neunet.2019.08.025) | [1902.04049](https://arxiv.org/abs/1902.04049) |
 | U-Net++ | UNet++: A Nested U-Net Architecture for Medical Image Segmentation | [10.1007/978-3-030-00889-5_1](https://doi.org/10.1007/978-3-030-00889-5_1) | [1807.10165](https://arxiv.org/abs/1807.10165) |

@@ -1,5 +1,6 @@
 """Validate architecture metadata."""
 
+from collections import Counter
 from pathlib import Path
 from typing import Any
 
@@ -37,6 +38,20 @@ IMPLEMENTATION_STATUSES = {
     "deprecated",
 }
 PAPER_LINK_KINDS = {"doi", "arxiv", "paper"}
+COMPACT_STRING_FIELDS = (
+    "id",
+    "slug",
+    "name",
+    "family",
+    "chapter_path",
+    "paper_title",
+    "doi",
+    "arxiv",
+    "modification",
+    "implementation_status",
+    "code_path",
+)
+PAPER_LINK_STRING_FIELDS = ("kind", "label", "url")
 IMPLEMENTED_CHAPTER_HEADINGS = (
     "## Implementation Walkthrough",
     "## Learning Notes For Practitioners",
@@ -64,6 +79,8 @@ def validate_architecture(architecture: dict[str, Any], known_ids: set[str]) -> 
     missing_fields = REQUIRED_FIELDS - architecture.keys()
     if missing_fields:
         errors.append(f"{architecture_id}: missing fields {sorted(missing_fields)}")
+
+    errors.extend(validate_trimmed_strings(architecture))
 
     status = architecture.get("implementation_status")
     if status not in IMPLEMENTATION_STATUSES:
@@ -119,6 +136,35 @@ def validate_architecture(architecture: dict[str, Any], known_ids: set[str]) -> 
             errors.append(f"{architecture_id}: implemented entries must set tests to true")
         if architecture.get("demo") is not True:
             errors.append(f"{architecture_id}: implemented entries must set demo to true")
+
+    return errors
+
+
+def validate_trimmed_strings(architecture: dict[str, Any]) -> list[str]:
+    """Require compact metadata strings to avoid leading or trailing whitespace."""
+
+    errors: list[str] = []
+    architecture_id = architecture.get("id", "<missing id>")
+
+    for field in COMPACT_STRING_FIELDS:
+        value = architecture.get(field)
+        if isinstance(value, str) and value != value.strip():
+            errors.append(
+                f"{architecture_id}: {field} must not have leading or trailing whitespace"
+            )
+
+    paper_links = architecture.get("paper_links")
+    if isinstance(paper_links, list):
+        for index, link in enumerate(paper_links):
+            if not isinstance(link, dict):
+                continue
+            for field in PAPER_LINK_STRING_FIELDS:
+                value = link.get(field)
+                if isinstance(value, str) and value != value.strip():
+                    errors.append(
+                        f"{architecture_id}: paper_links[{index}].{field} "
+                        "must not have leading or trailing whitespace"
+                    )
 
     return errors
 
@@ -195,7 +241,9 @@ def validate() -> None:
         architecture_id = architecture.get("id")
         if isinstance(architecture_id, str):
             ids.append(architecture_id)
-    duplicate_ids = {architecture_id for architecture_id in ids if ids.count(architecture_id) > 1}
+    duplicate_ids = {
+        architecture_id for architecture_id, count in Counter(ids).items() if count > 1
+    }
     if duplicate_ids:
         errors.append(f"duplicate architecture ids: {sorted(duplicate_ids)}")
 
@@ -204,7 +252,7 @@ def validate() -> None:
         slug = architecture.get("slug")
         if isinstance(slug, str):
             slugs.append(slug)
-    duplicate_slugs = {slug for slug in slugs if slugs.count(slug) > 1}
+    duplicate_slugs = {slug for slug, count in Counter(slugs).items() if count > 1}
     if duplicate_slugs:
         errors.append(f"duplicate architecture slugs: {sorted(duplicate_slugs)}")
 

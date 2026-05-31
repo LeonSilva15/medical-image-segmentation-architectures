@@ -20,7 +20,7 @@ _VALID_UP_MODES = ("transpose", "interpolate")
 def _validate_choice(name: str, value: str, options: tuple[str, ...]) -> str:
     if value not in options:
         option_text = ", ".join(options)
-        raise ValueError(f"{name} must be one of {option_text}; got {value!r}")
+        raise ValueError(f"{name} must be one of [{option_text}]; got {value!r}")
     return value
 
 
@@ -102,8 +102,6 @@ class DoubleConv(nn.Module):
         dropout: float = 0.0,
     ) -> None:
         super().__init__()
-        _validate_choice("norm", norm, _VALID_NORMS)
-        _validate_choice("activation", activation, _VALID_ACTIVATIONS)
         _validate_dropout(dropout)
 
         layers: list[nn.Module] = []

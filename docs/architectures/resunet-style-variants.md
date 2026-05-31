@@ -235,20 +235,20 @@ logits come out at the target spatial resolution.
 
 | Field | Value |
 | --- | --- |
-| Year | 2018 |
+| Year | 2016 |
 | Parent | U-Net |
 | Family | U-Net family, residual variants |
-| Paper title | Recurrent Residual Convolutional Neural Network based on U-Net (R2U-Net) for Medical Image Segmentation |
+| Paper title | The Importance of Skip Connections in Biomedical Image Segmentation |
 | DOI | Not listed |
-| arXiv | `1802.06955` |
+| arXiv | `1608.04117` |
 
 ## Read Representative Sources
 
 Because this is a family page, the sources below should be read as representative
 anchors rather than a single canonical ResUNet definition.
 
-- R2U-Net representative medical source:
-  [1802.06955](https://arxiv.org/abs/1802.06955)
+- Biomedical skip-connections source:
+  [1608.04117](https://arxiv.org/abs/1608.04117)
 - ResNet residual learning background:
   [1512.03385](https://arxiv.org/abs/1512.03385)
 - Original U-Net baseline:
