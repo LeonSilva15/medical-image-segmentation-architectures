@@ -67,6 +67,7 @@ nav:
       - Attention U-Net: architectures/attention-unet.md
       - U²-Net: architectures/u2net.md
       - nnU-Net: architectures/nnunet.md
+      - SegResNet: architectures/segresnet.md
       - TransUNet: architectures/transunet.md
       - Swin-Unet: architectures/swin-unet.md
       - UNETR: architectures/unetr.md

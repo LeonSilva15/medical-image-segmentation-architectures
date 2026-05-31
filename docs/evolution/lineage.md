@@ -19,6 +19,7 @@ graph TD
     AttUNet["Attention U-Net<br/>Attention-filtered skips"]
     U2Net["U²-Net<br/>Nested U-structure blocks"]
     nnUNet["nnU-Net<br/>Self-configuring pipeline"]
+    SegResNet["SegResNet<br/>VAE regularization, MONAI backbone"]
     TransUNet["TransUNet<br/>CNN/U-Net + Transformer context"]
     SwinUnet["Swin-Unet<br/>U-shaped Swin Transformer"]
     UNETR["UNETR<br/>3D Transformer encoder"]
@@ -42,6 +43,7 @@ graph TD
     UNet --> TransUNet
     ResUNetStyle --> R2UNet
     ResUNetStyle --> MultiResUNet
+    ResUNetStyle --> SegResNet
     UNetPP --> UNet3Plus
     TransUNet --> SwinUnet
     TransUNet --> UNETR
@@ -60,7 +62,7 @@ graph TD
 | --- | --- | --- |
 | Dense prediction | Convert classification CNNs into pixel-level predictors. | [FCN](../architectures/fcn.md) |
 | General CV context modules | Add multi-scale context and lightweight boundary refinement to dense prediction. | [DeepLabv3+](../architectures/deeplabv3plus.md) |
-| U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md), [R2U-Net](../architectures/r2unet.md), [MultiResUNet](../architectures/multiresunet.md), [U-Net++](../architectures/unetpp.md), [UNet 3+](../architectures/unet3plus.md), [Attention U-Net](../architectures/attention-unet.md), [U²-Net](../architectures/u2net.md) |
+| U-Net family | Combine encoder context with decoder localization through skip connections. | [U-Net](../architectures/unet.md), [3D U-Net](../architectures/3d-unet.md), [V-Net](../architectures/vnet.md), [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md), [R2U-Net](../architectures/r2unet.md), [MultiResUNet](../architectures/multiresunet.md), [SegResNet](../architectures/segresnet.md), [U-Net++](../architectures/unetpp.md), [UNet 3+](../architectures/unet3plus.md), [Attention U-Net](../architectures/attention-unet.md), [U²-Net](../architectures/u2net.md) |
 | Pipeline self-configuration | Improve the whole segmentation pipeline, not only the model block. | [nnU-Net](../architectures/nnunet.md) |
 | Transformer hybrids | Add attention-based global context to segmentation architectures. | [TransUNet](../architectures/transunet.md), [Swin-Unet](../architectures/swin-unet.md), [UNETR](../architectures/unetr.md), [Swin UNETR](../architectures/swin-unetr.md) |
 | Promptable foundation models | Use prompts and broad pretraining for medical segmentation workflows. | [MedSAM](../architectures/medsam.md), [SAM-Med2D](../architectures/sam-med2d.md), [SAM-Med3D](../architectures/sam-med3d.md), [SegVol](../architectures/segvol.md), [MedSAM2](../architectures/medsam2.md) |
@@ -77,8 +79,9 @@ shape. After that, split into 3D models such as
 residual block variants such as
 [Residual U-Net / ResUNet-style variants](../architectures/resunet-style-variants.md),
 [R2U-Net](../architectures/r2unet.md), and
-[MultiResUNet](../architectures/multiresunet.md), skip-connection variants such
-as [U-Net++](../architectures/unetpp.md), [UNet 3+](../architectures/unet3plus.md),
+[MultiResUNet](../architectures/multiresunet.md), volumetric residual variants
+such as [SegResNet](../architectures/segresnet.md), skip-connection variants
+such as [U-Net++](../architectures/unetpp.md), [UNet 3+](../architectures/unet3plus.md),
 and [Attention U-Net](../architectures/attention-unet.md), block-nesting
 variants such as [U²-Net](../architectures/u2net.md), pipeline methods such as
 [nnU-Net](../architectures/nnunet.md), and Transformer/foundation-model

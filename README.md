@@ -76,6 +76,7 @@ served, check `Settings -> Pages -> Build and deployment -> Source` and select
 | Attention U-Net | reference-only | No | No | No | Yes |
 | U²-Net | reference-only | No | No | No | Yes |
 | nnU-Net | external pipeline | No | No | No | Yes |
+| SegResNet | reference-only | No | No | No | Yes |
 | TransUNet | reference-only | No | No | No | Yes |
 | Swin-Unet | reference-only | No | No | No | Yes |
 | UNETR | reference-only | No | No | No | Yes |

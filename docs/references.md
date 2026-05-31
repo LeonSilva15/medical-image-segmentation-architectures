@@ -21,6 +21,7 @@ proceedings, or journal DOI for that paper version.
 | Attention U-Net | Attention U-Net: Learning Where to Look for the Pancreas | Not listed | [1804.03999](https://arxiv.org/abs/1804.03999) |
 | U²-Net | U2-Net: Going Deeper with Nested U-Structure for Salient Object Detection | [10.1016/j.patcog.2020.107404](https://doi.org/10.1016/j.patcog.2020.107404) | [2005.09007](https://arxiv.org/abs/2005.09007) |
 | nnU-Net | nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation | [10.1038/s41592-020-01008-z](https://doi.org/10.1038/s41592-020-01008-z) | [1809.10486](https://arxiv.org/abs/1809.10486) |
+| SegResNet | 3D MRI Brain Tumor Segmentation Using Autoencoder Regularization | [10.1007/978-3-030-11726-9_28](https://doi.org/10.1007/978-3-030-11726-9_28) | [1810.11654](https://arxiv.org/abs/1810.11654) |
 | TransUNet | TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation | Not listed | [2102.04306](https://arxiv.org/abs/2102.04306) |
 | Swin-Unet | Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation | [10.1007/978-3-031-25066-8_9](https://doi.org/10.1007/978-3-031-25066-8_9) | [2105.05537](https://arxiv.org/abs/2105.05537) |
 | UNETR | UNETR: Transformers for 3D Medical Image Segmentation | [10.1109/WACV51458.2022.00181](https://doi.org/10.1109/WACV51458.2022.00181) | [2103.10504](https://arxiv.org/abs/2103.10504) |

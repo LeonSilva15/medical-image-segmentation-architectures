@@ -27,6 +27,7 @@ the [Architecture Selection Guide](selection-guide.md).
 | Attention U-Net | 2018 | U-Net family, attention gates | reference-only | U-Net | [Read](attention-unet.md) |
 | U²-Net | 2020 | unet | reference-only | U-Net | [Read](u2net.md) |
 | nnU-Net | 2021 | Self-configuring pipeline | external pipeline | U-Net | [Read](nnunet.md) |
+| SegResNet | 2018 | unet | reference-only | Residual U-Net / ResUNet-style variants | [Read](segresnet.md) |
 | TransUNet | 2021 | Transformer hybrid | reference-only | U-Net | [Read](transunet.md) |
 | Swin-Unet | 2021 | Transformer U-shape | reference-only | TransUNet | [Read](swin-unet.md) |
 | UNETR | 2022 | 3D Transformer | reference-only | TransUNet | [Read](unetr.md) |

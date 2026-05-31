@@ -376,6 +376,58 @@ architectures:
     tests: false
     demo: false
 
+  - id: segresnet
+    slug: segresnet
+    name: SegResNet
+    year: 2018
+    family: unet
+    parent: resunet_style_variants
+    chapter_path: docs/architectures/segresnet.md
+    paper_title: "3D MRI Brain Tumor Segmentation Using Autoencoder Regularization"
+    doi: 10.1007/978-3-030-11726-9_28
+    arxiv: "1810.11654"
+    paper_links:
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1810.11654
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1007/978-3-030-11726-9_28
+    modification: >
+      Adds a variational autoencoder branch to the encoder bottleneck that
+      reconstructs the input image during training, regularising the encoder
+      under small labelled-dataset conditions. Uses an asymmetric
+      encoder-decoder with a deep encoder and shallow decoder to manage GPU
+      memory on full 3D volumes.
+    technical_summary: >
+      SegResNet is an asymmetric encoder-decoder network whose encoder uses
+      ResNet-style residual blocks with group normalisation. The decoder is
+      intentionally lightweight: it upsamples with simple trilinear
+      interpolation followed by a 1x1x1 convolution at each level, rather than
+      mirroring the encoder depth. A variational autoencoder branch forks off
+      the encoder bottleneck and reconstructs the original input image so an
+      auxiliary reconstruction loss can regularise the shared encoder weights
+      when labelled training data is scarce. At inference, the VAE branch is
+      discarded. The architecture won 1st place at BraTS 2018 and is the
+      canonical 3D segmentation backbone in the MONAI framework.
+    understandable_summary: >
+      SegResNet is a 3D brain-tumour segmentation network that adds a
+      self-reconstruction side task to help the encoder learn better features
+      when labelled data is limited. The decoder is kept deliberately thin to
+      reduce memory use on large volumetric inputs. It is the default 3D
+      backbone in MONAI and a practical starting point for volumetric
+      segmentation research.
+    limitations: >
+      VAE regularisation adds training complexity and a KL-divergence
+      hyperparameter that must be tuned. The asymmetric decoder recovers less
+      spatial detail than a symmetric one at the same depth. Performance
+      degrades on highly anisotropic voxel spacings unless input is resampled to
+      isotropic resolution before training.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
+
   - id: transunet
     slug: transunet
     name: TransUNet
