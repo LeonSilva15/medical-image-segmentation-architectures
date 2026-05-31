@@ -27,6 +27,7 @@
   var observer = null;
   var enhanceTimer = null;
   var renderIndex = 0;
+  var modalSvgIndex = 0;
   var mermaidInitialized = false;
 
   function clamp(value, min, max) {
@@ -117,9 +118,44 @@
     var sourceWidth = sourceRect.width || Number(sourceSvg.getAttribute("width")) || 0;
     var viewportWidth = viewport ? viewport.clientWidth - 32 : 0;
     var viewBoxWidth = getViewBoxWidth(sourceSvg);
-    var cappedViewBoxWidth = viewBoxWidth ? Math.min(viewBoxWidth, 1400) : 0;
 
-    return Math.max(640, sourceWidth, viewportWidth, cappedViewBoxWidth);
+    return Math.max(640, sourceWidth, viewportWidth, viewBoxWidth);
+  }
+
+  function replaceSvgIdReference(value, sourceId, modalId) {
+    return value && sourceId ? value.split(sourceId).join(modalId) : value;
+  }
+
+  function cloneSvgForModal(sourceSvg) {
+    var clone = sourceSvg.cloneNode(true);
+    var sourceId = sourceSvg.getAttribute("id");
+    var modalId = sourceId ? sourceId + "-modal-" + modalSvgIndex++ : "";
+
+    clone.removeAttribute("style");
+    clone.setAttribute("aria-hidden", "true");
+    clone.setAttribute("focusable", "false");
+    clone.classList.add("diagram-viewer__svg");
+
+    if (!sourceId) {
+      return clone;
+    }
+
+    clone.setAttribute("id", modalId);
+    clone.querySelectorAll("style").forEach(function (style) {
+      style.textContent = replaceSvgIdReference(style.textContent, sourceId, modalId);
+    });
+    clone.querySelectorAll("*").forEach(function (element) {
+      Array.prototype.slice.call(element.attributes).forEach(function (attribute) {
+        if (attribute.value.indexOf(sourceId) !== -1) {
+          element.setAttribute(
+            attribute.name,
+            replaceSvgIdReference(attribute.value, sourceId, modalId)
+          );
+        }
+      });
+    });
+
+    return clone;
   }
 
   function ensureModal() {
@@ -229,12 +265,7 @@
     ensureModal();
 
     activeOpener = opener;
-    activeSvg = sourceSvg.cloneNode(true);
-    activeSvg.removeAttribute("id");
-    activeSvg.removeAttribute("style");
-    activeSvg.setAttribute("aria-hidden", "true");
-    activeSvg.setAttribute("focusable", "false");
-    activeSvg.classList.add("diagram-viewer__svg");
+    activeSvg = cloneSvgForModal(sourceSvg);
 
     title.textContent = getDiagramLabel(diagram);
     stage.replaceChildren(activeSvg);

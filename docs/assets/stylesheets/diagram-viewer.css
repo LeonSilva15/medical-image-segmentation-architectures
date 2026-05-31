@@ -161,18 +161,7 @@
   padding: 1rem;
   cursor: grab;
   touch-action: none;
-  background:
-    linear-gradient(45deg, var(--md-default-fg-color--lightest) 25%, transparent 25%),
-    linear-gradient(-45deg, var(--md-default-fg-color--lightest) 25%, transparent 25%),
-    linear-gradient(45deg, transparent 75%, var(--md-default-fg-color--lightest) 75%),
-    linear-gradient(-45deg, transparent 75%, var(--md-default-fg-color--lightest) 75%);
-  background-color: var(--md-default-bg-color);
-  background-position:
-    0 0,
-    0 0.5rem,
-    0.5rem -0.5rem,
-    -0.5rem 0;
-  background-size: 1rem 1rem;
+  background: var(--md-default-bg-color);
 }
 
 .diagram-viewer__viewport:focus-visible {
