@@ -2,10 +2,13 @@
   "use strict";
 
   var ENHANCED_ATTR = "data-diagram-viewer-enhanced";
+  var RENDERING_ATTR = "data-diagram-viewer-rendering";
+  var SOURCE_ATTR = "data-diagram-viewer-source";
   var MODAL_ID = "diagram-viewer";
   var MIN_ZOOM = 0.5;
   var MAX_ZOOM = 4;
   var ZOOM_STEP = 0.25;
+  var RETRY_DELAYS = [0, 100, 300, 700, 1500, 3000];
 
   var modal = null;
   var viewport = null;
@@ -21,6 +24,10 @@
   var panStartY = 0;
   var panStartLeft = 0;
   var panStartTop = 0;
+  var observer = null;
+  var enhanceTimer = null;
+  var renderIndex = 0;
+  var mermaidInitialized = false;
 
   function clamp(value, min, max) {
     return Math.min(Math.max(value, min), max);
@@ -39,7 +46,12 @@
     }
 
     if (heading && heading.textContent.trim()) {
-      return heading.textContent.replace(/\s+/g, " ").trim();
+      var headingClone = heading.cloneNode(true);
+      headingClone.querySelectorAll(".headerlink").forEach(function (link) {
+        link.remove();
+      });
+
+      return headingClone.textContent.replace(/\s+/g, " ").trim();
     }
 
     return "Diagram";
@@ -47,6 +59,40 @@
 
   function getRenderedSvg(diagram) {
     return diagram.querySelector("svg");
+  }
+
+  function getDiagramSource(diagram) {
+    var storedSource = diagram.getAttribute(SOURCE_ATTR);
+
+    if (storedSource) {
+      return storedSource;
+    }
+
+    var code = diagram.querySelector("code");
+    var source = (code || diagram).textContent.trim();
+
+    if (source) {
+      diagram.setAttribute(SOURCE_ATTR, source);
+    }
+
+    return source;
+  }
+
+  function normalizeDiagramElement(diagram) {
+    var normalized = diagram;
+
+    if (diagram.tagName === "PRE") {
+      normalized = document.createElement("div");
+      normalized.className = diagram.className || "mermaid";
+      normalized.textContent = getDiagramSource(diagram);
+      diagram.replaceWith(normalized);
+    }
+
+    if (!normalized.classList.contains("mermaid")) {
+      normalized.classList.add("mermaid");
+    }
+
+    return normalized;
   }
 
   function getViewBoxWidth(svg) {
@@ -286,7 +332,7 @@
   }
 
   function enhanceDiagram(diagram) {
-    if (diagram.getAttribute(ENHANCED_ATTR) === "true") {
+    if (diagram.getAttribute(ENHANCED_ATTR) === "true" || !getRenderedSvg(diagram)) {
       return;
     }
 
@@ -328,22 +374,98 @@
     }
   }
 
+  function renderDiagram(diagram) {
+    var source = getDiagramSource(diagram);
+
+    if (!source || getRenderedSvg(diagram) || diagram.getAttribute(RENDERING_ATTR) === "true") {
+      return;
+    }
+
+    initializeMermaid();
+
+    if (!window.mermaid || typeof window.mermaid.render !== "function") {
+      return;
+    }
+
+    diagram.setAttribute(RENDERING_ATTR, "true");
+
+    window.mermaid
+      .render("diagram-viewer-render-" + renderIndex++, source)
+      .then(function (result) {
+        diagram.innerHTML = result.svg;
+        diagram.removeAttribute(RENDERING_ATTR);
+        enhanceDiagram(diagram);
+      })
+      .catch(function () {
+        diagram.removeAttribute(RENDERING_ATTR);
+      });
+  }
+
+  function processDiagram(diagram) {
+    var normalized = normalizeDiagramElement(diagram);
+
+    if (getRenderedSvg(normalized)) {
+      enhanceDiagram(normalized);
+      return;
+    }
+
+    renderDiagram(normalized);
+  }
+
   function enhanceDiagrams() {
-    document.querySelectorAll(".md-typeset .mermaid").forEach(enhanceDiagram);
+    ensureModal();
+    initializeMermaid();
+    document.querySelectorAll(".md-typeset .mermaid").forEach(processDiagram);
+  }
+
+  function scheduleEnhance(delay) {
+    window.setTimeout(function () {
+      if (enhanceTimer) {
+        window.clearTimeout(enhanceTimer);
+      }
+
+      enhanceTimer = window.setTimeout(enhanceDiagrams, 0);
+    }, delay);
+  }
+
+  function observeDiagramChanges() {
+    if (observer || !document.body || typeof MutationObserver !== "function") {
+      return;
+    }
+
+    observer = new MutationObserver(function () {
+      scheduleEnhance(0);
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+
+  function start() {
+    ensureModal();
+    initializeMermaid();
+    observeDiagramChanges();
+    RETRY_DELAYS.forEach(scheduleEnhance);
+  }
+
+  function initializeMermaid() {
+    if (
+      mermaidInitialized ||
+      !window.mermaid ||
+      typeof window.mermaid.initialize !== "function"
+    ) {
+      return;
+    }
+
+    window.mermaid.initialize({ startOnLoad: false });
+    mermaidInitialized = true;
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", start);
+  } else {
+    start();
   }
 
   if (window.document$ && typeof window.document$.subscribe === "function") {
-    window.document$.subscribe(function () {
-      ensureModal();
-      enhanceDiagrams();
-    });
-  } else if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function () {
-      ensureModal();
-      enhanceDiagrams();
-    });
-  } else {
-    ensureModal();
-    enhanceDiagrams();
+    window.document$.subscribe(start);
   }
 })();

@@ -20,6 +20,7 @@ extra_css:
   - assets/stylesheets/diagram-viewer.css
 
 extra_javascript:
+  - https://unpkg.com/mermaid@11/dist/mermaid.min.js
   - assets/javascripts/diagram-viewer.js
 
 markdown_extensions:
@@ -36,7 +37,7 @@ markdown_extensions:
       custom_fences:
         - name: mermaid
           class: mermaid
-          format: !!python/name:pymdownx.superfences.fence_code_format
+          format: !!python/name:pymdownx.superfences.fence_div_format
 
 nav:
   - Start Here: index.md

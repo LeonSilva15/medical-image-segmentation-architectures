@@ -194,6 +194,7 @@
 }
 
 .diagram-viewer__svg {
+  flex: 0 0 auto;
   display: block;
   height: auto;
   max-width: none;
