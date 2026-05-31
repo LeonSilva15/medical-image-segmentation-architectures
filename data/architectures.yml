@@ -200,6 +200,37 @@ architectures:
     tests: false
     demo: false
 
+  - id: multiresunet
+    slug: multiresunet
+    name: MultiResUNet
+    year: 2020
+    family: unet
+    parent: resunet_style_variants
+    chapter_path: docs/architectures/multiresunet.md
+    paper_title: >
+      MultiResUNet: Rethinking the U-Net Architecture for Multimodal
+      Biomedical Image Segmentation
+    doi: 10.1016/j.neunet.2019.08.025
+    arxiv: "1902.04049"
+    paper_links:
+      - kind: doi
+        label: DOI
+        url: https://doi.org/10.1016/j.neunet.2019.08.025
+      - kind: arxiv
+        label: arXiv
+        url: https://arxiv.org/abs/1902.04049
+    modification: Adds MultiRes blocks and residual skip paths to U-Net-style segmentation.
+    technical_summary: >
+      MultiResUNet replaces plain U-Net blocks with multi-resolution feature
+      extraction blocks and adds ResPaths along skip connections to reduce the
+      semantic gap between encoder and decoder features.
+    understandable_summary: >
+      MultiResUNet teaches that multi-scale feature extraction can happen inside
+      each U-Net level, not only between encoder-decoder levels.
+    implementation_status: reference-only
+    code_path: null
+    tests: false
+    demo: false
 
   - id: unetpp
     slug: unetpp

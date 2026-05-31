@@ -70,6 +70,7 @@ served, check `Settings -> Pages -> Build and deployment -> Source` and select
 | V-Net | reference-only | No | No | No | Yes |
 | Residual U-Net / ResUNet-style variants | reference-only | No | No | No | Yes |
 | R2U-Net | reference-only | No | No | No | Yes |
+| MultiResUNet | reference-only | No | No | No | Yes |
 | U-Net++ | reference-only | No | No | No | Yes |
 | Attention U-Net | reference-only | No | No | No | Yes |
 | nnU-Net | external pipeline | No | No | No | Yes |
