@@ -783,22 +783,60 @@ architectures:
     family: foundation-models
     parent: medsam
     chapter_path: docs/architectures/sam-med3d.md
-    paper_title: >
-      SAM-Med3D: Towards General-purpose Segmentation Models
-      for Volumetric Medical Images
+    paper_title: "SAM-Med3D: Towards General-purpose Segmentation Models for Volumetric Medical Images"
+    authors:
+      - Haoyu Wang
+      - Sizheng Guo
+      - Jin Ye
+      - Zhongying Deng
+      - Junlong Cheng
+      - Tianbin Li
+      - Jianpin Chen
+      - Yanzhou Su
+      - Ziyan Huang
+      - Yiqing Shen
+      - Bin Fu
+      - Shaoting Zhang
+      - Junjun He
+      - Yu Qiao
+    venue: ECCV Workshops 2024 (arXiv submitted Oct 2023)
     doi: null
     arxiv: "2310.15161"
     paper_links:
       - kind: arxiv
         label: arXiv
         url: https://arxiv.org/abs/2310.15161
-    modification: Extends SAM-style promptable medical segmentation to native 3D volumes.
+    official_code: https://github.com/uni-medical/SAM-Med3D
+    modification: >
+      Replaces the 2D ViT image encoder and 2D prompt encoder with 3D
+      equivalents, enabling a single 3D point prompt to segment a full
+      volumetric structure. Adds a two-stage training procedure: 3D masked
+      image modelling pretraining followed by 3D SAM fine-tuning on labelled
+      volumetric data.
     technical_summary: >
-      SAM-Med3D replaces 2D SAM components with 3D image and point-prompt
-      encoders so a volumetric model can respond to prompts in 3D volume space.
+      SAM-Med3D replaces SAM's 2D MAE-pretrained ViT image encoder with a 3D
+      encoder trained on a curated large-scale 3D medical dataset covering
+      diverse anatomical structures, modalities, and targets. The prompt
+      encoder accepts a single 3D point in the volume rather than N 2D prompts
+      across slices. The mask decoder is adapted to produce 3D volumetric
+      output. Training proceeds in two stages: first a 3D encoder is pretrained
+      with masked image modelling on unlabelled 3D volumes, then the full
+      SAM-Med3D model is fine-tuned end-to-end on 3D labelled data. The model
+      is evaluated on 16 diverse 3D medical datasets and demonstrates strong
+      zero-shot transfer to unseen segmentation targets.
     understandable_summary: >
-      SAM-Med3D connects 2D promptable medical segmentation to native volumetric
-      prompting with a single point in 3D space.
+      SAM-Med3D takes the Segment Anything Model and rebuilds it natively for
+      3D medical volumes: you click a single point inside the structure you
+      want and the model segments the entire 3D region, across all slices at
+      once. Unlike the 2D version, it does not need a separate click for each
+      slice of a stack.
+    limitations: >
+      Requires significantly more GPU memory than 2D SAM variants due to the
+      3D encoder and volumetric mask decoder. The model was trained on
+      organ-scale medical images (CT/MRI); performance on microscopy-scale 3D
+      volumes is not characterised in the original paper and would need
+      empirical evaluation. Single-point prompting may be insufficient for
+      multi-instance segmentation of densely packed structures.
     implementation_status: reference-only
     code_path: null
     tests: false
