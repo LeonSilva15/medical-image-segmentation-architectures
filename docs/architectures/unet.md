@@ -93,6 +93,12 @@ concatenate skip and decoder features
 project decoder features to raw logits
 ```
 
+## Check Yourself
+
+Before opening the runnable sketch, predict the output shape for an input shaped
+`(1, 1, 33, 41)` and `out_channels=2`. Then explain why the skip tensor is saved
+before pooling rather than after pooling.
+
 ??? example "Minimum runnable PyTorch sketch"
 
     ```python
@@ -316,14 +322,14 @@ encoder detail with decoder context.
         if self.up_mode == "transpose":
             x = up_layer(x)
             if x.shape[-2:] != skip.shape[-2:]:
-                x = F.interpolate(
+                    x = functional.interpolate(
                     x,
                     size=skip.shape[-2:],
                     mode="bilinear",
                     align_corners=False,
                 )
         else:
-            x = F.interpolate(
+            x = functional.interpolate(
                 x,
                 size=skip.shape[-2:],
                 mode="bilinear",
@@ -360,8 +366,8 @@ deeper implementation material, use the U-Net resource pages:
 - [Full Code](unet/code.md): complete `UNet2D` source mirrored from the
   repository implementation.
 - [Cookbook](unet/cookbook.md): practical recipes using synthetic tensors.
-- [Live Example](unet/live-example.md): planned interactive or executable
-  synthetic demo area.
+- [Live Example](unet/live-example.md): command-line synthetic demo with
+  expected output and inspection notes.
 
 ### Tensor Shape Example
 
@@ -379,6 +385,15 @@ input `(1, 1, 65, 73)` flows through the model as follows:
 | Decoder block 2 | `(1, 32, 32, 36)` |
 | Decoder block 1 | `(1, 16, 65, 73)` |
 | Output logits | `(1, 2, 65, 73)` |
+
+??? question "Predict before revealing"
+
+    If the last transposed convolution maps `(1, 32, 32, 36)` to
+    `(1, 16, 64, 72)`, what must happen before concatenating with the first
+    skip tensor shaped `(1, 16, 65, 73)`?
+
+    The decoder tensor is interpolated to `(65, 73)` so the spatial dimensions
+    match before channel concatenation.
 
 ## Learning Notes For Practitioners
 
@@ -404,6 +419,9 @@ input `(1, 1, 65, 73)` flows through the model as follows:
 - The shape tests protect the contract that output logits preserve the input
   height and width, including odd spatial sizes where pooling and upsampling do
   not divide evenly.
+- Treat the tests as executable specifications. The shape tests document the
+  public contract for even and odd image sizes, option validation, and loss
+  compatibility.
 
 ## What Changed Relative To FCN
 

@@ -1,19 +1,39 @@
 # U-Net Live Example
 
-This page is reserved for a future interactive or executable U-Net example.
+This page mirrors the repository's command-line synthetic demo. It does not
+load medical images, clinical files, DICOM headers, model weights, or external
+datasets.
 
-## Planned Direction
+Run the demo from the repository root:
 
-The live example should run on synthetic data and should make the model behavior
-easy to inspect without requiring clinical files or external datasets.
+```sh
+uv run --locked --python 3.11 python demos/demo_forward_pass.py
+```
 
-Good first targets:
+The demo creates a synthetic tensor shaped `(1, 1, 65, 73)`, runs `UNet2D` in
+evaluation mode, prints the output shape, summarizes trainable parameters, and
+shows selected layer-by-layer shape transitions.
 
-- Generate a synthetic input tensor.
-- Run `UNet2D` in evaluation mode.
-- Display input shape, output shape, and parameter count.
-- Optionally show a toy mask-like tensor once visualization support exists.
+Expected leading output:
 
-The example must remain educational only. It should not load private medical
-images, PHI, patient identifiers, DICOM headers, or clinical data.
+```text
+input_shape=(1, 1, 65, 73)
+output_shape=(1, 2, 65, 73)
+parameters=total:481762, trainable:481762, frozen:0
+shape_trace:
+```
 
+## What To Notice
+
+- The output keeps the input height and width even though both spatial
+  dimensions are odd.
+- The output channel count changes from input channels to `out_channels`.
+- Pooling halves spatial size in the encoder, while decoder stages restore it.
+- The last transposed convolution reaches `(64, 72)`, then interpolation aligns
+  it to the skip tensor size `(65, 73)` before concatenation.
+
+## Check Yourself
+
+Before running the command, predict which modules will change spatial size and
+which modules will only change channel count. After running it, compare your
+prediction with the trace.

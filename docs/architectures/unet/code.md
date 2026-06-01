@@ -20,7 +20,7 @@ from collections.abc import Sequence
 
 import torch
 from torch import nn
-from torch.nn import functional as F
+from torch.nn import functional
 
 _VALID_NORMS = ("none", "batch", "instance", "group")
 _VALID_ACTIVATIONS = ("relu", "leaky_relu", "gelu")
@@ -30,7 +30,7 @@ _VALID_UP_MODES = ("transpose", "interpolate")
 def _validate_choice(name: str, value: str, options: tuple[str, ...]) -> str:
     if value not in options:
         option_text = ", ".join(options)
-        raise ValueError(f"{name} must be one of {option_text}; got {value!r}")
+        raise ValueError(f"{name} must be one of [{option_text}]; got {value!r}")
     return value
 
 
@@ -112,8 +112,6 @@ class DoubleConv(nn.Module):
         dropout: float = 0.0,
     ) -> None:
         super().__init__()
-        _validate_choice("norm", norm, _VALID_NORMS)
-        _validate_choice("activation", activation, _VALID_ACTIVATIONS)
         _validate_dropout(dropout)
 
         layers: list[nn.Module] = []
@@ -201,10 +199,13 @@ class UNet2D(nn.Module):
         )
 
         feature_list = tuple(features)
+        self.in_channels = in_channels
+        self.out_channels = out_channels
         self.norm = norm
         self.activation = activation
         self.dropout = dropout
         self.up_mode = up_mode
+        self.minimum_spatial_size = 2 ** len(feature_list)
 
         # ModuleList stores repeated blocks while still registering parameters
         # correctly with PyTorch. The lists stay aligned by construction:
@@ -295,6 +296,24 @@ class UNet2D(nn.Module):
         _validate_dropout(dropout)
         _validate_choice("up_mode", up_mode, _VALID_UP_MODES)
 
+    def _validate_input(self, x: torch.Tensor) -> None:
+        if x.ndim != 4:
+            raise ValueError(
+                "UNet2D input must be shaped (batch, channels, height, width); "
+                f"got {tuple(x.shape)}"
+            )
+        if x.shape[1] != self.in_channels:
+            raise ValueError(
+                f"UNet2D expected {self.in_channels} input channels; got {x.shape[1]}"
+            )
+        height, width = x.shape[-2:]
+        if height < self.minimum_spatial_size or width < self.minimum_spatial_size:
+            raise ValueError(
+                "UNet2D input height and width must each be at least "
+                f"{self.minimum_spatial_size} for {len(self.down_blocks)} encoder stages; "
+                f"got {(height, width)}"
+            )
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Return raw logits with the same height and width as ``x``.
 
@@ -304,6 +323,8 @@ class UNet2D(nn.Module):
         Returns:
             Tensor shaped ``(batch, out_channels, height, width)``.
         """
+
+        self._validate_input(x)
 
         skips: list[torch.Tensor] = []
 
@@ -332,14 +353,14 @@ class UNet2D(nn.Module):
                     # after repeated pooling and transposed convolution.
                     # Resizing to the skip shape keeps concatenation valid and
                     # preserves the original input size at the output.
-                    x = F.interpolate(
+                    x = functional.interpolate(
                         x,
                         size=skip.shape[-2:],
                         mode="bilinear",
                         align_corners=False,
                     )
             else:
-                x = F.interpolate(
+                x = functional.interpolate(
                     x,
                     size=skip.shape[-2:],
                     mode="bilinear",
@@ -350,4 +371,5 @@ class UNet2D(nn.Module):
             x = up_block(x)
 
         return self.output_conv(x)
+
 ```

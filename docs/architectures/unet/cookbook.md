@@ -13,6 +13,12 @@ The examples use `torch.randn` for synthetic image-like tensors, `torch.randint`
 for synthetic masks, `UNet2D` for the model, `model.eval()` for inference-style
 examples, and `torch.no_grad()` when gradients are not needed.
 
+## Check Yourself
+
+Before running each recipe, predict the output shape and decide whether the
+example needs `sigmoid`, `softmax`, or no activation. If an example uses a loss,
+identify whether the target should be shaped like `(B, 1, H, W)` or `(B, H, W)`.
+
 ## Binary Segmentation With One Output Channel
 
 Use `out_channels=1` when the model should produce one foreground-vs-background
@@ -176,7 +182,9 @@ sizes are not always divisible by every pooling level.
 ## Compute Simple Dice And IoU
 
 These tiny metric helpers work on synthetic binary tensors. They threshold
-binary probabilities into predicted masks before computing overlap.
+binary probabilities into predicted masks before computing overlap. They compute
+one pooled value for the whole synthetic batch, so use them only as a shape and
+formula sketch.
 
 ```python
 import torch
@@ -200,7 +208,9 @@ assert 0.0 <= iou <= 1.0
 ```
 
 For multiclass experiments, compute per-class masks first, then apply the same
-overlap idea class by class.
+overlap idea class by class. For real experiments, report per-case and per-class
+values, state the empty-mask convention, and choose thresholds on validation
+data rather than on the test set.
 
 ## Run A Synthetic Forward Pass
 

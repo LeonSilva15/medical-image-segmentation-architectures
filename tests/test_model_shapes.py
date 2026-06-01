@@ -170,3 +170,48 @@ def test_unet_2d_choice_errors_wrap_options_in_brackets() -> None:
         match=r"norm must be one of \[none, batch, instance, group\]",
     ):
         UNet2D(in_channels=1, out_channels=1, features=(8, 16), norm="layer")
+
+
+def test_unet_2d_rejects_non_4d_input() -> None:
+    model = UNet2D(in_channels=1, out_channels=1, features=(4, 8))
+
+    with pytest.raises(ValueError, match="batch, channels, height, width"):
+        model(torch.randn(1, 1, 32))
+
+
+def test_unet_2d_rejects_channel_mismatch() -> None:
+    model = UNet2D(in_channels=1, out_channels=1, features=(4, 8))
+
+    with pytest.raises(ValueError, match="expected 1 input channels"):
+        model(torch.randn(1, 2, 32, 32))
+
+
+def test_unet_2d_rejects_spatial_sizes_too_small_for_depth() -> None:
+    model = UNet2D(in_channels=1, out_channels=1, features=(4, 8, 16))
+
+    with pytest.raises(ValueError, match="at least 8"):
+        model(torch.randn(1, 1, 7, 8))
+
+
+def test_unet_2d_binary_loss_backward_smoke() -> None:
+    model = UNet2D(in_channels=1, out_channels=1, features=(4, 8))
+    x = torch.randn(2, 1, 16, 16)
+    target = torch.randint(0, 2, (2, 1, 16, 16)).float()
+
+    logits = model(x)
+    loss = nn.BCEWithLogitsLoss()(logits, target)
+    loss.backward()
+
+    assert model.output_conv.weight.grad is not None
+
+
+def test_unet_2d_multiclass_loss_backward_smoke() -> None:
+    model = UNet2D(in_channels=1, out_channels=3, features=(4, 8))
+    x = torch.randn(2, 1, 16, 16)
+    target = torch.randint(0, 3, (2, 16, 16)).long()
+
+    logits = model(x)
+    loss = nn.CrossEntropyLoss()(logits, target)
+    loss.backward()
+
+    assert model.output_conv.weight.grad is not None

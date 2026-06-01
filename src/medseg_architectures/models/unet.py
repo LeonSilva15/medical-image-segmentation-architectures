@@ -189,10 +189,13 @@ class UNet2D(nn.Module):
         )
 
         feature_list = tuple(features)
+        self.in_channels = in_channels
+        self.out_channels = out_channels
         self.norm = norm
         self.activation = activation
         self.dropout = dropout
         self.up_mode = up_mode
+        self.minimum_spatial_size = 2 ** len(feature_list)
 
         # ModuleList stores repeated blocks while still registering parameters
         # correctly with PyTorch. The lists stay aligned by construction:
@@ -283,6 +286,24 @@ class UNet2D(nn.Module):
         _validate_dropout(dropout)
         _validate_choice("up_mode", up_mode, _VALID_UP_MODES)
 
+    def _validate_input(self, x: torch.Tensor) -> None:
+        if x.ndim != 4:
+            raise ValueError(
+                "UNet2D input must be shaped (batch, channels, height, width); "
+                f"got {tuple(x.shape)}"
+            )
+        if x.shape[1] != self.in_channels:
+            raise ValueError(
+                f"UNet2D expected {self.in_channels} input channels; got {x.shape[1]}"
+            )
+        height, width = x.shape[-2:]
+        if height < self.minimum_spatial_size or width < self.minimum_spatial_size:
+            raise ValueError(
+                "UNet2D input height and width must each be at least "
+                f"{self.minimum_spatial_size} for {len(self.down_blocks)} encoder stages; "
+                f"got {(height, width)}"
+            )
+
     def forward(self, x: torch.Tensor) -> torch.Tensor:
         """Return raw logits with the same height and width as ``x``.
 
@@ -292,6 +313,8 @@ class UNet2D(nn.Module):
         Returns:
             Tensor shaped ``(batch, out_channels, height, width)``.
         """
+
+        self._validate_input(x)
 
         skips: list[torch.Tensor] = []
 
