@@ -51,6 +51,7 @@ definitions.
 | Sparse annotation / loss mask | Training with only some labeled pixels or voxels, where unlabeled locations must be ignored or handled explicitly in the loss. |
 | PHI / DICOM header | Protected health information and medical-image metadata that may contain patient identifiers or clinical details. |
 | Clinical-readiness claim | A claim that a model is safe, approved, or ready for diagnosis or deployment; this project treats such claims as out of scope. |
+| Synthetic data | Artificially generated examples used for tests, demos, or tutorials instead of real patient, clinical, or private data. |
 | Star-convex polyhedron | A 3D StarDist-style object shape represented by distances from an object center along fixed rays. |
 | Radial distance map | A map of center-to-boundary distances used to parameterize star-convex object proposals. |
 | Non-maximum suppression | A postprocessing step that removes overlapping duplicate object proposals while keeping the strongest candidates. |

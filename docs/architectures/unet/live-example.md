@@ -4,6 +4,38 @@ This page mirrors the repository's command-line synthetic demo. It does not
 load medical images, clinical files, DICOM headers, model weights, or external
 datasets.
 
+## Live Hugging Face Space
+
+Educational demo only. Not for clinical diagnosis. Do not upload private medical
+images, PHI, DICOM headers, or clinical data.
+
+The embedded app runs a tiny U-Net on deterministic synthetic geometric shapes.
+It trains the small model in memory on CPU and labels the result as a predicted
+region overlay. It is not a clinical model and does not load real patient data.
+
+[Open the U-Net Segmentation Demo on Hugging Face Spaces](https://LeonSilva15-unet-medseg-demo.hf.space)
+
+```sh
+python spaces/unet-demo/app.py
+```
+
+<script
+  type="module"
+  src="https://gradio.s3-us-west-2.amazonaws.com/5.49.1/gradio.js"
+></script>
+
+<gradio-app
+  src="https://LeonSilva15-unet-medseg-demo.hf.space"
+  initial_height="760px"
+></gradio-app>
+
+<noscript>
+  JavaScript is required to embed the Gradio app. Use the Hugging Face Spaces
+  link above to open the demo directly.
+</noscript>
+
+## Command-Line Demo
+
 Run the demo from the repository root:
 
 ```sh
