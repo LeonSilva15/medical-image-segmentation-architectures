@@ -13,26 +13,21 @@ The embedded app runs a tiny U-Net on deterministic synthetic geometric shapes.
 It trains the small model in memory on CPU and labels the result as a predicted
 region overlay. It is not a clinical model and does not load real patient data.
 
-[Open the U-Net Segmentation Demo on Hugging Face Spaces](https://LeonSilva15-unet-medseg-demo.hf.space)
+[Open the U-Net Segmentation Demo on Hugging Face Spaces](https://leonsilva15-unet-medseg-demo.hf.space)
 
 ```sh
 python spaces/unet-demo/app.py
 ```
 
-<script
-  type="module"
-  src="https://gradio.s3-us-west-2.amazonaws.com/6.15.2/gradio.js"
-></script>
-
-<gradio-app
-  src="https://LeonSilva15-unet-medseg-demo.hf.space"
-  initial_height="760px"
-></gradio-app>
-
-<noscript>
-  JavaScript is required to embed the Gradio app. Use the Hugging Face Spaces
-  link above to open the demo directly.
-</noscript>
+<iframe
+  title="U-Net Segmentation Demo"
+  src="https://leonsilva15-unet-medseg-demo.hf.space"
+  width="100%"
+  height="820"
+  style="border: 1px solid #ddd; border-radius: 4px;"
+  loading="lazy"
+  allow="clipboard-read; clipboard-write"
+></iframe>
 
 ## Command-Line Demo
 
