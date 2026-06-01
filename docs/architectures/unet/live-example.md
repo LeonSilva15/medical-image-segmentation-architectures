@@ -21,7 +21,7 @@ python spaces/unet-demo/app.py
 
 <script
   type="module"
-  src="https://gradio.s3-us-west-2.amazonaws.com/5.49.1/gradio.js"
+  src="https://gradio.s3-us-west-2.amazonaws.com/6.15.2/gradio.js"
 ></script>
 
 <gradio-app
