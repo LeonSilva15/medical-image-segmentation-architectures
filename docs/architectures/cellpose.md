@@ -263,7 +263,7 @@ Cellpose 3.0:
   reliably over longer distances.
 - That limitation is characterisable: run Cellpose on the elongated structures
   of interest, measure the aspect-ratio breakpoint, and report that behavior in
-  the PhD work.
+  some research works.
 - For 3D stacks, test Cellpose 3.0 with `pretrained_model_ortho` explicitly
   because it was added for improved 3D handling.
 - Evaluate final instance labels separately from the cell-probability map.
