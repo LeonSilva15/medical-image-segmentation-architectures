@@ -4,6 +4,14 @@ architectures:
     name: Fully Convolutional Network
     year: 2015
     family: Dense prediction
+    dimensionality: 2d
+    modalities:
+      - general-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: null
     chapter_path: docs/architectures/fcn.md
     paper_title: Fully Convolutional Networks for Semantic Segmentation
@@ -32,6 +40,14 @@ architectures:
     name: U-Net
     year: 2015
     family: U-Net family
+    dimensionality: 2d
+    modalities:
+      - biomedical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: fcn
     chapter_path: docs/architectures/unet.md
     paper_title: "U-Net: Convolutional Networks for Biomedical Image Segmentation"
@@ -61,6 +77,14 @@ architectures:
     name: DeepLabv3+
     year: 2018
     family: General CV dense prediction, atrous encoder-decoder
+    dimensionality: 2d
+    modalities:
+      - general-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: fcn
     chapter_path: docs/architectures/deeplabv3plus.md
     paper_title: "Encoder-Decoder with Atrous Separable Convolution for Semantic Image Segmentation"
@@ -91,6 +115,14 @@ architectures:
     name: 3D U-Net
     year: 2016
     family: U-Net family, 3D
+    dimensionality: 3d
+    modalities:
+      - volumetric-medical-images
+    segmentation_task: semantic
+    output_type: volumetric-logits
+    prompt_type:
+      - none
+    supervision_type: sparse-supervised
     parent: unet
     chapter_path: docs/architectures/3d-unet.md
     paper_title: "3D U-Net: Learning Dense Volumetric Segmentation from Sparse Annotation"
@@ -121,6 +153,14 @@ architectures:
     name: V-Net
     year: 2016
     family: U-Net family, 3D
+    dimensionality: 3d
+    modalities:
+      - volumetric-medical-images
+    segmentation_task: semantic
+    output_type: volumetric-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: unet
     chapter_path: docs/architectures/vnet.md
     paper_title: Fully Convolutional Neural Networks for Volumetric Medical Image Segmentation
@@ -149,6 +189,14 @@ architectures:
     name: Residual U-Net / ResUNet-style variants
     year: 2016
     family: U-Net family, residual variants
+    dimensionality: 2d
+    modalities:
+      - biomedical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: unet
     chapter_path: docs/architectures/resunet-style-variants.md
     paper_title: "The Importance of Skip Connections in Biomedical Image Segmentation"
@@ -176,6 +224,14 @@ architectures:
     name: R2U-Net
     year: 2018
     family: unet
+    dimensionality: 2d
+    modalities:
+      - medical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: resunet_style_variants
     chapter_path: docs/architectures/r2unet.md
     paper_title: >-
@@ -205,6 +261,14 @@ architectures:
     name: MultiResUNet
     year: 2020
     family: unet
+    dimensionality: 2d
+    modalities:
+      - biomedical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: resunet_style_variants
     chapter_path: docs/architectures/multiresunet.md
     paper_title: >-
@@ -237,6 +301,14 @@ architectures:
     name: U-Net++
     year: 2018
     family: U-Net family, skip variants
+    dimensionality: 2d
+    modalities:
+      - medical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: unet
     chapter_path: docs/architectures/unetpp.md
     paper_title: "UNet++: A Nested U-Net Architecture for Medical Image Segmentation"
@@ -266,6 +338,14 @@ architectures:
     name: UNet 3+
     year: 2020
     family: unet
+    dimensionality: 2d
+    modalities:
+      - medical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: unetpp
     chapter_path: docs/architectures/unet3plus.md
     paper_title: "UNet 3+: A Full-Scale Connected UNet for Medical Image Segmentation"
@@ -296,6 +376,14 @@ architectures:
     name: Attention U-Net
     year: 2018
     family: U-Net family, attention gates
+    dimensionality: 2d
+    modalities:
+      - medical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: unet
     chapter_path: docs/architectures/attention-unet.md
     paper_title: "Attention U-Net: Learning Where to Look for the Pancreas"
@@ -322,6 +410,14 @@ architectures:
     name: U²-Net
     year: 2020
     family: unet
+    dimensionality: 2d
+    modalities:
+      - general-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: unet
     chapter_path: docs/architectures/u2net.md
     paper_title: "U2-Net: Going Deeper with Nested U-Structure for Salient Object Detection"
@@ -352,6 +448,14 @@ architectures:
     name: nnU-Net
     year: 2021
     family: Self-configuring pipeline
+    dimensionality: pipeline
+    modalities:
+      - medical-images
+    segmentation_task: semantic
+    output_type: pipeline-segmentation-logits
+    prompt_type:
+      - none
+    supervision_type: self-configuring-supervised
     parent: unet
     chapter_path: docs/architectures/nnunet.md
     paper_title: "nnU-Net: a self-configuring method for deep learning-based biomedical image segmentation"
@@ -381,6 +485,14 @@ architectures:
     name: SegResNet
     year: 2018
     family: unet
+    dimensionality: 3d
+    modalities:
+      - mri
+    segmentation_task: semantic
+    output_type: volumetric-logits
+    prompt_type:
+      - none
+    supervision_type: supervised-with-auxiliary-reconstruction
     parent: resunet_style_variants
     chapter_path: docs/architectures/segresnet.md
     paper_title: "3D MRI Brain Tumor Segmentation Using Autoencoder Regularization"
@@ -433,6 +545,14 @@ architectures:
     name: TransUNet
     year: 2021
     family: Transformer hybrid
+    dimensionality: 2d
+    modalities:
+      - medical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: unet
     chapter_path: docs/architectures/transunet.md
     paper_title: "TransUNet: Transformers Make Strong Encoders for Medical Image Segmentation"
@@ -458,6 +578,14 @@ architectures:
     name: Swin-Unet
     year: 2021
     family: Transformer U-shape
+    dimensionality: 2d
+    modalities:
+      - medical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: transunet
     chapter_path: docs/architectures/swin-unet.md
     paper_title: "Swin-Unet: Unet-like Pure Transformer for Medical Image Segmentation"
@@ -486,6 +614,14 @@ architectures:
     name: UNETR
     year: 2022
     family: 3D Transformer
+    dimensionality: 3d
+    modalities:
+      - volumetric-medical-images
+    segmentation_task: semantic
+    output_type: volumetric-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: transunet
     chapter_path: docs/architectures/unetr.md
     paper_title: "UNETR: Transformers for 3D Medical Image Segmentation"
@@ -514,6 +650,14 @@ architectures:
     name: Swin UNETR
     year: 2022
     family: 3D shifted-window Transformer
+    dimensionality: 3d
+    modalities:
+      - volumetric-medical-images
+    segmentation_task: semantic
+    output_type: volumetric-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: unetr
     chapter_path: docs/architectures/swin-unetr.md
     paper_title: "Swin UNETR: Swin Transformers for Semantic Segmentation of Brain Tumors in MRI Images"
@@ -543,6 +687,14 @@ architectures:
     name: StarDist-3D
     year: 2020
     family: instance-segmentation
+    dimensionality: 3d
+    modalities:
+      - microscopy
+    segmentation_task: instance
+    output_type: instance-labels
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: 3d_unet
     chapter_path: docs/architectures/stardist-3d.md
     paper_title: "Star-convex Polyhedra for 3D Object Detection and Segmentation in Microscopy"
@@ -590,6 +742,14 @@ architectures:
     name: Cellpose
     year: 2021
     family: instance-segmentation
+    dimensionality: 2d-and-3d
+    modalities:
+      - microscopy
+    segmentation_task: instance
+    output_type: flow-field-and-instance-labels
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: stardist-3d
     chapter_path: docs/architectures/cellpose.md
     paper_title: "Cellpose: a generalist algorithm for cellular segmentation"
@@ -655,8 +815,16 @@ architectures:
   - id: wnet3d
     slug: wnet3d
     name: WNet3D
-    year: 2024
+    year: 2025
     family: instance-segmentation
+    dimensionality: 3d
+    modalities:
+      - microscopy
+    segmentation_task: self-supervised-region
+    output_type: soft-region-map
+    prompt_type:
+      - none
+    supervision_type: self-supervised-pretraining
     parent: cellpose
     chapter_path: docs/architectures/wnet3d.md
     paper_title: "CellSeg3D: self-supervised 3D cell segmentation for fluorescence microscopy"
@@ -664,17 +832,14 @@ architectures:
       - Cyril Achard
       - Timokleia Kousi
       - Markus Frey
-      - Maxime Vappiani
-      - Thibault Bhend
-      - Sebastián Sanchez Moran
-      - Corinne Bhend
-      - Nikita Dvornik
-      - Frederique Bhend
-      - Adrian Bhend
-      - Shriya Bhend
-      - Adrian Bhend
-      - Mackenzie Mathis
-    venue: eLife, 2024
+      - Maxime Vidal
+      - Yves Paychere
+      - Colin Hofmann
+      - Asim Iqbal
+      - Sebastien B Hausmann
+      - Stéphane Pagès
+      - Mackenzie Weygandt Mathis
+    venue: eLife, 2025
     doi: "10.7554/eLife.99848"
     arxiv: null
     paper_links:
@@ -696,17 +861,18 @@ architectures:
       consistency in the segmentation by penalizing cuts through regions of
       similar intensity, while the reconstruction loss prevents trivial
       solutions, such as assigning all voxels to one segment. The model is
-      pretrained on unlabelled 3D fluorescence volumes and can be fine-tuned
-      with as few as one labelled example. Instance labels are derived post-hoc
+      pretrained on unlabelled 3D fluorescence volumes and can be paired with
+      supervised fine-tuning when corrected labels become available. Instance
+      labels are derived post-hoc
       from the semantic output using Voronoi-Otsu labelling or
       connected-component watershed.
     understandable_summary: >
-      WNet3D learns to segment 3D microscopy images without any labels by
+      WNet3D learns region structure from unlabelled 3D microscopy images by
       training two U-Nets: one that segments, and one that reconstructs the
       original image from the segmentation. The reconstruction objective forces
       the segmentation to be meaningful rather than arbitrary. After
-      unsupervised training it can be fine-tuned with just a handful of
-      labelled slices.
+      self-supervised training, its outputs can be inspected, corrected, and
+      used in a supervised follow-up workflow.
     limitations: >
       The NCut loss requires a differentiable brightness-affinity graph that is
       computed on image patches, making training memory-intensive for large 3D
@@ -726,6 +892,16 @@ architectures:
     name: MedSAM
     year: 2024
     family: Promptable foundation model
+    dimensionality: 2d
+    modalities:
+      - medical-images
+    segmentation_task: promptable
+    output_type: prompted-mask-logits
+    prompt_type:
+      - box
+      - point
+      - mask
+    supervision_type: prompt-supervised
     parent: null
     chapter_path: docs/architectures/medsam.md
     paper_title: Segment Anything in Medical Images
@@ -755,6 +931,16 @@ architectures:
     name: SAM-Med2D
     year: 2023
     family: Promptable foundation model, 2D medical adaptation
+    dimensionality: 2d
+    modalities:
+      - medical-images
+    segmentation_task: promptable
+    output_type: prompted-mask-logits
+    prompt_type:
+      - box
+      - point
+      - mask
+    supervision_type: prompt-supervised
     parent: null
     chapter_path: docs/architectures/sam-med2d.md
     paper_title: SAM-Med2D
@@ -781,6 +967,14 @@ architectures:
     name: SAM-Med3D
     year: 2023
     family: foundation-models
+    dimensionality: 3d
+    modalities:
+      - volumetric-medical-images
+    segmentation_task: promptable
+    output_type: volumetric-mask-logits
+    prompt_type:
+      - 3d-point
+    supervision_type: prompt-supervised
     parent: medsam
     chapter_path: docs/architectures/sam-med3d.md
     paper_title: "SAM-Med3D: Towards General-purpose Segmentation Models for Volumetric Medical Images"
@@ -847,6 +1041,16 @@ architectures:
     name: SegVol
     year: 2023
     family: foundation-models
+    dimensionality: 3d
+    modalities:
+      - ct
+    segmentation_task: promptable
+    output_type: volumetric-mask-logits
+    prompt_type:
+      - text
+      - point
+      - box
+    supervision_type: prompt-supervised
     parent: medsam
     chapter_path: docs/architectures/segvol.md
     paper_title: "SegVol: Universal and Interactive Volumetric Medical Image Segmentation"
@@ -877,6 +1081,17 @@ architectures:
     name: MedSAM2
     year: 2025
     family: Promptable foundation model, 3D and video
+    dimensionality: 2d-and-3d
+    modalities:
+      - medical-images
+    segmentation_task: promptable
+    output_type: memory-conditioned-mask-logits
+    prompt_type:
+      - point
+      - box
+      - mask
+      - memory
+    supervision_type: prompt-supervised
     parent: null
     chapter_path: docs/architectures/medsam2.md
     paper_title: "MedSAM2: Segment Anything in 3D Medical Images and Videos"

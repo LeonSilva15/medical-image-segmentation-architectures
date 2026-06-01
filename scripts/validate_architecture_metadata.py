@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import re
 import sys
+from collections import Counter
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
@@ -17,6 +18,59 @@ VALID_STATUSES = {
     "planned",
     "external-pipeline",
     "deprecated",
+}
+REQUIRED_FIELDS = {
+    "id",
+    "slug",
+    "name",
+    "year",
+    "family",
+    "dimensionality",
+    "modalities",
+    "segmentation_task",
+    "output_type",
+    "prompt_type",
+    "supervision_type",
+    "parent",
+    "chapter_path",
+    "paper_title",
+    "doi",
+    "arxiv",
+    "paper_links",
+    "modification",
+    "technical_summary",
+    "understandable_summary",
+    "implementation_status",
+    "code_path",
+    "tests",
+    "demo",
+}
+VALID_DIMENSIONALITY = {"2d", "3d", "2d-and-3d", "pipeline"}
+VALID_SEGMENTATION_TASKS = {
+    "semantic",
+    "instance",
+    "promptable",
+    "self-supervised-region",
+}
+VALID_PROMPT_TYPES = {"none", "point", "box", "mask", "3d-point", "text", "memory"}
+VALID_OUTPUT_TYPES = {
+    "semantic-logits",
+    "volumetric-logits",
+    "pipeline-segmentation-logits",
+    "instance-labels",
+    "flow-field-and-instance-labels",
+    "soft-region-map",
+    "prompted-mask-logits",
+    "volumetric-mask-logits",
+    "memory-conditioned-mask-logits",
+}
+VALID_SUPERVISION_TYPES = {
+    "supervised",
+    "sparse-supervised",
+    "self-configuring-supervised",
+    "supervised-with-auxiliary-reconstruction",
+    "self-supervised-pretraining",
+    "prompt-supervised",
 }
 PAPER_LINK_KINDS = {"doi", "arxiv", "paper"}
 COMPACT_STRING_FIELDS = (
@@ -31,8 +85,16 @@ COMPACT_STRING_FIELDS = (
     "modification",
     "implementation_status",
     "code_path",
+    "dimensionality",
+    "segmentation_task",
+    "output_type",
+    "supervision_type",
 )
 PAPER_LINK_STRING_FIELDS = ("kind", "label", "url")
+IMPLEMENTED_CHAPTER_HEADINGS = (
+    "## Implementation Walkthrough",
+    "## Learning Notes For Practitioners",
+)
 
 ID_RE = re.compile(r"^[a-z0-9][a-z0-9_-]*$")
 SLUG_RE = re.compile(r"^[a-z0-9][a-z0-9-]*$")
@@ -194,7 +256,243 @@ def validate_paper_links(entry: dict[str, Any], architecture_id: str) -> list[Va
                 )
             )
 
+    doi = entry.get("doi")
+    if doi:
+        expected = f"https://doi.org/{doi}"
+        if not any(
+            isinstance(link, dict) and link.get("kind") == "doi" and link.get("url") == expected
+            for link in paper_links
+        ):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    f"DOI paper link must be {expected}.",
+                )
+            )
+
+    arxiv = entry.get("arxiv")
+    if arxiv:
+        expected = f"https://arxiv.org/abs/{arxiv}"
+        if not any(
+            isinstance(link, dict)
+            and link.get("kind") == "arxiv"
+            and link.get("url") == expected
+            for link in paper_links
+        ):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    f"arXiv paper link must be {expected}.",
+                )
+            )
+
     return issues
+
+
+def validate_coverage_fields(entry: dict[str, Any], architecture_id: str) -> list[ValidationIssue]:
+    """Validate structured educational and medical coverage metadata."""
+
+    issues: list[ValidationIssue] = []
+
+    dimensionality = entry.get("dimensionality")
+    if dimensionality not in VALID_DIMENSIONALITY:
+        issues.append(
+            ValidationIssue(
+                "error",
+                architecture_id,
+                f"dimensionality must be one of {sorted(VALID_DIMENSIONALITY)}.",
+            )
+        )
+
+    modalities = entry.get("modalities")
+    if not isinstance(modalities, list) or not modalities:
+        issues.append(
+            ValidationIssue("error", architecture_id, "modalities must be a non-empty list.")
+        )
+    elif not all(isinstance(modality, str) and modality.strip() for modality in modalities):
+        issues.append(
+            ValidationIssue(
+                "error",
+                architecture_id,
+                "modalities entries must be non-empty strings.",
+            )
+        )
+
+    segmentation_task = entry.get("segmentation_task")
+    if segmentation_task not in VALID_SEGMENTATION_TASKS:
+        issues.append(
+            ValidationIssue(
+                "error",
+                architecture_id,
+                f"segmentation_task must be one of {sorted(VALID_SEGMENTATION_TASKS)}.",
+            )
+        )
+
+    output_type = entry.get("output_type")
+    if output_type not in VALID_OUTPUT_TYPES:
+        issues.append(
+            ValidationIssue(
+                "error",
+                architecture_id,
+                f"output_type must be one of {sorted(VALID_OUTPUT_TYPES)}.",
+            )
+        )
+
+    prompt_type = entry.get("prompt_type")
+    if not isinstance(prompt_type, list) or not prompt_type:
+        issues.append(
+            ValidationIssue("error", architecture_id, "prompt_type must be a non-empty list.")
+        )
+    elif any(prompt not in VALID_PROMPT_TYPES for prompt in prompt_type):
+        issues.append(
+            ValidationIssue(
+                "error",
+                architecture_id,
+                f"prompt_type entries must be one of {sorted(VALID_PROMPT_TYPES)}.",
+            )
+        )
+    elif "none" in prompt_type and len(prompt_type) > 1:
+        issues.append(
+            ValidationIssue(
+                "error",
+                architecture_id,
+                "prompt_type must not combine 'none' with prompt values.",
+            )
+        )
+
+    supervision_type = entry.get("supervision_type")
+    if supervision_type not in VALID_SUPERVISION_TYPES:
+        issues.append(
+            ValidationIssue(
+                "error",
+                architecture_id,
+                f"supervision_type must be one of {sorted(VALID_SUPERVISION_TYPES)}.",
+            )
+        )
+
+    return issues
+
+
+def validate_implemented_chapter_headings(
+    architecture_id: str,
+    chapter_path: Path,
+) -> list[ValidationIssue]:
+    """Require code-learning sections for implemented architecture chapters."""
+
+    chapter_text = chapter_path.read_text(encoding="utf-8")
+    issues: list[ValidationIssue] = []
+
+    for heading in IMPLEMENTED_CHAPTER_HEADINGS:
+        if heading not in chapter_text:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    f"chapter is missing required heading: {heading}.",
+                )
+            )
+
+    return issues
+
+
+def validate_readme_architecture_table(
+    entries: list[dict[str, Any]],
+    repo: Path,
+) -> list[ValidationIssue]:
+    """Validate README implementation-status table parity with metadata."""
+
+    readme_path = repo / "README.md"
+    if not readme_path.exists():
+        return []
+
+    readme_text = readme_path.read_text(encoding="utf-8")
+    table_rows = _readme_architecture_rows(readme_text)
+    if not table_rows:
+        return [
+            ValidationIssue(
+                "error",
+                "README",
+                "Current Implementation Status table was not found.",
+            )
+        ]
+
+    metadata_by_name = {
+        str(entry.get("name")): str(status(entry))
+        for entry in entries
+        if isinstance(entry, dict) and entry.get("name") and status(entry)
+    }
+    readme_by_name = {name: _metadata_status(status_text) for name, status_text in table_rows}
+
+    issues: list[ValidationIssue] = []
+    duplicate_names = {
+        name for name, count in Counter(name for name, _status in table_rows).items() if count > 1
+    }
+    for name in sorted(duplicate_names):
+        issues.append(ValidationIssue("error", "README", f"Duplicate README row: {name}."))
+
+    for name, readme_status in sorted(readme_by_name.items()):
+        metadata_status = metadata_by_name.get(name)
+        if metadata_status is None:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    "README",
+                    f"README architecture row has no metadata entry: {name}.",
+                )
+            )
+        elif metadata_status != readme_status:
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    name,
+                    f"README status {readme_status!r} does not match metadata "
+                    f"{metadata_status!r}.",
+                )
+            )
+
+    for name in sorted(metadata_by_name.keys() - readme_by_name.keys()):
+        issues.append(
+            ValidationIssue(
+                "error",
+                name,
+                "Metadata architecture is missing from README implementation table.",
+            )
+        )
+
+    return issues
+
+
+def _readme_architecture_rows(readme_text: str) -> list[tuple[str, str]]:
+    rows: list[tuple[str, str]] = []
+    in_table = False
+
+    for line in readme_text.splitlines():
+        stripped_line = line.strip()
+        if stripped_line.startswith("| Model | Status |"):
+            in_table = True
+            continue
+        if not in_table:
+            continue
+        if not stripped_line.startswith("|"):
+            break
+        if stripped_line.startswith("| ---"):
+            continue
+
+        cells = [cell.strip() for cell in stripped_line.strip("|").split("|")]
+        if len(cells) >= 2:
+            rows.append((_metadata_name(cells[0]), _metadata_status(cells[1])))
+
+    return rows
+
+
+def _metadata_name(name_text: str) -> str:
+    return name_text.strip().removesuffix(" (FCN)")
+
+
+def _metadata_status(status_text: str) -> str:
+    return status_text.strip().replace(" ", "-")
 
 
 def validate_trimmed_strings(entry: dict[str, Any], architecture_id: str) -> list[ValidationIssue]:
@@ -273,6 +571,16 @@ def validate_metadata(
         architecture_id = str(entry.get("id") or fallback_id)
         issues.extend(validate_trimmed_strings(entry, architecture_id))
 
+        missing_fields = REQUIRED_FIELDS - entry.keys()
+        for field in sorted(missing_fields):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    f"Missing required field: {field}.",
+                )
+            )
+
         if not entry.get("id"):
             issues.append(ValidationIssue("error", architecture_id, "Missing required field: id."))
         elif not ID_RE.match(architecture_id):
@@ -299,6 +607,24 @@ def validate_metadata(
                     "error",
                     architecture_id,
                     "Missing required field: modification.",
+                )
+            )
+
+        if not entry.get("technical_summary"):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    "Missing required field: technical_summary.",
+                )
+            )
+
+        if not entry.get("understandable_summary"):
+            issues.append(
+                ValidationIssue(
+                    "error",
+                    architecture_id,
+                    "Missing required field: understandable_summary.",
                 )
             )
 
@@ -346,6 +672,8 @@ def validate_metadata(
                 )
             )
 
+        issues.extend(validate_coverage_fields(entry, architecture_id))
+
         doc_path = documentation_path(entry)
         if doc_path and not path_exists(root, doc_path):
             issues.append(
@@ -367,6 +695,18 @@ def validate_metadata(
             )
 
         if entry_status == "implemented":
+            if not doc_path:
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        architecture_id,
+                        "Implemented entry is missing chapter_path.",
+                    )
+                )
+            elif path_exists(root, doc_path):
+                issues.extend(
+                    validate_implemented_chapter_headings(architecture_id, root / str(doc_path))
+                )
             if not implementation_path:
                 issues.append(
                     ValidationIssue(
@@ -392,6 +732,32 @@ def validate_metadata(
                     )
                 )
 
+        if entry_status in {"reference-only", "planned", "external-pipeline", "deprecated"}:
+            if implementation_path:
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        architecture_id,
+                        "Non-implemented entries must not set code_path.",
+                    )
+                )
+            if tests_flag(entry):
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        architecture_id,
+                        "Non-implemented entries must set tests to false.",
+                    )
+                )
+            if demo_flag(entry):
+                issues.append(
+                    ValidationIssue(
+                        "error",
+                        architecture_id,
+                        "Non-implemented entries must set demo to false.",
+                    )
+                )
+
         issues.extend(validate_paper_links(entry, architecture_id))
 
     all_ids = {
@@ -413,6 +779,8 @@ def validate_metadata(
                 issues.append(
                     ValidationIssue("error", architecture_id, f"Unknown child id: {child_id}")
                 )
+
+    issues.extend(validate_readme_architecture_table(entries, root))
 
     if strict_warnings:
         return [

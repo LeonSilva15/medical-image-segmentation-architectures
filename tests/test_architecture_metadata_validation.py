@@ -35,7 +35,10 @@ def messages(issues):
 def test_current_flat_schema_validates(tmp_path: Path) -> None:
     validator = load_validator()
     (tmp_path / "docs" / "architectures").mkdir(parents=True)
-    (tmp_path / "docs" / "architectures" / "unet.md").write_text("# U-Net\n", encoding="utf-8")
+    (tmp_path / "docs" / "architectures" / "unet.md").write_text(
+        "# U-Net\n\n## Implementation Walkthrough\n\n## Learning Notes For Practitioners\n",
+        encoding="utf-8",
+    )
     (tmp_path / "src" / "medseg_architectures" / "models").mkdir(parents=True)
     (tmp_path / "src" / "medseg_architectures" / "models" / "unet.py").write_text(
         "class UNet2D: pass\n",
@@ -51,15 +54,26 @@ def test_current_flat_schema_validates(tmp_path: Path) -> None:
             name: Fully Convolutional Network
             year: 2015
             family: Dense prediction
+            dimensionality: 2d
+            modalities:
+              - general-images
+            segmentation_task: semantic
+            output_type: semantic-logits
+            prompt_type:
+              - none
+            supervision_type: supervised
             parent: null
             chapter_path: null
             paper_title: Fully Convolutional Networks for Semantic Segmentation
+            doi: null
             arxiv: "1411.4038"
             paper_links:
               - kind: arxiv
                 label: arXiv
                 url: https://arxiv.org/abs/1411.4038
             modification: Converts classification CNNs into dense pixel prediction networks.
+            technical_summary: FCN produces dense segmentation outputs.
+            understandable_summary: FCN predicts one label per pixel.
             implementation_status: reference-only
             code_path: null
             tests: false
@@ -69,15 +83,26 @@ def test_current_flat_schema_validates(tmp_path: Path) -> None:
             name: U-Net
             year: 2015
             family: U-Net family
+            dimensionality: 2d
+            modalities:
+              - biomedical-images
+            segmentation_task: semantic
+            output_type: semantic-logits
+            prompt_type:
+              - none
+            supervision_type: supervised
             parent: fcn
             chapter_path: docs/architectures/unet.md
             paper_title: "U-Net: Convolutional Networks for Biomedical Image Segmentation"
+            doi: null
             arxiv: "1505.04597"
             paper_links:
               - kind: arxiv
                 label: arXiv
                 url: https://arxiv.org/abs/1505.04597
             modification: Adds a symmetric encoder-decoder with skip connections.
+            technical_summary: U-Net fuses encoder and decoder features.
+            understandable_summary: U-Net keeps context and boundary detail.
             implementation_status: implemented
             code_path: src/medseg_architectures/models/unet.py
             tests: true
@@ -89,7 +114,7 @@ def test_current_flat_schema_validates(tmp_path: Path) -> None:
     assert [issue for issue in issues if issue.level == "error"] == []
 
 
-def test_enriched_schema_validates(tmp_path: Path) -> None:
+def test_required_coverage_fields_validate(tmp_path: Path) -> None:
     validator = load_validator()
     (tmp_path / "docs" / "architectures").mkdir(parents=True)
     (tmp_path / "docs" / "architectures" / "example.md").write_text("# Example\n", encoding="utf-8")
@@ -101,33 +126,32 @@ def test_enriched_schema_validates(tmp_path: Path) -> None:
           - id: fcn
             slug: fcn
             name: Fully Convolutional Network
-            status: reference-only
+            year: 2015
+            family: Dense prediction
+            dimensionality: 2d
+            modalities:
+              - general-images
+            segmentation_task: semantic
+            output_type: semantic-logits
+            prompt_type:
+              - none
+            supervision_type: supervised
+            parent: null
+            chapter_path: docs/architectures/example.md
+            paper_title: Fully Convolutional Networks for Semantic Segmentation
+            doi: null
             arxiv: "1411.4038"
             paper_links:
               - kind: arxiv
                 label: arXiv
                 url: https://arxiv.org/abs/1411.4038
             modification: Converts classification CNNs into dense pixel prediction networks.
-          - id: unet
-            slug: unet
-            name: U-Net
-            status: reference-only
-            arxiv: "1505.04597"
-            implementation:
-              code_path: null
-              tests: false
-              demo: false
-            documentation:
-              page: docs/architectures/example.md
-            lineage:
-              parents:
-                - fcn
-              children: []
-            paper_links:
-              - kind: arxiv
-                label: arXiv
-                url: https://arxiv.org/abs/1505.04597
-            modification: Adds a symmetric encoder-decoder with skip connections.
+            technical_summary: FCN produces dense segmentation outputs.
+            understandable_summary: FCN predicts one label per pixel.
+            implementation_status: reference-only
+            code_path: null
+            tests: false
+            demo: false
         """,
     )
 
@@ -417,3 +441,110 @@ def test_malformed_paper_links_are_errors(tmp_path: Path) -> None:
     assert any("label is required" in message for message in messages(issues))
     assert any("url must be an https URL" in message for message in messages(issues))
     assert any("must be a mapping" in message for message in messages(issues))
+
+
+def test_missing_coverage_fields_are_errors(tmp_path: Path) -> None:
+    validator = load_validator()
+    metadata_path = write_metadata(
+        tmp_path,
+        """
+        architectures:
+          - id: unet
+            slug: unet
+            name: U-Net
+            year: 2015
+            family: U-Net family
+            parent: null
+            chapter_path: null
+            paper_title: "U-Net: Convolutional Networks for Biomedical Image Segmentation"
+            doi: null
+            arxiv: "1505.04597"
+            paper_links:
+              - kind: arxiv
+                label: arXiv
+                url: https://arxiv.org/abs/1505.04597
+            modification: Adds a symmetric encoder-decoder with skip connections.
+            technical_summary: U-Net fuses encoder and decoder features.
+            understandable_summary: U-Net keeps context and boundary detail.
+            implementation_status: reference-only
+            code_path: null
+            tests: false
+            demo: false
+        """,
+    )
+
+    issues = validator.validate_metadata(metadata_path, tmp_path)
+
+    assert any("Missing required field: dimensionality" in message for message in messages(issues))
+    assert any("Missing required field: modalities" in message for message in messages(issues))
+    assert any("Missing required field: prompt_type" in message for message in messages(issues))
+
+
+def test_invalid_coverage_values_are_errors(tmp_path: Path) -> None:
+    validator = load_validator()
+    metadata_path = write_metadata(
+        tmp_path,
+        """
+        architectures:
+          - id: unet
+            slug: unet
+            name: U-Net
+            year: 2015
+            family: U-Net family
+            dimensionality: video
+            modalities: []
+            segmentation_task: classification
+            output_type: masks
+            prompt_type:
+              - none
+              - point
+            supervision_type: weakly-supervised
+            parent: null
+            chapter_path: null
+            paper_title: "U-Net: Convolutional Networks for Biomedical Image Segmentation"
+            doi: null
+            arxiv: "1505.04597"
+            paper_links:
+              - kind: arxiv
+                label: arXiv
+                url: https://arxiv.org/abs/1505.04597
+            modification: Adds a symmetric encoder-decoder with skip connections.
+            technical_summary: U-Net fuses encoder and decoder features.
+            understandable_summary: U-Net keeps context and boundary detail.
+            implementation_status: reference-only
+            code_path: null
+            tests: false
+            demo: false
+        """,
+    )
+
+    issues = validator.validate_metadata(metadata_path, tmp_path)
+
+    assert any("dimensionality must be one of" in message for message in messages(issues))
+    assert any("modalities must be a non-empty list" in message for message in messages(issues))
+    assert any("segmentation_task must be one of" in message for message in messages(issues))
+    assert any("output_type must be one of" in message for message in messages(issues))
+    assert any("must not combine 'none'" in message for message in messages(issues))
+    assert any("supervision_type must be one of" in message for message in messages(issues))
+
+
+def test_readme_architecture_table_status_mismatch_is_error(tmp_path: Path) -> None:
+    validator = load_validator()
+    (tmp_path / "README.md").write_text(
+        """
+        # Example
+
+        | Model | Status | Code in `src/` | Tests | Demo | Reference-only docs? |
+        | --- | --- | --- | --- | --- | --- |
+        | U-Net | reference-only | No | No | No | Yes |
+        """.strip()
+        + "\n",
+        encoding="utf-8",
+    )
+
+    issues = validator.validate_readme_architecture_table(
+        [{"name": "U-Net", "implementation_status": "implemented"}],
+        tmp_path,
+    )
+
+    assert any("does not match metadata" in message for message in messages(issues))
