@@ -41,3 +41,9 @@ to the same spatial location in the input image.
 - Whether the model is an architecture only or a full training pipeline.
 - Which assumptions come from the original paper and which come from this repo's
   simplified implementation.
+
+## Check Yourself
+
+- If a model outputs `(B, 3, H, W)`, what does the `3` usually represent?
+- Why is a segmentation mask different from an image-level class label?
+- When might a 2D slice model miss information that a 3D volume model can see?

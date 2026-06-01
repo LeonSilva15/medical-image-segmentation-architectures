@@ -19,8 +19,12 @@ Start with these book pages:
 
 - Start Here: `docs/index.md`
 - What Is Segmentation?: `docs/foundations/what-is-segmentation.md`
-- Architecture Lineage: `docs/evolution/lineage.md`
+- How To Read An Architecture: `docs/foundations/how-to-read-an-architecture.md`
+- Training And Evaluation Basics:
+  `docs/foundations/training-and-evaluation-basics.md`
+- FCN: `docs/architectures/fcn.md`
 - U-Net Overview: `docs/architectures/unet.md`
+- Architecture Selection Guide: `docs/architectures/selection-guide.md`
 
 Build the book locally with:
 

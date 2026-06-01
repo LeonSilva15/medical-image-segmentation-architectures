@@ -11,6 +11,14 @@ boundaries, and references.
 
 Explain what this architecture is and why it matters in direct language.
 
+## Learning Goals
+
+By the end of this page, the reader should be able to:
+
+- Describe the architecture's core idea in one sentence.
+- Trace the main tensor shape changes.
+- Identify the output contract and one practical limitation.
+
 ## What Problem It Solved
 
 Describe the limitation or gap this architecture addressed. Keep claims
@@ -122,6 +130,11 @@ paths with links only after the pages exist:
 For implemented architectures, explain practical choices such as logits,
 channel counts, synthetic tests, shape contracts, and known simplifications.
 
+## Check Yourself
+
+Ask readers to predict a tensor shape, choose a suitable loss or metric, explain
+a failure mode, or compare the architecture to its parent.
+
 ## What Changed Relative To Parent
 
 Explain the architectural change relative to the parent architecture. Rename
@@ -159,6 +172,11 @@ this section if there is no accurate parent comparison.
 | Year | 2026 |
 | Parent | Parent architecture or None |
 | Family | Architecture family |
+| Dimensionality | `2d`, `3d`, `2d-and-3d`, or `pipeline` |
+| Segmentation task | `semantic`, `instance`, `promptable`, or `self-supervised-region` |
+| Output type | Metadata `output_type` value |
+| Prompt type | Metadata `prompt_type` values |
+| Supervision type | Metadata `supervision_type` value |
 | Paper title | Exact Paper Title |
 | DOI | `null` |
 | arXiv | `null` |

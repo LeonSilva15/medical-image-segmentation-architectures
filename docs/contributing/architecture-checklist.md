@@ -12,6 +12,8 @@ architecture entry.
 - [ ] Added or updated `family`, `category`, and `tags` where useful.
 - [ ] Added lineage parent or child relationships where appropriate.
 - [ ] Added implementation fields.
+- [ ] Added `dimensionality`, `modalities`, `segmentation_task`, `output_type`,
+  `prompt_type`, and `supervision_type`.
 - [ ] Added documentation path when a page exists.
 - [ ] Added verified paper links and reference information.
 - [ ] Did not invent paper titles, authors, DOI values, arXiv IDs, or claims.
@@ -30,6 +32,8 @@ architecture entry.
 - [ ] Linked related architectures.
 - [ ] Added references to original sources.
 - [ ] Used only original repo-authored diagrams.
+- [ ] Added or updated `docs/glossary.md` for new non-obvious learner-facing
+  terms.
 - [ ] Updated `mkdocs.yml` navigation when a page should appear in the book.
 
 ## Code, Only If Implemented

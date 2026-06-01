@@ -29,6 +29,8 @@ item below is complete.
 - [ ] Set `implementation_status` to exactly one of `implemented`,
   `reference-only`, `planned`, `external-pipeline`, or `deprecated`.
 - [ ] Include `slug`, `family`, `chapter_path`, and `paper_links`.
+- [ ] Include `dimensionality`, `modalities`, `segmentation_task`,
+  `output_type`, `prompt_type`, and `supervision_type`.
 - [ ] Set `parent` to an existing architecture id or `null`.
 - [ ] Describe the modification in neutral, source-supported language.
 - [ ] Add only original repo-authored diagrams. Do not copy paper figures.
@@ -94,6 +96,7 @@ Use the U-Net chapter as the reference structure.
 
 - [ ] `# Architecture Name`
 - [ ] `## Plain-Language Overview`
+- [ ] `## Learning Goals`
 - [ ] `## What Problem It Solved`
 - [ ] `## Visual Architecture Schematic`
 - [ ] `## Step-By-Step Walkthrough`
@@ -111,6 +114,7 @@ Implemented chapters must also include:
 - [ ] Collapsible code excerpts for important implementation pieces.
 - [ ] Links to supporting pages when the architecture has full-code, cookbook,
   or live-example pages.
+- [ ] At least one short learner checkpoint such as `## Check Yourself`.
 
 If the parent architecture is not known or the architecture starts a new family,
 use `## What Changed Relative To Earlier Segmentation Models` instead of forcing
@@ -190,6 +194,14 @@ Keep `chapter_path` pointed at the overview chapter, such as
   name: Architecture Name
   year: 2026
   family: Architecture family
+  dimensionality: 2d
+  modalities:
+    - medical-images
+  segmentation_task: semantic
+  output_type: semantic-logits
+  prompt_type:
+    - none
+  supervision_type: supervised
   parent: parent_id_or_null
   chapter_path: docs/architectures/architecture-slug.md
   paper_title: "Exact Paper Title"
@@ -227,6 +239,11 @@ demo: true
 ## Plain-Language Overview
 
 Explain the core idea in direct language.
+
+## Learning Goals
+
+By the end of this page, the reader should be able to trace the main tensor
+flow, identify the architectural change, and name one practical failure mode.
 
 ## What Problem It Solved
 
@@ -276,6 +293,11 @@ paths with links only after the pages exist:
 
 For implemented architectures, explain practical choices such as logits,
 channel counts, synthetic tests, and shape contracts.
+
+## Check Yourself
+
+Ask readers to predict a shape, choose a loss or metric, identify a likely
+failure mode, or explain a tradeoff.
 
 ## What Changed Relative To Parent
 

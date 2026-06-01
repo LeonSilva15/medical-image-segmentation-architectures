@@ -62,6 +62,13 @@ The parameter summary shows the capacity cost of wider feature maps. The shape
 trace shows where spatial size shrinks, where channels widen, and where the
 decoder restores the output to `(B, K, H, W)`.
 
+## Check Yourself
+
+Before running the code above, predict which layers will change spatial size
+and which layers will only change channel count. Then compare your prediction
+with the printed trace. If the input is `(1, 1, 65, 73)`, explain why odd sizes
+need explicit alignment in the decoder.
+
 ## Encoder
 
 The encoder compresses the image into lower-resolution feature maps. It usually

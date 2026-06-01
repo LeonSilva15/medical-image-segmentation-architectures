@@ -82,6 +82,7 @@ nav:
       - MedSAM2: architectures/medsam2.md
       - SAM-Med3D: architectures/sam-med3d.md
   - Appendix:
+      - Glossary: glossary.md
       - General Segmentation Context: appendix/general-segmentation-context.md
   - Contributing:
       - Overview: contributing/index.md

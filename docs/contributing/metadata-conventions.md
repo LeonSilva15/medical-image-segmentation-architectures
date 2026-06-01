@@ -12,6 +12,8 @@ questions:
 - What earlier architecture does it build on?
 - Which original paper or source should be cited?
 - Does it have tests and demos?
+- What dimensionality, modality family, task type, output contract, prompt
+  interface, and supervision style does it teach?
 
 ## Status Labels
 
@@ -36,6 +38,14 @@ architectures:
     name: U-Net
     year: 2015
     family: U-Net family
+    dimensionality: 2d
+    modalities:
+      - biomedical-images
+    segmentation_task: semantic
+    output_type: semantic-logits
+    prompt_type:
+      - none
+    supervision_type: supervised
     parent: fcn
     chapter_path: docs/architectures/unet.md
     paper_title: "U-Net: Convolutional Networks for Biomedical Image Segmentation"
@@ -60,53 +70,8 @@ architectures:
     demo: true
 ```
 
-## Lightly Enriched Future Schema
-
-The metadata validator also supports a lightly enriched nested style for future
-entries. Do not migrate the existing file just for style. Current entries should
-still use the canonical `implementation_status` field.
-
-```yaml
-architectures:
-  - id: architecture-id
-    slug: architecture-slug
-    name: Architecture Name
-    year: 2026
-    category: architecture-category
-    family: Architecture family
-    implementation_status: reference-only
-    implementation:
-      module: null
-      class: null
-      code_path: null
-      tests: false
-      demo: false
-    documentation:
-      page: docs/architectures/architecture-slug.md
-    lineage:
-      parents:
-        - parent-id
-      children: []
-    references:
-      - architecture-reference-key
-    paper_title: "Exact Paper Title"
-    doi: null
-    arxiv: null
-    paper_links:
-      - kind: paper
-        label: Paper
-        url: https://example.org/paper
-    modification: One sentence describing the architectural change.
-    technical_summary: >
-      Short technical summary for readers who know segmentation architectures.
-    understandable_summary: >
-      Short plain-language summary for the book and indexes.
-    tags:
-      - example-tag
-```
-
-Use real paper titles, DOI values, arXiv IDs, and URLs when replacing template
-placeholders. Do not invent missing bibliographic metadata.
+Use real paper titles, DOI values, arXiv IDs, and URLs when replacing examples.
+Do not invent missing bibliographic metadata.
 
 ## Required Fields
 
@@ -115,11 +80,35 @@ Every architecture entry should have:
 - `id`
 - `slug`
 - `name`
+- `year`
 - `family`
-- `chapter_path` or `documentation.page`, unless no page exists yet
+- `dimensionality`
+- `modalities`
+- `segmentation_task`
+- `output_type`
+- `prompt_type`
+- `supervision_type`
+- `parent`
+- `chapter_path`
 - `implementation_status`
+- `code_path`
+- `tests`
+- `demo`
 - `paper_links`
 - reference information from the original source
+
+Use these controlled values where applicable:
+
+- `dimensionality`: `2d`, `3d`, `2d-and-3d`, or `pipeline`.
+- `segmentation_task`: `semantic`, `instance`, `promptable`, or
+  `self-supervised-region`.
+- `prompt_type`: a list using `none`, `point`, `box`, `mask`, `3d-point`,
+  `text`, or `memory`. Do not combine `none` with other prompt values.
+
+`modalities` should be a non-empty list of broad, source-supported modality
+families such as `medical-images`, `volumetric-medical-images`, `microscopy`,
+`ct`, or `mri`. `output_type` and `supervision_type` should use the existing
+controlled values already present in `data/architectures.yml`.
 
 ## ID And Slug Rules
 

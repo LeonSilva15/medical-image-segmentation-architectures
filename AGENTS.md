@@ -36,6 +36,12 @@ architectures and their major modifications.
   `docs/contributing/architecture-checklist.md`.
 - Implemented model code changes should follow
   `docs/contributing/code-change-checklist.md`.
+- When adding or changing docs, metadata, demos, tests, or model code, check
+  `docs/glossary.md` for important medical imaging, segmentation, architecture,
+  evaluation, safety/data-handling, or promptable/foundation-model terms. If an
+  important non-obvious term is introduced or relied on and is not already
+  defined, add a concise glossary entry in the same change. Do not add obvious
+  programming terms or unverified paper claims.
 - Use synthetic data for tests and demos unless a public, properly licensed dataset
   is explicitly configured.
 - Do not add private medical images, PHI, patient identifiers, DICOM headers, or

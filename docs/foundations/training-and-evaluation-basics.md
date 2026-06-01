@@ -60,6 +60,15 @@ prediction = probabilities.argmax(dim=1)
 For runnable synthetic examples with the local `UNet2D` implementation, see the
 [U-Net cookbook](../architectures/unet/cookbook.md).
 
+## Check Yourself
+
+- For binary segmentation with one foreground channel, should the model apply
+  `sigmoid` before `BCEWithLogitsLoss`?
+- For multiclass segmentation with `K` mutually exclusive classes, what target
+  shape does `CrossEntropyLoss` expect?
+- If a batch-level Dice score is high, what per-case failure could still be
+  hidden?
+
 ## Losses
 
 `BCEWithLogitsLoss` is commonly used for binary foreground-vs-background masks.
@@ -119,6 +128,22 @@ dice = (2 * intersection + eps) / (pred.sum() + target.sum() + eps)
 iou = (intersection + eps) / (union + eps)
 ```
 
+Report aggregation policy explicitly. A pooled Dice score sums intersections
+across a whole batch or dataset, which can hide small-structure misses or a
+single failed patient case. A safer educational report includes per-case values,
+then summarizes the distribution with mean, median, and an interval such as a
+bootstrap confidence interval. For multiclass segmentation, compute metrics per
+class before macro-averaging or weighting by task importance.
+
+Empty masks need a stated convention. If both prediction and target are empty,
+some projects score the case as perfect, some exclude it from foreground Dice,
+and some report a separate empty-case accuracy. If the target is empty but the
+prediction is not, the false positive should be visible in the metric report.
+
+Threshold policy is part of evaluation. Binary outputs need a threshold, and
+changing it can trade precision for sensitivity. Choose the threshold on a
+validation set, document it, and keep the test set untouched.
+
 Sensitivity, also called recall, asks how much of the target foreground was
 found:
 
@@ -135,6 +160,23 @@ Precision = true positives / (true positives + false positives)
 Hausdorff distance compares boundaries by measuring the largest surface distance
 between predicted and target masks. It is sensitive to isolated outlier pixels or
 voxels, so reports often need clear preprocessing and postprocessing details.
+HD95 reports the 95th percentile surface distance and is less dominated by one
+worst outlier. Surface Dice asks whether predicted and target surfaces agree
+within a chosen physical tolerance, so voxel spacing and resampling must be
+documented.
+
+## Instance Segmentation Metrics
+
+Instance segmentation outputs object IDs, not only semantic foreground pixels.
+Evaluation should therefore include object-level behavior:
+
+- Match predicted and target objects by IoU or another overlap rule.
+- Report precision, recall, and average precision across IoU thresholds.
+- Count split errors, where one object becomes several predictions.
+- Count merge errors, where several objects become one prediction.
+- Report object counts separately from semantic foreground overlap.
+- When a method produces both a semantic map and final instances, evaluate both
+  so post-processing failures are visible.
 
 ## Imbalance And Small Structures
 
@@ -156,6 +198,21 @@ it easier to sample patches that contain small foreground structures.
 Patch choices affect what context the model sees. Very small patches may hide
 important anatomy-level context. Very large patches may exceed memory limits or
 make batches too small for stable experiments.
+
+## Public Dataset Leakage Checks
+
+Public and properly licensed datasets can still be misused. Before adding any
+dataset-backed example, document how leakage is prevented:
+
+- Split by patient, subject, case, or study, not by independent slices or
+  patches from the same volume.
+- Fit normalization, resampling decisions, cropping statistics, and other
+  preprocessing parameters on the training split only.
+- Keep slices, patches, augmentations, and duplicate studies from the same case
+  inside the same split.
+- Check for repeated acquisitions or near-duplicate studies across splits.
+- Report whether evaluation is internal only or includes an external site,
+  scanner, institution, or acquisition protocol.
 
 ## Sliding-Window Inference
 

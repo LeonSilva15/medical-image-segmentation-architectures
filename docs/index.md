@@ -7,16 +7,25 @@ original papers.
 
 ## How To Use This Book
 
-Start with the foundations if segmentation is new to you. Then read the lineage
-map to see how model families evolved. Finally, open individual architecture
-chapters for deeper walkthroughs, model details, and paper links.
+Start with the foundations if segmentation is new to you. Then read FCN and
+U-Net before using the lineage map and selection guide to branch into later
+architectures.
 
 ## Learning Path
 
 1. Read [What Is Segmentation?](foundations/what-is-segmentation.md).
 2. Read [How To Read An Architecture](foundations/how-to-read-an-architecture.md).
-3. Explore the [Architecture Lineage](evolution/lineage.md).
-4. Deep dive into [U-Net](architectures/unet.md), the first complete chapter.
+3. Read [Training And Evaluation Basics](foundations/training-and-evaluation-basics.md).
+4. Read [FCN](architectures/fcn.md) for the dense-prediction starting point.
+5. Deep dive into [U-Net](architectures/unet.md), the first complete chapter.
+6. Use the [Architecture Selection Guide](architectures/selection-guide.md) and
+   [Architecture Lineage](evolution/lineage.md) to choose the next branch.
+
+## Check Yourself
+
+Before opening later architecture pages, you should be able to say what shape a
+2D segmentation model usually receives, why logits are not probabilities, and
+why U-Net adds skip connections to an encoder-decoder.
 
 ## Repository Status
 
