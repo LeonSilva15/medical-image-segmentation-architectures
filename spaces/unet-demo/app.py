@@ -16,9 +16,11 @@ from PIL import Image
 
 os.environ.setdefault("GRADIO_ANALYTICS_ENABLED", "False")
 
-REPO_SRC = Path(__file__).resolve().parents[2] / "src"
-if REPO_SRC.exists() and str(REPO_SRC) not in sys.path:
-    sys.path.insert(0, str(REPO_SRC))
+for parent in Path(__file__).resolve().parents:
+    repo_src = parent / "src"
+    if repo_src.exists() and str(repo_src) not in sys.path:
+        sys.path.insert(0, str(repo_src))
+        break
 
 from medseg_architectures import UNet2D, count_parameters  # noqa: E402
 from medseg_architectures.demos import (  # noqa: E402
