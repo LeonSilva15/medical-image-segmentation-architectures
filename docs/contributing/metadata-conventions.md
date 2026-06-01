@@ -203,10 +203,15 @@ Do not add:
 
 Synthetic tensors and toy masks are preferred for examples and tests.
 
+For public datasets, also document patient/case-level splits, train-only
+preprocessing fitting, patch or slice grouping, duplicate-study checks, and
+whether evaluation includes an external site or scanner.
+
 ## Validation
 
 Run metadata validation before opening a pull request:
 
 ```sh
 uv run --python 3.11 python scripts/validate_architecture_metadata.py
+uv run --python 3.11 python scripts/validate_artifacts.py
 ```

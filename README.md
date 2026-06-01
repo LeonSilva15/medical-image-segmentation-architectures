@@ -101,6 +101,7 @@ architecture without a local implementation.
 ```sh
 uv run --locked --python 3.11 python scripts/validate_references.py
 uv run --locked --python 3.11 python scripts/validate_architecture_metadata.py
+uv run --locked --python 3.11 python scripts/validate_artifacts.py
 uv run --locked --python 3.11 ruff check .
 uv run --locked --python 3.11 mypy src scripts demos tests
 ```

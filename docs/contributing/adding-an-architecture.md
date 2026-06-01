@@ -36,6 +36,9 @@ item below is complete.
   dataset is explicitly configured.
 - [ ] Do not add private medical images, PHI, patient identifiers, DICOM headers,
   or clinical data.
+- [ ] For public datasets, document patient/case-level splits, train-only
+  preprocessing fitting, patch or slice grouping, duplicate-study checks, and
+  external-validation status.
 - [ ] Update `ROADMAP.md` only when project-level direction, planned milestones,
   or active blockers change.
 
@@ -322,6 +325,7 @@ Run the relevant checks before considering the task done.
 ```sh
 uv run --python 3.11 python scripts/validate_references.py
 uv run --python 3.11 python scripts/validate_architecture_metadata.py
+uv run --python 3.11 python scripts/validate_artifacts.py
 uv run --python 3.11 pytest
 uv run --python 3.11 ruff check .
 uv run --python 3.11 --group docs mkdocs build --strict

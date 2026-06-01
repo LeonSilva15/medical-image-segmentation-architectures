@@ -57,6 +57,9 @@ architecture entry.
 - [ ] No clinical-readiness claims.
 - [ ] No unsupported benchmark claims.
 - [ ] No external model weights unless explicitly intended and documented.
+- [ ] Public-dataset examples document patient/case-level splits, train-only
+  preprocessing fitting, patch/slice grouping, duplicate checks, and
+  external-validation status.
 
 ## Validation
 
@@ -65,6 +68,7 @@ Run these before opening a pull request:
 ```sh
 uv run --python 3.11 python scripts/validate_references.py
 uv run --python 3.11 python scripts/validate_architecture_metadata.py
+uv run --python 3.11 python scripts/validate_artifacts.py
 uv run --python 3.11 ruff check .
 uv run --python 3.11 pytest
 uv run --python 3.11 --group docs mkdocs build --strict

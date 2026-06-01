@@ -44,6 +44,8 @@ For 3D segmentation models:
 - [ ] Synthetic demo still runs on CPU.
 - [ ] Tests do not require external datasets.
 - [ ] Tests do not require a GPU.
+- [ ] Tests and demos do not add tracked medical volumes, DICOM files, TIFF
+  microscopy data, model weights, or checkpoints.
 
 ## Documentation
 
@@ -57,6 +59,7 @@ For 3D segmentation models:
 
 ```sh
 uv run --python 3.11 python scripts/validate_architecture_metadata.py
+uv run --python 3.11 python scripts/validate_artifacts.py
 uv run --python 3.11 ruff check .
 uv run --python 3.11 pytest
 uv run --python 3.11 --group docs mkdocs build --strict
