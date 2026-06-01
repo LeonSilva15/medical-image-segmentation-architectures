@@ -165,6 +165,9 @@ worst outlier. Surface Dice asks whether predicted and target surfaces agree
 within a chosen physical tolerance, so voxel spacing and resampling must be
 documented.
 
+For full formulas, clinical interpretation, failure modes, and runnable
+examples, see [Evaluation Metrics](evaluation-metrics.md).
+
 ## Instance Segmentation Metrics
 
 Instance segmentation outputs object IDs, not only semantic foreground pixels.

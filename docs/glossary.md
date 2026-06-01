@@ -41,6 +41,8 @@ definitions.
 | Threshold policy | The chosen rule for converting probabilities into binary predictions; changing it changes precision and sensitivity tradeoffs. |
 | Dice score | An overlap metric: twice the intersection divided by predicted plus target area. |
 | IoU | Intersection over Union, also called Jaccard. |
+| Sensitivity | The fraction of true foreground captured by a prediction, also called recall. |
+| Specificity | The fraction of true background correctly rejected by a prediction. |
 | HD95 | The 95th percentile Hausdorff distance, a boundary-distance metric less sensitive to a single worst outlier than full Hausdorff distance. |
 | Surface Dice | A boundary agreement metric that counts surfaces as matching when they are within a chosen distance tolerance. |
 | Average precision | An instance-segmentation metric that summarizes precision and recall over one or more IoU thresholds. |
