@@ -150,11 +150,21 @@ prompting with memory across slices or frames.
 | [UNETR](unetr.md) | Medical 3D Transformer | Applies Transformer encoding to volumetric segmentation. | Learn how Transformer ideas are adapted to 3D medical volumes. | reference-only |
 | [Swin UNETR](swin-unetr.md) | Medical 3D shifted-window Transformer | Applies Swin-style shifted-window attention to UNETR-style volumetric segmentation. | Compare full-token and windowed Transformer encoders for 3D segmentation. | reference-only |
 | [StarDist-3D](stardist-3d.md) | 3D microscopy instance segmentation | Predicts star-convex polyhedra from a 3D U-Net-style backbone and uses NMS to separate object instances. | Study how object-level outputs differ from semantic voxel labels and where star-convex assumptions fail. | reference-only |
+| [Cellpose](cellpose.md) | Microscopy instance segmentation | Predicts flow fields and cell probability maps, then groups pixels or voxels by flow convergence. | Compare flow-based grouping with star-convex object proposals. | reference-only |
+| [WNet3D](wnet3d.md) | Self-supervised 3D microscopy segmentation | Uses coupled U-Nets with NCut and reconstruction objectives to learn region structure from unlabelled volumes. | Study self-supervised pretraining and post-hoc instance extraction. | reference-only |
 | [MedSAM](medsam.md) | Promptable medical foundation-model adaptation | Represents prompt-conditioned medical segmentation workflows. | Understand how prompts change the segmentation interface. | reference-only |
 | [SAM-Med2D](sam-med2d.md) | Promptable 2D medical adaptation | Shows how SAM-style prompting is adapted to 2D medical images. | Compare point, box, and mask prompts for 2D medical segmentation. | reference-only |
 | [SAM-Med3D](sam-med3d.md) | Promptable 3D medical foundation model | Moves SAM-style prompting to native volumetric medical segmentation. | Compare one 3D point prompt with slice-by-slice 2D prompting. | reference-only |
 | [SegVol](segvol.md) | Text-promptable volumetric foundation model | Combines volumetric image features with semantic text prompts and spatial prompts. | Learn the text-promptable branch of 3D medical foundation models. | reference-only |
 | [MedSAM2](medsam2.md) | Promptable 3D and video medical adaptation | Adds memory-conditioned prompting for medical slices and frames. | Understand why 3D and video prompting need continuity validation. | reference-only |
+
+## Current Coverage Gaps
+
+This catalog is not a complete medical segmentation survey. The current set is
+weak or missing for ultrasound, histopathology whole-slide imaging, retinal OCT
+and fundus imaging, endoscopy and surgical video, cardiac cine imaging, fetal
+imaging, and vessel/tree/topology-aware segmentation. Add these only with
+verified metadata, source-supported claims, and clear implementation status.
 
 ## What This Guide Does Not Claim
 

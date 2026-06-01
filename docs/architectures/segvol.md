@@ -163,11 +163,8 @@ to reproduce the full paper.
 
 - SegVol is distinct from SAM-Med3D because it adds semantic text prompting
   through a CLIP-based text encoder.
-- The supplied source description states that SegVol was trained on 90K
-  unlabeled CT volumes through self-supervised pretraining and 6K labeled CTs.
-- The supplied source description states that SegVol supports over 200
-  anatomical categories and outperforms competitors on 19 of 22 anatomical
-  segmentation tasks.
+- Treat dataset-size and category-count claims as paper-reported context, not
+  as guarantees for a new dataset or scanner.
 - Text prompts require careful evaluation of vocabulary, category definitions,
   and prompt policy; they are not equivalent to clinical validation.
 

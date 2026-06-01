@@ -266,6 +266,10 @@ Cellpose 3.0:
   the PhD work.
 - For 3D stacks, test Cellpose 3.0 with `pretrained_model_ortho` explicitly
   because it was added for improved 3D handling.
+- Evaluate final instance labels separately from the cell-probability map.
+  Object-level precision/recall, AP at IoU thresholds, split/merge counts, and
+  object-count error can reveal flow-tracking failures hidden by semantic
+  foreground overlap.
 
 ## What Changed Relative To StarDist-3D And Semantic Segmentation
 

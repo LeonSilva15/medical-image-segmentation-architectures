@@ -216,12 +216,13 @@ windowed volume passed to the model.
 
 ## Learning Notes For Practitioners
 
-- SAM-Med3D is most useful as an annotation accelerator: use it to generate
-  approximate 3D masks for new confocal stacks, manually correct errors, and
-  use the corrected masks as training data for a task-specific model such as
-  SegResNet or a WNet3D fine-tune.
+- Using SAM-Med3D as an annotation accelerator for confocal stacks is an
+  exploratory hypothesis, not a recommended workflow in this book. It would
+  require local validation, manual error review, and comparison with
+  task-specific microscopy methods.
 - The model has not been evaluated on fluorescence microscopy in the original
-  paper. Testing SAM-Med3D zero-shot on 3D cell volumes is an open project gap.
+  paper. Testing SAM-Med3D zero-shot on 3D cell volumes remains an open project
+  gap.
 - Single-point prompting is convenient, but it should not be treated as a
   substitute for task-specific validation.
 - For densely packed objects, separate instances may need additional prompts,

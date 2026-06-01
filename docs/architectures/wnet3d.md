@@ -15,7 +15,8 @@ arbitrary or single-region assignment.
 
 This matters for microscopy because annotation is often the limiting resource.
 WNet3D demonstrates a practical route: pretrain on unlabelled 3D confocal
-stacks, then fine-tune with a small labelled set when labels become available.
+stacks, inspect and correct the outputs, and use those corrected labels in a
+follow-up supervised workflow when labels become available.
 
 ## What Problem It Solved
 
@@ -260,7 +261,8 @@ Fine-tuning protocol:
 - Start by pretraining WNet3D on unlabelled 3D fluorescence stacks from the
   target imaging protocol.
 - Inspect the semantic outputs and post-hoc instance extraction behavior.
-- Fine-tune with at least one annotated volume when labels are available.
+- Fine-tune or train a supervised follow-up model when corrected labels are
+  available.
 - Evaluate the final instance labels separately from the semantic segmentation
   map so post-processing failures are visible.
 
@@ -270,9 +272,9 @@ Fine-tuning protocol:
 
 ## Learning Notes For Practitioners
 
-- WNet3D is a recommended starting point for 3D cell segmentation when annotated
-  data is scarce: pretrain on unlabelled confocal stacks of cells, then
-  fine-tune on a small annotated set.
+- WNet3D is a candidate starting point for 3D cell segmentation when annotated
+  data is scarce: pretrain on unlabelled confocal stacks of cells, inspect the
+  region outputs, and validate the downstream instance-extraction step.
 - The NCut loss is sensitive to imaging artefacts such as photobleaching and
   uneven illumination. Apply illumination correction before training.
 - The post-hoc Voronoi-Otsu instance step assumes roughly convex objects. For
@@ -281,6 +283,9 @@ Fine-tuning protocol:
 - Treat that failure mode as a concrete research gap: measure whether the soft
   segmentation separates foreground correctly before concluding that WNet3D has
   failed as a representation.
+- Evaluate the soft region map separately from the final instance labels.
+  Object matching, split/merge counts, and object-count error can reveal
+  post-processing failures that a semantic overlap score hides.
 
 ## What Changed Relative To Cellpose
 
@@ -340,12 +345,12 @@ Voronoi-Otsu labelling or watershed to recover object IDs.
 
 | Field | Value |
 | --- | --- |
-| Year | 2024 |
+| Year | 2025 |
 | Parent | Cellpose |
 | Family | instance-segmentation |
 | Paper title | CellSeg3D: self-supervised 3D cell segmentation for fluorescence microscopy |
-| Authors | Cyril Achard, Timokleia Kousi, Markus Frey, Maxime Vappiani, Thibault Bhend, Sebastián Sanchez Moran, Corinne Bhend, Nikita Dvornik, Frederique Bhend, Adrian Bhend, Shriya Bhend, Adrian Bhend, Mackenzie Mathis |
-| Venue | eLife, 2024 |
+| Authors | Cyril Achard, Timokleia Kousi, Markus Frey, Maxime Vidal, Yves Paychere, Colin Hofmann, Asim Iqbal, Sebastien B Hausmann, Stéphane Pagès, Mackenzie Weygandt Mathis |
+| Venue | eLife, 2025 |
 | DOI | `10.7554/eLife.99848` |
 | arXiv | `null` |
 
@@ -357,9 +362,9 @@ Voronoi-Otsu labelling or watershed to recover object IDs.
 ```text
 WNet3D citation
 Title: CellSeg3D: self-supervised 3D cell segmentation for fluorescence microscopy
-Authors: Cyril Achard, Timokleia Kousi, Markus Frey, Maxime Vappiani, Thibault Bhend, Sebastián Sanchez Moran, Corinne Bhend, Nikita Dvornik, Frederique Bhend, Adrian Bhend, Shriya Bhend, Adrian Bhend, Mackenzie Mathis
-Venue: eLife, 2024
-Year: 2024
+Authors: Cyril Achard, Timokleia Kousi, Markus Frey, Maxime Vidal, Yves Paychere, Colin Hofmann, Asim Iqbal, Sebastien B Hausmann, Stéphane Pagès, Mackenzie Weygandt Mathis
+Venue: eLife, 2025
+Year: 2025
 DOI: 10.7554/eLife.99848
 Official code: https://github.com/AdaptiveMotorControlLab/CellSeg3D
 ```

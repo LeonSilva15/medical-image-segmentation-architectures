@@ -26,12 +26,11 @@ graph TD
     SwinUNETR["Swin UNETR<br/>3D shifted-window encoder"]
     StarDist3D["StarDist-3D<br/>Star-convex polyhedra, instance seg."]
     cellpose["Cellpose<br/>Flow-field instance seg."]
-    wnet3d["WNet3D<br/>Self-supervised, no labels needed"]
-    SAMRoot["SAM / SAM2 context<br/>General promptable segmentation"]
+    wnet3d["WNet3D<br/>Self-supervised pretraining"]
     MedSAM["MedSAM<br/>Promptable medical segmentation"]
     SAMMed2D["SAM-Med2D<br/>2D medical prompting"]
     SAMMed3D["SAM-Med3D<br/>Native 3D, single-point prompt"]
-    SegVol["SegVol<br/>Text + spatial prompts, 200+ categories"]
+    SegVol["SegVol<br/>Text + spatial prompts"]
     MedSAM2["MedSAM2<br/>3D and video prompting"]
 
     FCN --> UNet
@@ -51,18 +50,16 @@ graph TD
     TransUNet --> SwinUnet
     TransUNet --> UNETR
     UNETR --> SwinUNETR
-    SwinUnet --> SwinUNETR
     UNet3D --> StarDist3D
     StarDist3D --> cellpose
     cellpose --> wnet3d
-    SAMRoot --> MedSAM
-    SAMRoot --> SAMMed2D
-    SAMRoot --> MedSAM2
-    MedSAM --> SAMMed2D
-    SAMMed2D --> MedSAM2
     MedSAM --> SAMMed3D
     MedSAM --> SegVol
 ```
+
+General SAM and SAM2 are useful learning context for the promptable branch, but
+they are not tracked as canonical architecture entries in `data/architectures.yml`.
+The graph edges above follow the metadata `parent` field.
 
 ## Main Branches
 

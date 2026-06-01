@@ -242,6 +242,10 @@ NMS and custom intersection:
   alternatives.
 - The official `stardist` Python package integrates with TensorFlow and
   PyTorch; this repository still treats StarDist-3D as reference-only.
+- Evaluate the final instance labels with object-level metrics, not only
+  foreground Dice. Matched-object precision/recall, AP at IoU thresholds,
+  split/merge counts, and object-count error show whether NMS and rasterization
+  separate touching nuclei correctly.
 
 ## What Changed Relative To 3D U-Net And 2D StarDist
 
