@@ -53,6 +53,8 @@ graph LR
    matching encoder features.
 5. A final 1x1 convolution maps decoder features to segmentation logits.
 
+The equations behind each of these steps are in [Key Equations](#key-equations).
+
 ## Minimum Architecture Form
 
 Core building blocks:
@@ -141,6 +143,197 @@ before pooling rather than after pooling.
     logits = model(image)
     assert logits.shape == (1, 2, 33, 41)
     ```
+
+## Key Equations
+
+### Convolution Output Size
+
+$$
+H_{\text{out}} = \left\lfloor \frac{H_{\text{in}} + 2p - k}{s} \right\rfloor + 1
+$$
+
+| Symbol | Meaning |
+| --- | --- |
+| $H_{\text{in}}$ | Spatial height entering the convolution |
+| $p$ | Zero-padding added to each side |
+| $k$ | Kernel (filter) size |
+| $s$ | Stride |
+| $H_{\text{out}}$ | Spatial height leaving the convolution |
+
+This equation computes the height of a feature map after a 2D convolution. With
+$k=3$, $p=1$, and $s=1$, it becomes
+$H_{\text{out}} = \lfloor H_{\text{in}} + 2 - 3 \rfloor + 1 = H_{\text{in}}$,
+which is why `DoubleConv` is shape-preserving: two such convolutions in sequence
+leave height and width exactly as they entered. The repository's `UNet2D`
+implementation uses this padded form so spatial reduction happens only at
+explicit max-pooling steps, making the resolution flow easy to reason about.
+Misreading this formula often leads to expecting every convolution block to
+shrink the tensor. The same formula applies independently to width, so
+non-square inputs follow separate height and width calculations.
+
+### Encoder Spatial Reduction
+
+$$
+H_l = \left\lfloor \frac{H_{l-1}}{2} \right\rfloor
+$$
+
+| Symbol | Meaning |
+| --- | --- |
+| $H_l$ | Height after pooling step $l$ |
+| $H_{l-1}$ | Height before pooling step $l$ |
+| $l$ | Pooling step index |
+
+This equation computes the height after a `2x2` max-pooling step with stride
+`2`. The floor means odd input sizes halve with rounding down: height 65 becomes
+32 after one pooling step, then 16, then 8, which is the source of the off-by-one
+spatial mismatch that the decoder must handle through the odd-size alignment
+described later in the Implementation Walkthrough. For a three-stage encoder
+with `features=(16, 32, 64)` and input $(1, 1, 65, 73)$, the bottleneck receives
+$(1, 128, 8, 9)$, matching the Tensor Shape Example table. Pooling gives deeper
+stages a wider view: each halving doubles the spatial context represented by one
+feature position. If you assume exact division, odd inputs appear to violate the
+skip connection shape contract.
+
+### Skip Connection Channel Concatenation
+
+$$
+\mathbf{d}_l = \left[ \mathbf{e}_l \;\Big|\; \mathbf{u}_l \right]_{\text{channel}} \in \mathbb{R}^{B \times 2F_l \times H_l \times W_l}
+$$
+
+| Symbol | Meaning |
+| --- | --- |
+| $\mathbf{e}_l$ | Encoder skip tensor at stage $l$ |
+| $\mathbf{u}_l$ | Upsampled decoder tensor projected to $F_l$ channels |
+| $\mathbf{d}_l$ | Decoder feature map entering the `DoubleConv` block |
+| $l$ | Encoder-decoder stage index |
+| $B$ | Batch size |
+| $F_l$ | Number of feature channels at encoder stage $l$ |
+| $H_l, W_l$ | Spatial height and width of the matched skip resolution at stage $l$ |
+| $[\cdot \mid \cdot]_{\text{channel}}$ | Concatenation along the channel dimension |
+| $\mathbb{R}$ | Real-valued tensor space |
+
+This equation computes the fused decoder input after a skip tensor meets the
+upsampled decoder tensor. The concatenation doubles channel count:
+$F_l$ skip channels plus $F_l$ upsampled channels yields $2F_l$ input channels
+for the decoder `DoubleConv`, which is why every decoder `DoubleConv` is built
+with `in_channels = feature_count * 2` in the repository implementation. U-Net
+uses concatenation instead of immediately adding the tensors elementwise because
+fine spatial detail and coarse semantic context are different signals; the next
+convolution can learn how to combine them without collapsing them immediately.
+Residual shortcuts, including those used inside ResNet blocks and ResUNet-style
+variants, solve a different problem inside a block and can coexist with U-Net
+long skips. Misreading this fusion as addition loses the separate
+representations. The spatial dimensions $H_l$ and $W_l$ must match exactly, and
+the odd-size alignment step in the forward pass ensures they do.
+
+### Transposed Convolution Upsampling
+
+$$
+H_{\text{out}} = (H_{\text{in}} - 1) \cdot s - 2p + k
+$$
+
+| Symbol | Meaning |
+| --- | --- |
+| $H_{\text{in}}$ | Smaller decoder height entering the upsampling layer |
+| $s$ | Stride |
+| $p$ | Padding |
+| $k$ | Kernel size |
+| $H_{\text{out}}$ | Spatial height leaving the transposed convolution |
+| $H_{\text{target}}$ | Explicit target height requested for bilinear interpolation |
+
+This equation computes the height produced by a transposed convolution under the
+unit-dilation, no-output-padding assumptions used by this implementation. In the
+`UNet2D` decoder, $k=2$, $s=2$, and $p=0$ give
+$H_{\text{out}} = (H_{\text{in}} - 1) \cdot 2 + 2 = 2H_{\text{in}}$, an exact
+doubling that pairs naturally with encoder pooling by $\lfloor H/2 \rfloor$.
+The asymmetry is that pooling rounded height 65 down to 32, but
+$2 \times 32 = 64 \neq 65$; the transposed convolution is exact in theory, but
+it cannot undo that rounding. Misreading it as a perfect inverse causes the
+one-pixel skip mismatch. The `interpolate` fallback restores the skip tensor's
+exact spatial size. With `up_mode="interpolate"`, bilinear interpolation has no
+learnable spatial upsampling parameters and simply uses
+$H_{\text{out}} = H_{\text{target}}$, followed by a learned $1 \times 1$
+convolution.
+
+### Logits To Probabilities
+
+$$
+\hat{p}_{i,j} = \sigma(z_{i,j}) = \frac{1}{1 + e^{-z_{i,j}}}
+$$
+
+$$
+\hat{p}_{k,i,j} = \frac{e^{z_{k,i,j}}}{\displaystyle\sum_{c=1}^{K} e^{z_{c,i,j}}}
+$$
+
+| Symbol | Meaning |
+| --- | --- |
+| $i, j$ | Pixel row and column indices |
+| $k$ | Class index for the predicted class |
+| $c$ | Class index used inside the softmax denominator |
+| $K$ | Total number of classes |
+| $z_{i,j}$ | Raw logit at pixel $(i, j)$ for the binary case |
+| $z_{k,i,j}$ | Raw logit for class $k$ at pixel $(i, j)$ |
+| $z_{c,i,j}$ | Raw logit for denominator class $c$ at pixel $(i, j)$ |
+| $z$ | Any raw logit returned by the model |
+| $\hat{p}_{i,j}$ | Predicted foreground probability in binary segmentation |
+| $\hat{p}_{k,i,j}$ | Predicted probability for class $k$ in multiclass segmentation |
+| $\hat{p}$ | Any predicted probability after activation |
+| $\sigma$ | Sigmoid function |
+| $e$ | Base of the natural exponential |
+
+These equations compute probabilities from raw logits for binary and multiclass
+segmentation. The model returns $z$, not $\hat{p}$, because standard losses such
+as `BCEWithLogitsLoss` and `CrossEntropyLoss` apply the activation internally in
+a numerically stable way; applying sigmoid before `BCEWithLogitsLoss` doubles
+the activation. At inference, apply sigmoid to a binary logit and threshold at
+0.5 for a binary mask, or apply softmax and argmax to get the winning class per
+pixel for multiclass. These are inference steps, not part of the architecture.
+The softmax denominator makes all $K$ class probabilities at one pixel sum to 1,
+enforcing exactly one class per pixel. Independent sigmoid outputs do not enforce
+that constraint, so two channels could both exceed 0.5 if multiclass segmentation
+were misread as $K$ separate binary tasks.
+
+### Training Losses
+
+$$
+\mathcal{L}_{\text{BCE}} = -\frac{1}{N} \sum_{i,j} \Bigl[ t_{i,j} \log \hat{p}_{i,j} + (1 - t_{i,j}) \log(1 - \hat{p}_{i,j}) \Bigr]
+$$
+
+$$
+\mathcal{L}_{\text{Dice}} = 1 - \frac{2\displaystyle\sum_{i,j} \hat{p}_{i,j} \cdot t_{i,j} + \varepsilon}{\displaystyle\sum_{i,j} \hat{p}_{i,j} + \sum_{i,j} t_{i,j} + \varepsilon}
+$$
+
+| Symbol | Meaning |
+| --- | --- |
+| $\mathcal{L}$ | Combined training loss |
+| $\mathcal{L}_{\text{BCE}}$ | Binary cross-entropy loss |
+| $\mathcal{L}_{\text{Dice}}$ | Soft Dice loss |
+| $N = H \times W$ | Total pixel count |
+| $H, W$ | Spatial height and width |
+| $i, j$ | Pixel row and column indices |
+| $t_{i,j} \in \{0, 1\}$ | Ground-truth label at pixel $(i, j)$ |
+| $\hat{p}_{i,j} \in [0, 1]$ | Predicted probability at pixel $(i, j)$ |
+| $\varepsilon$ | Small constant, such as $10^{-6}$, for numerical stability |
+
+BCE computes average per-pixel classification error, while soft Dice computes a
+differentiable overlap penalty between predicted probabilities and the target
+mask. U-Net itself does not require one loss, but medical segmentation often
+adds Dice loss because foreground structures may occupy only a small fraction of
+an image: BCE treats every pixel equally, so an all-background prediction can
+achieve low BCE while producing a useless segmentation. Dice loss is not
+dominated by the large background count; if the prediction misses the foreground
+entirely, the loss stays close to 1.0 regardless of how many background pixels
+were ignored.
+The $\varepsilon$ term handles empty masks: if prediction and target are both
+zero everywhere, numerator and denominator are both $\varepsilon$, so the loss is
+$1 - 1 = 0$ instead of $0/0$. In practice, combined losses such as
+$\mathcal{L} = \mathcal{L}_{\text{BCE}} + \mathcal{L}_{\text{Dice}}$ are common:
+BCE provides per-pixel gradient signal and Dice enforces overlap. The weighting
+is an experiment setting, not an architecture property. For the hard,
+non-differentiable Dice metric used at evaluation time, see
+[Evaluation Metrics](../foundations/evaluation-metrics.md), and see
+[Training And Evaluation Basics](../foundations/training-and-evaluation-basics.md)
+for the current overview.
 
 ## Implementation Walkthrough
 
@@ -322,7 +515,7 @@ encoder detail with decoder context.
         if self.up_mode == "transpose":
             x = up_layer(x)
             if x.shape[-2:] != skip.shape[-2:]:
-                    x = functional.interpolate(
+                x = functional.interpolate(
                     x,
                     size=skip.shape[-2:],
                     mode="bilinear",
@@ -396,6 +589,9 @@ input `(1, 1, 65, 73)` flows through the model as follows:
     match before channel concatenation.
 
 ## Learning Notes For Practitioners
+
+The equations in [Key Equations](#key-equations) explain the mathematical basis
+for the logit/probability distinction and the loss choices described here.
 
 - Use `out_channels=1` for a single binary logit map. Use one channel per class
   for multiclass segmentation.

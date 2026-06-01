@@ -19,6 +19,7 @@ definitions.
 | Voxel | A volume element in 3D data, analogous to a pixel in 2D data. |
 | Encoder-decoder | A model pattern where an encoder compresses spatial features and a decoder restores dense spatial predictions. |
 | Downsampling / upsampling | Downsampling reduces spatial resolution to increase context; upsampling restores resolution for dense output. |
+| Transposed convolution | A learned upsampling operation often used in decoders to increase spatial resolution. |
 | Skip connection | A path that carries earlier features into a later layer, often to restore spatial detail. |
 | Bottleneck | The deepest, lowest-resolution representation in an encoder-decoder model. |
 | Output stride | The ratio between input resolution and an internal feature-map resolution. |
@@ -40,6 +41,7 @@ definitions.
 | External validation | Evaluation on data from a separate site, scanner, institution, acquisition protocol, or domain beyond internal splits. |
 | Threshold policy | The chosen rule for converting probabilities into binary predictions; changing it changes precision and sensitivity tradeoffs. |
 | Dice score | An overlap metric: twice the intersection divided by predicted plus target area. |
+| Soft Dice loss | A differentiable overlap loss computed from probabilities rather than hard masks, commonly used for imbalanced segmentation. |
 | IoU | Intersection over Union, also called Jaccard. |
 | Sensitivity | The fraction of true foreground captured by a prediction, also called recall. |
 | Specificity | The fraction of true background correctly rejected by a prediction. |
